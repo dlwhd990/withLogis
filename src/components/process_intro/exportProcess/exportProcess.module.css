@@ -1,1 +1,6 @@
-
+.title {
+  margin: 10rem 0 2rem 0;
+  text-align: center;
+  font-size: 2rem;
+  cursor: default;
+}

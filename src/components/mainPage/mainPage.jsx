@@ -29,9 +29,7 @@ const MainPage = (props) => {
         >
           <div className={styles.look_filter}>
             {lookContents && (
-              <p className={styles.look_desc}>
-                수출이 처음이시라면 먼저 수출에 대해 공부해보세요
-              </p>
+              <p className={styles.look_desc}>수출에 대해 공부해보세요</p>
             )}
             {lookContents && (
               <p
