@@ -1,0 +1,108 @@
+.mainPage {
+  width: 100%;
+  height: 100vh;
+}
+
+.intro {
+  width: 100%;
+  margin-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.look_title {
+  font-size: 3rem;
+  font-weight: bolder;
+  margin-bottom: 2rem;
+}
+
+.look {
+  width: 55%;
+  height: 20rem;
+  text-align: center;
+  box-shadow: 3px 5px 5px 3px lightgray;
+  border-radius: 1rem;
+  background: url("../../images/export_look.jpg") center/cover no-repeat;
+  transition: all 150ms ease;
+  position: relative;
+}
+
+.look_filter {
+  width: 100%;
+  height: 100%;
+  transition: all 150ms ease;
+  border-radius: 1rem;
+}
+
+.look_filter:hover {
+  backdrop-filter: brightness(50%);
+}
+
+.look_desc {
+  padding-top: 2rem;
+  font-size: 2rem;
+  font-weight: bolder;
+  color: white;
+}
+
+.look_detail_view {
+  margin-top: 5rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 300ms ease-in-out;
+}
+
+.look_detail_view:hover {
+  transform: scale(1.1);
+}
+
+.fareExpect_title {
+  margin: 6rem 0 2rem 0;
+  font-size: 3rem;
+  font-weight: bolder;
+}
+
+.fareExpect {
+  width: 55%;
+  height: 20rem;
+  text-align: center;
+  box-shadow: 3px 5px 5px 3px lightgray;
+  border-radius: 1rem;
+  background: url("../../images/sheep.jpg") center/cover no-repeat;
+  transition: all 150ms ease;
+  position: relative;
+}
+
+.fareExpect_filter {
+  width: 100%;
+  height: 100%;
+  transition: all 150ms ease;
+  border-radius: 1rem;
+}
+
+.fareExpect_filter:hover {
+  backdrop-filter: brightness(50%);
+}
+
+.fareExpect_desc {
+  padding-top: 2rem;
+  font-size: 2rem;
+  font-weight: bolder;
+  color: white;
+}
+
+.fareExpect_detail_view {
+  margin-top: 5rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 300ms ease-in-out;
+}
+
+.fareExpect_detail_view:hover {
+  transform: scale(1.1);
+}
