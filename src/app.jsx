@@ -16,6 +16,8 @@ import MyArticleAndReply from "./components/mypage/myArticleAndReply/myArticleAn
 import FareExpectList from "./components/mypage/fareExpectList/fareExpectList";
 import MyPageEdit from "./components/mypage/myPageEdit/myPageEdit";
 import Footer from "./components/footer/footer";
+import Login from "./components/login/login";
+import Signup from "./components/signup/signup";
 
 const App = (props) => {
   return (
@@ -62,6 +64,12 @@ const App = (props) => {
         </Route>
         <Route exact path="/mypage/edit">
           <MyPageEdit />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
         </Route>
         <Footer />
       </BrowserRouter>

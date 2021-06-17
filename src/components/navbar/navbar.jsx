@@ -15,13 +15,6 @@ const Navbar = (props) => {
     setViewDropDown(false);
   };
 
-  const goPage = (dest) => {
-    setViewDropDown(false);
-    console.log(dest);
-    history.push(`/${dest}`);
-    window.scrollTo({ top: 0 });
-  };
-
   return (
     <nav className={styles.navbar}>
       <section className={styles.top}>
@@ -36,8 +29,26 @@ const Navbar = (props) => {
           WithLogis
         </h1>
         <div className={styles.login_box}>
-          <span className={styles.login}>로그인</span>
-          <span className={styles.signup}>회원가입</span>
+          <span
+            className={styles.login}
+            onClick={() => {
+              setViewDropDown(false);
+              history.push("/login");
+              window.scrollTo({ top: 0 });
+            }}
+          >
+            로그인
+          </span>
+          <span
+            className={styles.signup}
+            onClick={() => {
+              setViewDropDown(false);
+              history.push("/signup");
+              window.scrollTo({ top: 0 });
+            }}
+          >
+            회원가입
+          </span>
         </div>
       </section>
       <section className={styles.bottom} onMouseLeave={dropDownOff}>

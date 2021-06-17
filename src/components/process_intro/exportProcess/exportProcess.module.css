@@ -1,5 +1,8 @@
+.exportProcess {
+  margin: 12rem 0 10rem 0;
+}
 .title {
-  margin: 10rem 0 2rem 0;
+  margin-bottom: 2rem;
   text-align: center;
   font-size: 2rem;
   cursor: default;
