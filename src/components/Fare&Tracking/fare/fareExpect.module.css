@@ -45,9 +45,9 @@
   font-size: 1rem;
   font-family: "Noto Sans KR", sans-serif;
   border-radius: 4px;
-  outline: none;
   border: 1px solid black;
   padding: 0 0.3rem;
+  box-shadow: 1px 1px 3px 1px rgb(233, 233, 233);
 }
 
 .mid {
@@ -97,8 +97,8 @@
   padding: 0.3rem;
   font-size: 1.1rem;
   border-radius: 4px;
-  outline: none;
   border: 1px solid black;
+  box-shadow: 1px 1px 3px 1px rgb(233, 233, 233);
 }
 
 .calc_button {
@@ -106,7 +106,7 @@
   outline: none;
   border: none;
   background-color: #377dff;
-  box-shadow: 1px 1px 3px 1px #377dff;
+  box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
   width: 100px;
   height: 25px;
@@ -123,6 +123,7 @@
   height: 25px;
   font-size: 1.1rem;
   cursor: pointer;
+  box-shadow: 1px 1px 3px 1px rgb(233, 233, 233);
 }
 
 .mid_bottom {
@@ -149,7 +150,7 @@
   outline: none;
   border: none;
   background-color: #377dff;
-  box-shadow: 1px 1px 3px 1px #377dff;
+  box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
   font-size: 1.5rem;
   border-radius: 8px;
@@ -177,14 +178,13 @@
   position: relative;
   z-index: 2;
   width: 800px;
-  height: 500px;
   position: absolute;
   top: 170px;
   border: 1px solid lightgray;
   background-color: white;
   box-shadow: 1px 1px 3px 1px lightgray;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -238,4 +238,36 @@
   width: 200px;
   font-size: 1.5rem;
   text-align: right;
+  box-shadow: 1px 1px 3px 1px rgb(233, 233, 233);
+  border-radius: 4px;
+  border: 1px solid black;
+}
+
+.height_and_button_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.popup_result_button {
+  padding: 0 40px;
+  outline: none;
+  border: none;
+  background-color: #377dff;
+  color: white;
+  font-size: 1.15rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px 1px lightgray;
+}
+
+.popup_result_value {
+  font-size: 64px;
+  font-weight: bolder;
+  margin-right: 12px;
+}
+
+.popup_result_unit {
+  font-size: 32px;
+  font-weight: bolder;
 }

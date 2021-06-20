@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import styles from "./fareExpect.module.css"
 
 const FareExpect = (props) => {
@@ -7,10 +7,16 @@ const FareExpect = (props) => {
   let day = date_data.getDate().toString().padStart(2, "0")
   let today = date_data.getFullYear() + "-" + month + "-" + day
 
+  const popupWidthRef = useRef()
+  const popupLengthRef = useRef()
+  const popupHeightRef = useRef()
+
   const [departureDate, setDepartureDate] = useState(today.toString())
   const [arrivalDate, setArrivalDate] = useState(today.toString())
   const [expectDate, setExpectDate] = useState(today.toString())
   const [popup, setPopup] = useState(false)
+
+  const [popupResult, setPopupResult] = useState(null)
 
   const onDepartureDateChange = (e) => {
     setDepartureDate(e.target.value)
@@ -30,6 +36,18 @@ const FareExpect = (props) => {
 
   const onClosePopup = () => {
     setPopup(false)
+    setPopupResult(null)
+  }
+
+  const popupButtonOnClick = () => {
+    let result =
+      popupWidthRef.current.value *
+      popupLengthRef.current.value *
+      popupHeightRef.current.value
+    if (!Number.isInteger(result)) {
+      result = parseFloat(result).toFixed(3)
+    }
+    setPopupResult(result)
   }
 
   return (
@@ -115,25 +133,50 @@ const FareExpect = (props) => {
           </button>
           <h1 className={styles.container_title}>CBM 계산기</h1>
           <p className={styles.desc}>
-            CBM은 ... 하여 계산된 부피를 나타내는 단위입니다.
+            CBM은 물품에 대한 부피를 말하며, 가로(W), 세로(L), 높이(H)를 곱한
+            값입니다.
           </p>
           <div className={styles.popup_input_container}>
             <div className={styles.horizontal}>
               <span className={styles.popup_text_left}>가로</span>
-              <input type="text" className={styles.popup_input} />
+              <input
+                ref={popupWidthRef}
+                type="text"
+                className={styles.popup_input}
+              />
               <span className={styles.popup_text}>미터</span>
             </div>
             <div className={styles.vertical}>
               <span className={styles.popup_text_left}>세로</span>
-              <input type="text" className={styles.popup_input} />
+              <input
+                ref={popupLengthRef}
+                type="text"
+                className={styles.popup_input}
+              />
               <span className={styles.popup_text}>미터</span>
             </div>
-            <div className={styles.height}>
-              <span className={styles.popup_text_left}>높이</span>
-              <input type="text" className={styles.popup_input} />
-              <span className={styles.popup_text}>미터</span>
+            <div className={styles.height_and_button_container}>
+              <div className={styles.height}>
+                <span className={styles.popup_text_left}>높이</span>
+                <input
+                  ref={popupHeightRef}
+                  type="text"
+                  className={styles.popup_input}
+                />
+                <span className={styles.popup_text}>미터</span>
+              </div>
+              <button
+                onClick={popupButtonOnClick}
+                className={styles.popup_result_button}
+              >
+                변환하기
+              </button>
             </div>
           </div>
+          {popupResult && (
+            <span className={styles.popup_result_value}>{popupResult}</span>
+          )}
+          {popupResult && <span className={styles.popup_result_unit}>CBM</span>}
         </section>
       )}
     </section>
