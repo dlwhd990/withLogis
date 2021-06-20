@@ -44,6 +44,10 @@ const FareExpect = (props) => {
       popupWidthRef.current.value *
       popupLengthRef.current.value *
       popupHeightRef.current.value
+    if (!result || result == 0) {
+      window.alert("올바른 값을 입력한 후에 변환하기 버튼을 눌러주세요.")
+      return
+    }
     if (!Number.isInteger(result)) {
       result = parseFloat(result).toFixed(3)
     }
@@ -51,9 +55,9 @@ const FareExpect = (props) => {
   }
 
   return (
-    <section className={styles.fareExpect}>
-      <section className={styles.container}>
-        <h1 className={styles.container_title}>예상 운임 조회</h1>
+    <section className={styles.fare_expect}>
+      <section className={styles.fare_expect_container}>
+        <h1 className={styles.fare_expect_container_title}>예상 운임 조회</h1>
         <div className={styles.top}>
           <div className={styles.departure}>
             <span className={styles.title}>출발일</span>
@@ -131,8 +135,8 @@ const FareExpect = (props) => {
           <button className={styles.popup_close} onClick={onClosePopup}>
             <i className="fas fa-times"></i>
           </button>
-          <h1 className={styles.container_title}>CBM 계산기</h1>
-          <p className={styles.desc}>
+          <h1 className={styles.popup_title}>CBM 계산기</h1>
+          <p className={styles.popup_desc}>
             CBM은 물품에 대한 부피를 말하며, 가로(W), 세로(L), 높이(H)를 곱한
             값입니다.
           </p>
@@ -144,7 +148,7 @@ const FareExpect = (props) => {
                 type="text"
                 className={styles.popup_input}
               />
-              <span className={styles.popup_text}>미터</span>
+              <span className={styles.popup_text_meter}>미터</span>
             </div>
             <div className={styles.vertical}>
               <span className={styles.popup_text_left}>세로</span>

@@ -1,11 +1,13 @@
-.fareExpect {
+@import "/src/constant.css";
+
+.fare_expect {
   height: calc(140vh - 246px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.container {
+.fare_expect_container {
   width: 1100px;
   border: 1px solid lightgray;
   border-radius: 16px;
@@ -18,8 +20,9 @@
   box-shadow: 1px 1px 3px 1px lightgray;
 }
 
-.container_title {
+.fare_expect_container_title {
   font-size: 2rem;
+  font-weight: 500;
   margin-bottom: 1rem;
 }
 
@@ -105,7 +108,7 @@
   margin-left: 0.3rem;
   outline: none;
   border: none;
-  background-color: #377dff;
+  background-color: var(--color-dark-theme);
   box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
   width: 100px;
@@ -149,7 +152,7 @@
   height: 60px;
   outline: none;
   border: none;
-  background-color: #377dff;
+  background-color: var(--color-dark-theme);
   box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
   font-size: 1.5rem;
@@ -200,8 +203,14 @@
   cursor: pointer;
 }
 
+.popup_title {
+  font-size: 48px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
 .desc {
-  color: rgb(112, 112, 112);
+  color: var(--color-desc);
 }
 
 .popup_input_container {
@@ -223,13 +232,13 @@
 .popup_text_left {
   margin-right: 2rem;
   font-size: 1.4rem;
-  font-weight: bolder;
+  font-weight: 500;
 }
 
-.popup_text {
+.popup_text_meter {
   font-size: 1.4rem;
   margin-left: 0.6rem;
-  font-weight: bolder;
+  font-weight: 400;
 }
 
 .popup_input {
@@ -253,7 +262,7 @@
   padding: 0 40px;
   outline: none;
   border: none;
-  background-color: #377dff;
+  background-color: var(--color-dark-theme);
   color: white;
   font-size: 1.15rem;
   border-radius: 4px;
@@ -263,11 +272,11 @@
 
 .popup_result_value {
   font-size: 64px;
-  font-weight: bolder;
+  font-weight: 500;
   margin-right: 12px;
 }
 
 .popup_result_unit {
   font-size: 32px;
-  font-weight: bolder;
+  font-weight: 400;
 }
