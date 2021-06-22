@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styles from "./listItem.module.css";
+import React, { useEffect, useState } from "react"
+import styles from "./listItem.module.css"
 
 const ListItem = ({ item }) => {
-  const [viewContent, setViewContent] = useState(false);
+  const [viewContent, setViewContent] = useState(false)
   const controlView = () => {
-    setViewContent(!viewContent);
-  };
+    setViewContent(!viewContent)
+  }
   return (
     <section className={styles.listItem}>
       <div className={styles.item}>
@@ -24,7 +24,7 @@ const ListItem = ({ item }) => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
 
-export default ListItem;
+export default ListItem
