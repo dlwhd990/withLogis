@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000
 const mongoose = require("mongoose")
 require("dotenv").config({ path: ".env" })
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (err) => {
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, (err) => {
   if (err) {
     console.error(error)
   } else {
@@ -162,7 +162,7 @@ app.get("/api/policy", (req, res) => {
       id: 8,
       title: "수출입화물 검사비용 지원",
       content:
-        "수출입 화물 검사 비용은 관세청에서 추가 소요되는 화주의 검사비용을 국가가 일정조건 하에 보전해주는 제도로...",
+        "수출입 화물 검사 비용은 관세청에서 추가 소요되는 화주의 검사비용을 국가가 일정조건 하에 보전해주는 제도로…",
     },
   })
 })
