@@ -93,10 +93,10 @@ const App = (props) => {
         <Route exact path="/mypage/edit">
           <MyPageEdit />
         </Route>
-        <Route exact path="/login">
+        <Route exact path="/auth/login">
           <Login />
         </Route>
-        <Route exact path="/signup">
+        <Route exact path="/auth/signup">
           <Signup />
         </Route>
         <Footer />

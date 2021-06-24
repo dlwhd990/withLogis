@@ -1,58 +1,58 @@
-import React, { useRef, useState } from "react"
-import styles from "./fareExpect.module.css"
+import React, { useRef, useState } from "react";
+import styles from "./fareExpect.module.css";
 
 const FareExpect = (props) => {
-  const date_data = new Date()
-  let month = (date_data.getMonth() + 1).toString().padStart(2, "0")
-  let day = date_data.getDate().toString().padStart(2, "0")
-  let today = date_data.getFullYear() + "-" + month + "-" + day
+  const date_data = new Date();
+  let month = (date_data.getMonth() + 1).toString().padStart(2, "0");
+  let day = date_data.getDate().toString().padStart(2, "0");
+  let today = date_data.getFullYear() + "-" + month + "-" + day;
 
-  const popupWidthRef = useRef()
-  const popupLengthRef = useRef()
-  const popupHeightRef = useRef()
+  const popupWidthRef = useRef();
+  const popupLengthRef = useRef();
+  const popupHeightRef = useRef();
 
-  const [departureDate, setDepartureDate] = useState(today.toString())
-  const [arrivalDate, setArrivalDate] = useState(today.toString())
-  const [expectDate, setExpectDate] = useState(today.toString())
-  const [popup, setPopup] = useState(false)
+  const [departureDate, setDepartureDate] = useState(today.toString());
+  const [arrivalDate, setArrivalDate] = useState(today.toString());
+  const [expectDate, setExpectDate] = useState(today.toString());
+  const [popup, setPopup] = useState(false);
 
-  const [popupResult, setPopupResult] = useState(null)
+  const [popupResult, setPopupResult] = useState(null);
 
   const onDepartureDateChange = (e) => {
-    setDepartureDate(e.target.value)
-  }
+    setDepartureDate(e.target.value);
+  };
 
   const onArrivalDateChange = (e) => {
-    setArrivalDate(e.target.value)
-  }
+    setArrivalDate(e.target.value);
+  };
 
   const onExpectDateChange = (e) => {
-    setExpectDate(e.target.value)
-  }
+    setExpectDate(e.target.value);
+  };
 
   const onOpenPopup = () => {
-    setPopup(true)
-  }
+    setPopup(true);
+  };
 
   const onClosePopup = () => {
-    setPopup(false)
-    setPopupResult(null)
-  }
+    setPopup(false);
+    setPopupResult(null);
+  };
 
   const popupButtonOnClick = () => {
     let result =
       popupWidthRef.current.value *
       popupLengthRef.current.value *
-      popupHeightRef.current.value
-    if (!result || result == 0) {
-      window.alert("올바른 값을 입력한 후에 변환하기 버튼을 눌러주세요.")
-      return
+      popupHeightRef.current.value;
+    if (!result || result === 0) {
+      window.alert("올바른 값을 입력한 후에 변환하기 버튼을 눌러주세요.");
+      return;
     }
     if (!Number.isInteger(result)) {
-      result = parseFloat(result).toFixed(3)
+      result = parseFloat(result).toFixed(3);
     }
-    setPopupResult(result)
-  }
+    setPopupResult(result);
+  };
 
   return (
     <section className={styles.fare_expect}>
@@ -184,7 +184,7 @@ const FareExpect = (props) => {
         </section>
       )}
     </section>
-  )
-}
+  );
+};
 
-export default FareExpect
+export default FareExpect;

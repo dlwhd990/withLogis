@@ -33,7 +33,7 @@ const Navbar = (props) => {
             className={styles.login}
             onClick={() => {
               setViewDropDown(false)
-              history.push("/login")
+              history.push("/auth/login")
               window.scrollTo({ top: 0 })
             }}
           >
@@ -43,7 +43,7 @@ const Navbar = (props) => {
             className={styles.signup}
             onClick={() => {
               setViewDropDown(false)
-              history.push("/signup")
+              history.push("/auth/signup")
               window.scrollTo({ top: 0 })
             }}
           >
