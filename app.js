@@ -20,7 +20,7 @@ const root = path.join(__dirname, "client/build");
 // Model
 
 // Routes Header
-//const authRoutes = require("./routes/authRoutes")
+const authRoutes = require("./routes/authRoutes");
 //const mainRoutes = require("./routes/mainRoutes")
 
 // Middleware
@@ -89,7 +89,7 @@ const sessionChecker = (req, res, next) => {
 
 // routes
 //app.use("/", mainRoutes)
-//app.use("/auth", authRoutes)
+app.use("/auth", authRoutes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

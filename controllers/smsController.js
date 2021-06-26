@@ -40,32 +40,32 @@ const send_message = (phone) => {
   const hash = hmac.finalize();
   const signature = hash.toString(CryptoJS.enc.Base64);
 
-  request(
-    {
-      method: method,
-      json: true,
-      uri: url,
-      headers: {
-        "Contenc-type": "application/json; charset=utf-8",
-        "x-ncp-iam-access-key": accessKey,
-        "x-ncp-apigw-timestamp": date,
-        "x-ncp-apigw-signature-v2": signature,
-      },
-      body: {
-        type: "SMS",
-        countryCode: "82",
-        from: "01047129626",
-        content: `인증번호는 ${user_auth_number} 입니다.`,
-        messages: [{ to: `${user_phone_number}` }],
-      },
+  const body = {
+    type: "SMS",
+    countryCode: "82",
+    from: "01048560151",
+    content: `[withLogis] \n\n인증번호는 ${user_auth_number} 입니다.`,
+    messages: [{ to: `${user_phone_number}` }],
+  };
+
+  const options = {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-ncp-iam-access-key": accessKey,
+      "x-ncp-apigw-timestamp": date,
+      "x-ncp-apigw-signature-v2": signature,
     },
-    (err) => {
-      if (err) console.log(err);
-      else {
-        resultCode = 200;
-      }
-    }
-  );
+  };
+
+  axios //
+    .post(url, body, options)
+    .then(async (response) => {
+      console.log("인증번호가 전송되었습니다.");
+    })
+    .catch((err) => {
+      console.log(err.response.data);
+    });
+
   return user_auth_number;
 };
 

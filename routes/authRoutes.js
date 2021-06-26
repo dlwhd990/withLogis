@@ -32,9 +32,14 @@ router.post("/find-id", authController.findID_post);
 router.get("/find-pw", authController.findPW_get);
 router.post("/find-pw", authController.findPW_post);
 
-// SMS 인증 (회원가입에 속해있음, 인증버튼 클릭때 사용될 route, 필수 파라미터: phoneNum)
+// SMS로 인증 번호를 전송하는 부분을 여기에 따로 작성하였습니다.
 // 요청 url 예시 http://localhost:3333/auth/sms-auth
-router.post("/sms-auth", authController.smsAuth_post);
+router.post("/sms-auth", authController.smsAuth_send);
+
+// SMS 인증 (회원가입에 속해있음, 인증버튼 클릭때 사용될 route, 필수 파라미터: phoneNum)
+// 이 부분은 인증번호 전송 '후'에 authNum의 일치 여부만을 확인하도록 수정하였습니다.
+// 요청 url 예시 http://localhost:3333/auth/sms-auth-check
+router.post("/sms-auth-check", authController.smsAuth_check);
 
 // ID 중복 검사 (필수 파라미터: userId)
 // 요청 url 예시 http://localhost:3333/auth/dup-id
