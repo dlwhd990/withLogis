@@ -68,7 +68,7 @@ module.exports.login_get = (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   const { userId, password } = req.body; // 위와 동일
-  const users = await User.findOne({ userId }); // 위와 동일
+  const users = await User.findOne({ userId: userId }); // 위와 동일
   try {
     if (!users) {
       return res.json({
@@ -80,11 +80,14 @@ module.exports.login_post = async (req, res) => {
     if (!isMatch) {
       return res.json({
         success: false,
-        messgae: "비밀번호를 확인해 주세요.",
+        message: "비밀번호를 확인해 주세요.",
       });
     } else {
       req.session.user = users;
-      res.redirect("/");
+      console.log(req.session);
+      return res.json({
+        message: "로그인에 성공하였습니다.",
+      });
     }
   } catch (err) {
     console.log(err);
@@ -224,14 +227,12 @@ module.exports.findPW_post = async (req, res) => {
 
 module.exports.smsAuth_send = (req, res) => {
   const { phoneNum } = req.body;
-  console.log("ㅇㅇㅇ", req.body);
-  console.log("컨트롤러에서", phoneNum, req.body.phoneNum);
-  savedAuthNum = smsController.sendsms(phoneNum);
+  savedAuthNum = smsController.sendsms(phoneNum).toString();
   res.json("인증 번호가 전송되었습니다.");
 };
 
 module.exports.smsAuth_check = (req, res) => {
-  const { authNum } = req.body.authNum;
+  const { authNum } = req.body;
   try {
     if (authNum === savedAuthNum) {
       res.json({
@@ -255,9 +256,9 @@ module.exports.dup_id_post = async (req, res) => {
   const users = await User.findOne({ userId: checkId });
   try {
     if (users) {
-      res.json("이미 사용중인 ID 입니다.");
+      res.json("이미 사용중인 아이디입니다.");
     } else {
-      res.json("사용가능");
+      res.json("사용 가능한 아이디입니다.");
     }
   } catch (err) {
     console.log(err);
@@ -270,9 +271,9 @@ module.exports.dup_nickname_post = async (req, res) => {
   const users = await User.findOne({ nickname: checkNickname });
   try {
     if (users) {
-      res.json("이미 사용중인 닉네임 입니다.");
+      res.json("이미 사용중인 닉네임입니다.");
     } else {
-      res.json("사용가능");
+      res.json("사용 가능한 닉네임입니다.");
     }
   } catch (err) {
     console.log(err);

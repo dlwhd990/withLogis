@@ -1,16 +1,25 @@
+// 해야할 일
+// 1. 아이디, 닉네임 중복체크 승인되면 버튼 비활성화, 내용 변화 생기면 다시 활성화
+// (이 부분은 useState써서 항시 변화 체크 해야할 듯)
+// 2. 휴대폰 인증 시 휴대폰 번호 중복 여부까지 체크, 재전송 횟수 제한 (몇 번으로 할지 안정함)
+// 인증까지 완료 시 휴대폰 번호 수정, 인증 번호 부분 전체 비활성화
+
 import React, { useRef, useState } from "react";
 import styles from "./signup.module.css";
 import axios from "axios";
 
 const Signup = (props) => {
-  const [idChecked, setIdChecked] = useState(false);
-  const [nicknameChecked, setNicknameChecked] = useState(false);
+  const [checkedId, setCheckedId] = useState(null);
+  const [checkedNickname, setCheckedNickname] = useState(null);
+  const [tempPhoneNum, setTempPhoneNum] = useState(null);
+  const [checkedPhoneNum, setCheckedPhoneNum] = useState(null);
 
   const idRef = useRef();
   const pwRef = useRef();
   const pwConfirmRef = useRef();
   const nicknameRef = useRef();
   const phoneNumRef = useRef();
+  const authNumRef = useRef();
 
   const idCheckHandler = () => {
     axios
@@ -18,9 +27,7 @@ const Signup = (props) => {
       .then((response) => {
         window.alert(response.data);
         if (response.data === "사용가능") {
-          setIdChecked(true);
-        } else {
-          setIdChecked(false);
+          setCheckedId(idRef.current.value);
         }
       })
       .catch((err) => console.error("error: ", err.response));
@@ -32,9 +39,7 @@ const Signup = (props) => {
       .then((response) => {
         window.alert(response.data);
         if (response.data === "사용가능") {
-          setNicknameChecked(true);
-        } else {
-          setNicknameChecked(false);
+          setCheckedNickname(nicknameRef.current.value);
         }
       })
       .catch((err) => console.error("error: ", err.response));
@@ -56,18 +61,27 @@ const Signup = (props) => {
     axios
       .post("/auth/sms-auth", { phoneNum: phoneNumRef.current.value })
       .then((response) => window.alert(response.data))
+      .then(setTempPhoneNum(phoneNumRef.current.value))
+      .catch((err) => console.error("error: ", err.response));
+  };
+
+  const checkAuthNumHandler = () => {
+    axios
+      .post("/auth/sms-auth-check", { authNum: authNumRef.current.value })
+      .then((response) => window.alert(response.data.message))
+      .then(setCheckedPhoneNum(tempPhoneNum))
       .catch((err) => console.error("error: ", err.response));
   };
 
   const signupSubmitHandler = (e) => {
-    const id = idRef.current.value;
+    const id = checkedId;
     const pw = pwRef.current.value;
     const pwConfirm = pwConfirmRef.current.value;
-    const nickname = nicknameRef.current.value;
-    const phoneNum = phoneNumRef.current.value;
+    const nickname = checkedNickname;
+    const phoneNum = checkedPhoneNum;
 
-    if (id.length < 6 || id.length > 15) {
-      signupFailed("아이디 형식이 맞지 않습니다. (6자 ~ 15자)", e);
+    if (!id) {
+      signupFailed("아이디 중복을 확인해주세요.", e);
       return;
     } else if (pw.length < 6 || pw.length > 15) {
       signupFailed("비밀번호 길이가 올바르지 않습니다. (6자 ~ 15자)", e);
@@ -75,22 +89,19 @@ const Signup = (props) => {
     } else if (pw !== pwConfirm) {
       signupFailed("비밀번호가 확인과 다릅니다.", e);
       return;
-    } else if (nickname.length < 2 || nickname.length > 6) {
-      signupFailed("닉네임 길이가 올바르지 않습니다. (2자 ~ 6자)", e);
+    } else if (!nickname) {
+      signupFailed("닉네임 중복을 확인해주세요", e);
       return;
-    } else if (phoneNum.length !== 10 && phoneNum.length !== 11) {
-      signupFailed("핸드폰 번호를 다시 확인해주세요.", e);
-      return;
-    } else if (!idChecked) {
-      signupFailed("아이디 중복 확인을 해주세요.", e);
+    } else if (!phoneNum) {
+      signupFailed("휴대폰 인증을 완료하셔야 합니다.", e);
       return;
     }
 
     const newUser = {
-      userId: idRef.current.value,
+      userId: checkedId,
       password: pwRef.current.value,
-      nickname: nicknameRef.current.value,
-      phoneNum: phoneNumRef.current.value,
+      nickname: checkedNickname,
+      phoneNum: checkedPhoneNum,
     };
 
     axios
@@ -169,12 +180,17 @@ const Signup = (props) => {
           </div>
           <div className={styles.auth_num_input_container}>
             <input
+              ref={authNumRef}
               type="text"
               name="authNum"
               className={styles.auth_num_input}
               placeholder="인증번호"
             />
-            <button type="button" className={styles.auth_num_check_button}>
+            <button
+              type="button"
+              onClick={checkAuthNumHandler}
+              className={styles.auth_num_check_button}
+            >
               인증하기
             </button>
           </div>

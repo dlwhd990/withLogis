@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./login.module.css";
+import axios from "axios";
 
 const Login = (props) => {
-  const loginSubmitHandler = () => {
-    console.log("DSAD");
+  const userIdRef = useRef();
+  const passwordRef = useRef();
+
+  const loginSubmitHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post("/auth/login", {
+        userId: userIdRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then((response) => window.alert(response.data.message))
+      .catch((err) => console.error("error: ", err.response));
   };
   return (
     <section className={styles.login}>
@@ -11,15 +22,17 @@ const Login = (props) => {
         <h1 className={styles.login_title}>로그인</h1>
         <form className={styles.form} onSubmit={loginSubmitHandler}>
           <input
+            ref={userIdRef}
             type="id"
             className={styles.id}
-            name="id"
+            name="userId"
             placeholder="아이디"
           />
           <input
+            ref={passwordRef}
             type="password"
             className={styles.pw}
-            name="pw"
+            name="password"
             placeholder="비밀번호"
           />
           <button className={styles.submit_button} type="submit">

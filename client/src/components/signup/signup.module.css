@@ -1,3 +1,5 @@
+@import "/src/constant.css";
+
 .signup {
   min-height: 100vh;
   display: flex;
@@ -100,4 +102,24 @@
   border-radius: 8px;
   box-shadow: 1px 1px 3px 1px #377dff;
   cursor: pointer;
+}
+
+.id_input_container:focus-within {
+  border: 1px solid var(--color-theme);
+}
+
+.pw_input:focus-within {
+  border: 1px solid var(--color-theme);
+}
+
+.nickname_input_container:focus-within {
+  border: 1px solid var(--color-theme);
+}
+
+.phone_input_container:focus-within {
+  border: 1px solid var(--color-theme);
+}
+
+.auth_num_input_container:focus-within {
+  border: 1px solid var(--color-theme);
 }

@@ -4,7 +4,7 @@ import styles from "./app.module.css";
 import FareExpect from "./components/Fare&Tracking/fare/fareExpect";
 import Tracking from "./components/Fare&Tracking/tracking/tracking";
 import MainPage from "./components/mainPage/mainPage";
-import Navbar from "./components/navbar/navbar";
+import Header from "./components/header/header";
 import ExportProcess from "./components/process_intro/exportProcess/exportProcess";
 import Tradeterm from "./components/process_intro/tradeTerm/tradeTerm";
 import Notice from "./components/community/notice/notice";
@@ -51,7 +51,7 @@ const App = (props) => {
   return (
     <section className={styles.app}>
       <BrowserRouter>
-        <Navbar />
+        <Header />
         <Switch>
           <Route exact path="/">
             <MainPage />

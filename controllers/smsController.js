@@ -7,8 +7,7 @@ const CryptoJS = require("crypto-js");
 const SHA256 = require("crypto-js/sha256");
 const Base64 = require("crypto-js/enc-base64");
 const dotenv = require("dotenv").config(); // .env 파일을 자동으로 로드해서 그 값들을 초기화
-const axios = require("axios"); // request 지원 끊겨서 axios로 바꿔야하는데 자꾸 에러나서 일단 놔뒀어요
-const request = require("request");
+const axios = require("axios"); // request => axios 수정 완료
 const math = require("mathjs");
 
 const User = require("../models/User");

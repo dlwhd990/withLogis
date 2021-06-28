@@ -1,29 +1,29 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router"
-import styles from "./navbar.module.css"
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import styles from "./header.module.css";
 
-const Navbar = (props) => {
-  const history = useHistory()
+const Header = (props) => {
+  const history = useHistory();
 
-  const [viewDropDown, setViewDropDown] = useState(false)
+  const [viewDropDown, setViewDropDown] = useState(false);
 
   const dropDownOn = () => {
-    setViewDropDown(true)
-  }
+    setViewDropDown(true);
+  };
 
   const dropDownOff = () => {
-    setViewDropDown(false)
-  }
+    setViewDropDown(false);
+  };
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.header}>
       <section className={styles.top}>
         <h1
           className={styles.logo}
           onClick={() => {
-            setViewDropDown(false)
-            history.push("/")
-            window.scrollTo({ top: 0 })
+            setViewDropDown(false);
+            history.push("/");
+            window.scrollTo({ top: 0 });
           }}
         >
           WithLogis
@@ -32,9 +32,9 @@ const Navbar = (props) => {
           <span
             className={styles.login}
             onClick={() => {
-              setViewDropDown(false)
-              history.push("/auth/login")
-              window.scrollTo({ top: 0 })
+              setViewDropDown(false);
+              history.push("/auth/login");
+              window.scrollTo({ top: 0 });
             }}
           >
             로그인
@@ -42,16 +42,16 @@ const Navbar = (props) => {
           <span
             className={styles.signup}
             onClick={() => {
-              setViewDropDown(false)
-              history.push("/auth/signup")
-              window.scrollTo({ top: 0 })
+              setViewDropDown(false);
+              history.push("/auth/signup");
+              window.scrollTo({ top: 0 });
             }}
           >
             회원가입
           </span>
         </div>
       </section>
-      <section className={styles.bottom} onMouseLeave={dropDownOff}>
+      <nav className={styles.navbar} onMouseLeave={dropDownOff}>
         <ul className={styles.menu}>
           <li className={styles.menu_item}>
             <p className={styles.menu_name} onMouseEnter={dropDownOn}>
@@ -62,9 +62,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/exportProcess")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/exportProcess");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   수출 프로세스
@@ -72,9 +72,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/tradeTerms")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/tradeTerms");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   무역용어 사전
@@ -91,9 +91,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/fareExpect")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/fareExpect");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   예상 운임 조회
@@ -101,9 +101,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/tracking")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/tracking");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   화물 트래킹
@@ -120,9 +120,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/notice")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/notice");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   공지사항
@@ -130,9 +130,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/bbs")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/bbs");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   자유게시판
@@ -149,9 +149,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/policies")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/policies");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   지원사업/정책
@@ -159,9 +159,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/organizations")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/organizations");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   관련기관 목록
@@ -169,9 +169,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/consulting")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/consulting");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   컨설팅 연결
@@ -188,9 +188,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/mypage/myArticle")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/mypage/myArticle");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   내 글/댓글
@@ -198,9 +198,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/mypage/fareExpect")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/mypage/fareExpect");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   운임 조회 내역
@@ -208,9 +208,9 @@ const Navbar = (props) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
-                    setViewDropDown(false)
-                    history.push("/mypage/edit")
-                    window.scrollTo({ top: 0 })
+                    setViewDropDown(false);
+                    history.push("/mypage/edit");
+                    window.scrollTo({ top: 0 });
                   }}
                 >
                   정보 수정
@@ -220,9 +220,9 @@ const Navbar = (props) => {
           </li>
         </ul>
         {viewDropDown && <div className={styles.menu_divide_line}></div>}
-      </section>
+      </nav>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Header;
