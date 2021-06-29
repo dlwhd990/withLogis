@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import styles from "./header.module.css";
 
-const Header = (props) => {
+const Header = ({ user, logout }) => {
   const history = useHistory();
 
   const [viewDropDown, setViewDropDown] = useState(false);
+
+  const refresh = () => {
+    window.location.reload();
+    return;
+  };
 
   const dropDownOn = () => {
     setViewDropDown(true);
@@ -14,6 +19,10 @@ const Header = (props) => {
   const dropDownOff = () => {
     setViewDropDown(false);
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <nav className={styles.header}>
@@ -29,26 +38,51 @@ const Header = (props) => {
           WithLogis
         </h1>
         <div className={styles.login_box}>
-          <span
-            className={styles.login}
-            onClick={() => {
-              setViewDropDown(false);
-              history.push("/auth/login");
-              window.scrollTo({ top: 0 });
-            }}
-          >
-            로그인
-          </span>
-          <span
-            className={styles.signup}
-            onClick={() => {
-              setViewDropDown(false);
-              history.push("/auth/signup");
-              window.scrollTo({ top: 0 });
-            }}
-          >
-            회원가입
-          </span>
+          {!user && (
+            <span
+              className={styles.login}
+              onClick={() => {
+                setViewDropDown(false);
+                history.push("/auth/login");
+                window.scrollTo({ top: 0 });
+              }}
+            >
+              로그인
+            </span>
+          )}
+          {user && (
+            <span
+              className={styles.logout}
+              onClick={() => {
+                setViewDropDown(false);
+                logout(refresh);
+              }}
+            >
+              로그아웃
+            </span>
+          )}
+          {!user && (
+            <span
+              className={styles.signup}
+              onClick={() => {
+                setViewDropDown(false);
+                history.push("/auth/signup");
+                window.scrollTo({ top: 0 });
+              }}
+            >
+              회원가입
+            </span>
+          )}
+          {user && (
+            <span
+              className={styles.userNickname}
+              onClick={() => {
+                setViewDropDown(false);
+              }}
+            >
+              {`${user} 님`}
+            </span>
+          )}
         </div>
       </section>
       <nav className={styles.navbar} onMouseLeave={dropDownOff}>

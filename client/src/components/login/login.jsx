@@ -6,6 +6,11 @@ const Login = (props) => {
   const userIdRef = useRef();
   const passwordRef = useRef();
 
+  const afterLogin = () => {
+    window.location.href = "/";
+    return;
+  };
+
   const loginSubmitHandler = (e) => {
     e.preventDefault();
     axios
@@ -14,6 +19,7 @@ const Login = (props) => {
         password: passwordRef.current.value,
       })
       .then((response) => window.alert(response.data.message))
+      .then(afterLogin)
       .catch((err) => console.error("error: ", err.response));
   };
   return (

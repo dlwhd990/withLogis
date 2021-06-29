@@ -18,17 +18,44 @@ import MyPageEdit from "./components/mypage/myPageEdit/myPageEdit";
 import Footer from "./components/footer/footer";
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
+import axios from "axios";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
   const [organizationData, setOrganizationData] = useState(null);
   const [policyData, setPolicyData] = useState(null);
+  const [sessionUser, setSessionUser] = useState(null);
+  const [bbsArticles, setBbsArticles] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
     const body = await response.json();
     return body;
   };
+
+  const logout = (callback) => {
+    axios
+      .post("/auth/logout")
+      .then((response) => window.alert("성공적으로 로그아웃 되었습니다."))
+      .then(callback)
+      .catch((err) => console.error("error: ", err.response));
+  };
+
+  useEffect(() => {
+    callAPI("/auth/session-check")
+      .then((res) => {
+        if ("user" in res) {
+          setSessionUser(res.user.nickname);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    callAPI("/api/bbs") //
+      .then((res) => setBbsArticles(res))
+      .catch((err) => console.error(err));
+  }, []);
 
   useEffect(() => {
     callAPI("/api/exportProcess")
@@ -51,7 +78,7 @@ const App = (props) => {
   return (
     <section className={styles.app}>
       <BrowserRouter>
-        <Header />
+        <Header user={sessionUser} logout={logout} />
         <Switch>
           <Route exact path="/">
             <MainPage />
@@ -73,7 +100,7 @@ const App = (props) => {
           <Notice />
         </Route>
         <Route exact path="/bbs">
-          <Bbs />
+          {bbsArticles && <Bbs articles={bbsArticles} />}
         </Route>
         <Route exact path="/policies">
           {policyData && <Policies data={policyData} />}

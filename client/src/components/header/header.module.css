@@ -28,7 +28,9 @@
 }
 
 .login,
-.signup {
+.logout,
+.signup,
+.userNickname {
   padding: 0 0.7rem;
   font-size: 0.8rem;
   color: var(--color-desc);
@@ -36,7 +38,8 @@
   cursor: pointer;
 }
 
-.login {
+.login,
+.logout {
   border-right: solid 2px lightgray;
 }
 

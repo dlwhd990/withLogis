@@ -26,11 +26,12 @@ const index = path.resolve(
 
 let savedAuthNum;
 
-// 회원가입
-module.exports.signup_get = (req, res) => {
-  res.render(index);
+// 세션 체크
+module.exports.session_check = async (req, res) => {
+  return res.send(req.session);
 };
 
+// 회원가입
 module.exports.signup_post = async (req, res) => {
   const { nickname, userId, password, phoneNum } = req.body; // body로 부터 입력 받은 값들 저장
   console.log(nickname, userId, password, phoneNum);
@@ -62,9 +63,6 @@ module.exports.signup_post = async (req, res) => {
 };
 
 // 로그인
-module.exports.login_get = (req, res) => {
-  res.render(index);
-};
 
 module.exports.login_post = async (req, res) => {
   const { userId, password } = req.body; // 위와 동일
@@ -86,7 +84,7 @@ module.exports.login_post = async (req, res) => {
       req.session.user = users;
       console.log(req.session);
       return res.json({
-        message: "로그인에 성공하였습니다.",
+        message: `${req.session.user.nickname} 님 환영합니다.`,
       });
     }
   } catch (err) {

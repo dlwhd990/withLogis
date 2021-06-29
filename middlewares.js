@@ -11,22 +11,22 @@ function errorHandler(err, req, res, next) {
   res.status(statusCode);
   res.json({
     message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack
+    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
   });
 }
 
-const proxy = require('http-proxy-middleware');
+const proxy = require("http-proxy-middleware");
 
-function proxySet (app) {
-    app.use(
-        proxy('/api', {
-            target: 'http://localhost:3001/'
-        })
-    );
+function proxySet(app) {
+  app.use(
+    proxy("/api", {
+      target: "http://localhost:3001/",
+    })
+  );
 }
 
 module.exports = {
   notFound,
   errorHandler,
-  proxySet
+  proxySet,
 };

@@ -1,0 +1,159 @@
+@import "/src/constant.css";
+
+.bbs {
+  display: flex;
+  flex-direction: column;
+  width: 960px;
+  min-height: calc(100vh - 246px);
+  margin: auto;
+  margin-top: 200px;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding: 0 12px;
+}
+
+.search {
+  flex-basis: 85%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search_type_select {
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  outline: none;
+  border: 1px solid var(--color-input-border);
+}
+
+.search_text_input {
+  width: 500px;
+  height: 30px;
+  font-size: 16px;
+  outline: none;
+  padding-left: 8px;
+  margin: 0 20px;
+  border: 1px solid var(--color-input-border);
+}
+
+.search_icon {
+  font-size: 24px;
+  color: var(--color-desc);
+  cursor: pointer;
+}
+
+.button_container {
+  flex-basis: 15%;
+}
+
+.write_button {
+  outline: none;
+  border: 1px solid var(--color-input-border);
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  font-weight: bolder;
+  color: rgb(77, 77, 77);
+  border-top: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid rgb(235, 235, 235);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-article);
+}
+
+.number {
+  flex-basis: 6%;
+  text-align: center;
+}
+
+.date {
+  flex-basis: 17%;
+  text-align: center;
+}
+
+.title {
+  flex-basis: 47%;
+}
+
+.writer {
+  flex-basis: 15%;
+  text-align: center;
+}
+
+.reply {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.recommand {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.report {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-top: 1.1rem;
+}
+
+.page_numbers {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  right: 26rem;
+}
+
+.page_number {
+  padding: 0 1rem;
+}
+
+.upload_box {
+  position: relative;
+}
+
+.write_btn {
+  background-color: #377dff;
+  border: 1px solid #377dff;
+  border-radius: 4px;
+  width: 5.2rem;
+  height: 2.2rem;
+  font-size: 1.2rem;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  right: 1.5rem;
+  transition: all 100ms ease-in;
+  color: white;
+}
+
+.write_btn:hover {
+  transform: scale(1.04);
+}
+
+.write_a {
+  color: white;
+}

@@ -21,12 +21,17 @@ const Signup = (props) => {
   const phoneNumRef = useRef();
   const authNumRef = useRef();
 
+  const afterSignup = () => {
+    window.location.href = "/";
+    return;
+  };
+
   const idCheckHandler = () => {
     axios
       .post("/auth/dup-id", { checkId: idRef.current.value })
       .then((response) => {
         window.alert(response.data);
-        if (response.data === "사용가능") {
+        if (response.data === "사용 가능한 아이디입니다.") {
           setCheckedId(idRef.current.value);
         }
       })
@@ -38,7 +43,7 @@ const Signup = (props) => {
       .post("/auth/dup-nickname", { checkNickname: nicknameRef.current.value })
       .then((response) => {
         window.alert(response.data);
-        if (response.data === "사용가능") {
+        if (response.data === "사용 가능한 닉네임입니다.") {
           setCheckedNickname(nicknameRef.current.value);
         }
       })
@@ -74,6 +79,7 @@ const Signup = (props) => {
   };
 
   const signupSubmitHandler = (e) => {
+    e.preventDefault();
     const id = checkedId;
     const pw = pwRef.current.value;
     const pwConfirm = pwConfirmRef.current.value;
@@ -108,6 +114,7 @@ const Signup = (props) => {
       .post("/auth/signup", newUser)
       .then((response) => console.log(response))
       .then(window.alert("회원가입 성공"))
+      .then(afterSignup)
       .catch((err) => console.error("error: ", err.response));
   };
 

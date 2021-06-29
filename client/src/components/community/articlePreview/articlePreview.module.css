@@ -1,0 +1,51 @@
+.articlePreview {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  font-weight: bolder;
+  color: rgb(77, 77, 77);
+  border-top: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid rgb(235, 235, 235);
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-article);
+}
+
+.articlePreview:hover {
+  background-color: rgb(247, 247, 247);
+}
+
+.number {
+  flex-basis: 6%;
+  text-align: center;
+}
+
+.date {
+  flex-basis: 17%;
+  text-align: center;
+}
+
+.title {
+  flex-basis: 47%;
+}
+
+.writer {
+  flex-basis: 15%;
+  text-align: center;
+}
+
+.reply {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.recommand {
+  flex-basis: 5%;
+  text-align: center;
+}
+
+.report {
+  flex-basis: 5%;
+  text-align: center;
+}
