@@ -130,6 +130,7 @@ const Signup = (props) => {
               name="userId"
               className={styles.id_input}
               placeholder="아이디 (6자 ~ 15자)"
+              spellCheck="false"
             />
             <button
               type="button"
@@ -145,6 +146,7 @@ const Signup = (props) => {
             name="password"
             placeholder="비밀번호 (6자 ~ 15자)"
             className={styles.pw_input}
+            spellCheck="false"
           />
           <input
             ref={pwConfirmRef}
@@ -152,6 +154,7 @@ const Signup = (props) => {
             name="password_confirm"
             placeholder="비밀번호확인"
             className={styles.pw_input}
+            spellCheck="false"
           />
           <div className={styles.nickname_input_container}>
             <input
@@ -160,6 +163,7 @@ const Signup = (props) => {
               name="nickname"
               className={styles.nickname_input}
               placeholder="닉네임 (2자 ~ 6자)"
+              spellCheck="false"
             />
             <button
               type="button"
@@ -176,6 +180,7 @@ const Signup = (props) => {
               name="phoneNum"
               className={styles.phone_input}
               placeholder="핸드폰 번호"
+              spellCheck="false"
             />
             <button
               type="button"
@@ -192,6 +197,7 @@ const Signup = (props) => {
               name="authNum"
               className={styles.auth_num_input}
               placeholder="인증번호"
+              spellCheck="false"
             />
             <button
               type="button"

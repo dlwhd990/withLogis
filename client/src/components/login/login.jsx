@@ -18,8 +18,12 @@ const Login = (props) => {
         userId: userIdRef.current.value,
         password: passwordRef.current.value,
       })
-      .then((response) => window.alert(response.data.message))
-      .then(afterLogin)
+      .then((response) => {
+        window.alert(response.data.message);
+        if (response.data.success) {
+          afterLogin();
+        }
+      })
       .catch((err) => console.error("error: ", err.response));
   };
   return (
@@ -33,6 +37,7 @@ const Login = (props) => {
             className={styles.id}
             name="userId"
             placeholder="아이디"
+            spellCheck="false"
           />
           <input
             ref={passwordRef}
@@ -40,6 +45,7 @@ const Login = (props) => {
             className={styles.pw}
             name="password"
             placeholder="비밀번호"
+            spellCheck="false"
           />
           <button className={styles.submit_button} type="submit">
             로그인

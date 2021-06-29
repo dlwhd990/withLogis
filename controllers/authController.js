@@ -41,7 +41,6 @@ module.exports.signup_post = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt); // password 암호화
 
   try {
-    console.log(users, "!!!FOUND!!");
     user = new User({
       // 입력 값을 통해 새 유저 생성
       nickname,
@@ -84,6 +83,7 @@ module.exports.login_post = async (req, res) => {
       req.session.user = users;
       console.log(req.session);
       return res.json({
+        success: true,
         message: `${req.session.user.nickname} 님 환영합니다.`,
       });
     }

@@ -97,14 +97,22 @@ const FareExpect = (props) => {
             <div className={styles.volume_and_weight_container}>
               <div className={styles.volume}>
                 <span className={styles.title}>부피</span>
-                <input type="text" className={styles.volume_input} />
+                <input
+                  type="text"
+                  className={styles.volume_input}
+                  spellCheck="false"
+                />
                 <button className={styles.calc_button} onClick={onOpenPopup}>
                   CBM 계산기
                 </button>
               </div>
               <div className={styles.weight}>
                 <span className={styles.title}>중량</span>
-                <input type="text" className={styles.weight_input} />
+                <input
+                  type="text"
+                  className={styles.weight_input}
+                  spellCheck="false"
+                />
               </div>
             </div>
           </div>
@@ -125,7 +133,11 @@ const FareExpect = (props) => {
         </div>
         <div className={styles.bottom}>
           <span className={styles.title}>HS CODE</span>
-          <input type="text" className={styles.hscode_input} />
+          <input
+            type="text"
+            className={styles.hscode_input}
+            spellCheck="false"
+          />
         </div>
         <button className={styles.result_button}>예상 운임 조회</button>
       </section>
@@ -147,6 +159,7 @@ const FareExpect = (props) => {
                 ref={popupWidthRef}
                 type="text"
                 className={styles.popup_input}
+                spellCheck="false"
               />
               <span className={styles.popup_text_meter}>미터</span>
             </div>
@@ -156,6 +169,7 @@ const FareExpect = (props) => {
                 ref={popupLengthRef}
                 type="text"
                 className={styles.popup_input}
+                spellCheck="false"
               />
               <span className={styles.popup_text_meter}>미터</span>
             </div>
@@ -166,6 +180,7 @@ const FareExpect = (props) => {
                   ref={popupHeightRef}
                   type="text"
                   className={styles.popup_input}
+                  spellCheck="false"
                 />
                 <span className={styles.popup_text_meter}>미터</span>
               </div>

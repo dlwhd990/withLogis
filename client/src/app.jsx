@@ -19,6 +19,7 @@ import Footer from "./components/footer/footer";
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
 import axios from "axios";
+import WriteArticle from "./components/community/writeArticle/writeArticle";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -100,7 +101,10 @@ const App = (props) => {
           <Notice />
         </Route>
         <Route exact path="/bbs">
-          {bbsArticles && <Bbs articles={bbsArticles} />}
+          {bbsArticles && <Bbs articles={bbsArticles} user={sessionUser} />}
+        </Route>
+        <Route exact path="/bbs/write">
+          <WriteArticle user={sessionUser} />
         </Route>
         <Route exact path="/policies">
           {policyData && <Policies data={policyData} />}
