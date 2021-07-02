@@ -20,6 +20,7 @@ import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
 import axios from "axios";
 import WriteArticle from "./components/community/writeArticle/writeArticle";
+import ArticleView from "./components/community/articleView/articleView";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -27,6 +28,7 @@ const App = (props) => {
   const [policyData, setPolicyData] = useState(null);
   const [sessionUser, setSessionUser] = useState(null);
   const [bbsArticles, setBbsArticles] = useState(null);
+  const [noticeArticles, setNoticeArticles] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
@@ -55,6 +57,12 @@ const App = (props) => {
   useEffect(() => {
     callAPI("/api/bbs") //
       .then((res) => setBbsArticles(res))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    callAPI("/api/notice") //
+      .then((res) => setNoticeArticles(res))
       .catch((err) => console.error(err));
   }, []);
 
@@ -98,13 +106,24 @@ const App = (props) => {
           <Tracking />
         </Route>
         <Route exact path="/notice">
-          <Notice />
+          {noticeArticles && (
+            <Notice articles={noticeArticles} user={sessionUser} />
+          )}
         </Route>
         <Route exact path="/bbs">
           {bbsArticles && <Bbs articles={bbsArticles} user={sessionUser} />}
         </Route>
-        <Route exact path="/bbs/write">
+        <Route exact path="/:where/write">
           <WriteArticle user={sessionUser} />
+        </Route>
+        <Route exact path="/:where/view/:id">
+          {bbsArticles && noticeArticles && (
+            <ArticleView
+              articles={bbsArticles}
+              noticeArticles={noticeArticles}
+              user={sessionUser}
+            />
+          )}
         </Route>
         <Route exact path="/policies">
           {policyData && <Policies data={policyData} />}

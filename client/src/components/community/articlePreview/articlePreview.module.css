@@ -28,6 +28,10 @@
 
 .title {
   flex-basis: 45%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
 }
 
 .writer {

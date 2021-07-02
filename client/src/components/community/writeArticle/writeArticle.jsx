@@ -1,14 +1,16 @@
 import React, { useRef } from "react";
 import styles from "./writeArticle.module.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const WriteArticle = ({ user }) => {
   let year, month, day, hour, minute;
+  const { where } = useParams();
   const titleRef = useRef();
   const contentRef = useRef();
 
   const afterSubmit = () => {
-    window.location.href = "/bbs";
+    window.location.href = `/${where}`;
   };
 
   const makeDate = () => {
@@ -33,7 +35,7 @@ const WriteArticle = ({ user }) => {
     console.log(nowTitle, nowContent);
     console.log(year, month, day, hour, minute);
     axios
-      .post("/api/bbs/write", {
+      .post(`/api/${where}/write`, {
         title: nowTitle,
         content: nowContent,
         date: `${month}/${day} ${hour}:${minute}`,

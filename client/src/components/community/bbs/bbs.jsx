@@ -1,12 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ArticlePreview from "../articlePreview/articlePreview";
 import styles from "./bbs.module.css";
 
 const Bbs = ({ articles, user }) => {
   const history = useHistory();
+  const [numbering, setNumbering] = useState(1);
   const articleKeyList = Object.keys(articles).reverse();
-  console.log(articleKeyList);
+
+  let pagelength = 0;
+
+  if (articleKeyList.length % 10 === 0) {
+    pagelength = parseInt(articleKeyList.length / 10);
+  } else if (articleKeyList.length <= 10) {
+    pagelength = 1;
+  } else {
+    pagelength = parseInt(articleKeyList.length / 10) + 1;
+  }
+
+  const list = [];
+
+  for (let i = 1; i <= pagelength; i++) {
+    list.push(i);
+  }
+
+  let pages = [];
+  for (let i = 0; i <= pagelength; i++) {
+    pages[i] = new Array();
+  }
+
+  for (let i = 1; i <= pagelength; i++) {
+    for (let j = 10 * (i - 1); j < 10 * i; j++) {
+      if (articleKeyList[j] === undefined) {
+        break;
+      }
+      pages[i].push(articleKeyList[j]);
+    }
+  }
+
+  const pageNumberClick = (e) => {
+    setNumbering(e.target.textContent);
+  };
 
   const goWrite = () => {
     if (!user) {
@@ -49,15 +83,21 @@ const Bbs = ({ articles, user }) => {
         <div className={styles.report}>신고</div>
       </section>
       <section className={styles.body}>
-        {articleKeyList.map((key) => (
-          <ArticlePreview key={key} article={articles[key]} />
+        {pages[numbering].map((key) => (
+          <ArticlePreview key={key} article={articles[key]} where="bbs" />
         ))}
       </section>
       <section className={styles.bottom}>
         <ul className={styles.page_numbers}>
-          <li className={styles.page_number}>1</li>
-          <li className={styles.page_number}>2</li>
-          <li className={styles.page_number}>3</li>
+          {list.map((num) => (
+            <li
+              key={num}
+              className={styles.page_number}
+              onClick={pageNumberClick}
+            >
+              {num}
+            </li>
+          ))}
         </ul>
       </section>
     </section>

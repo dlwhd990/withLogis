@@ -27,6 +27,10 @@ const Signup = (props) => {
   };
 
   const idCheckHandler = () => {
+    if (idRef.current.value.length < 6 || idRef.current.value.length > 15) {
+      window.alert("글자 수가 맞지 않습니다. (6자 ~ 15자)");
+      return;
+    }
     axios
       .post("/auth/dup-id", { checkId: idRef.current.value })
       .then((response) => {
@@ -39,6 +43,13 @@ const Signup = (props) => {
   };
 
   const nicknameCheckHandler = () => {
+    if (
+      nicknameRef.current.value.length < 2 ||
+      nicknameRef.current.value.length > 6
+    ) {
+      window.alert("글자 수가 맞지 않습니다. (2자 ~ 6자)");
+      return;
+    }
     axios
       .post("/auth/dup-nickname", { checkNickname: nicknameRef.current.value })
       .then((response) => {
