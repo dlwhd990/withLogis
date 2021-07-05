@@ -7,13 +7,13 @@ const Notice = ({ articles, user }) => {
   const history = useHistory();
   const articleKeyList = Object.keys(articles).reverse();
   const [numbering, setNumbering] = useState(1);
-  const adminId = "관리자"; // 나중에 수정 예정
+  const adminId = "dlwhd990"; // env가 안돼서 일단 이렇게 작성 (이유는 모름)
 
   const goWrite = () => {
     if (!user) {
       window.alert("로그인 하신 후에 글 작성이 가능합니다.");
       return;
-    } else if (user !== adminId) {
+    } else if (user.userId !== adminId) {
       window.alert("공지사항은 관리자만 글을 작성할 수 있습니다.");
       return;
     }

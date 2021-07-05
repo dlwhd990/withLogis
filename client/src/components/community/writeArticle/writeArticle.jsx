@@ -39,7 +39,8 @@ const WriteArticle = ({ user }) => {
         title: nowTitle,
         content: nowContent,
         date: `${month}/${day} ${hour}:${minute}`,
-        writer: user,
+        writer: user.nickname,
+        writerId: user.userId,
         reply: 0,
         recommand: 0,
       })

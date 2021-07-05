@@ -46,14 +46,17 @@
 
 .edit {
   color: var(--color-dark-theme);
+  outline: none;
 }
 
 .delete {
   color: red;
+  outline: none;
 }
 
 .recommand {
   padding-right: 8px;
+  outline: none;
 }
 
 .recommand_count {

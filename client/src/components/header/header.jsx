@@ -20,10 +20,6 @@ const Header = ({ user, logout }) => {
     setViewDropDown(false);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <nav className={styles.header}>
       <section className={styles.top}>
@@ -80,7 +76,7 @@ const Header = ({ user, logout }) => {
                 setViewDropDown(false);
               }}
             >
-              {`${user} 님`}
+              {`${user.nickname} 님`}
             </span>
           )}
         </div>

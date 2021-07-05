@@ -17,8 +17,9 @@ router.post("/bbs/write", async (req, res) => {
   console.log(req.body);
   const counter = await ArticleNumberCounter.findOne({ name: "bbs" });
   const id = counter.count + 1;
-  await ArticleNumberCounter.update({ name: "bbs" }, { count: id });
-  const { title, content, date, writer, reply, recommand } = req.body;
+  await ArticleNumberCounter.updateOne({ name: "bbs" }, { count: id });
+  const { title, content, date, writer, writerId, reply, recommand } = req.body;
+  const recommandList = [];
   try {
     article = new Article({
       id,
@@ -26,8 +27,10 @@ router.post("/bbs/write", async (req, res) => {
       content,
       date,
       writer,
+      writerId,
       reply,
       recommand,
+      recommandList,
     });
     await article.save();
     res.json({
@@ -49,8 +52,9 @@ router.post("/notice/write", async (req, res) => {
   console.log(req.body);
   const counter = await ArticleNumberCounter.findOne({ name: "notice" });
   const id = counter.count + 1;
-  await ArticleNumberCounter.update({ name: "notice" }, { count: id });
-  const { title, content, date, writer, reply, recommand } = req.body;
+  await ArticleNumberCounter.updateOne({ name: "notice" }, { count: id });
+  const { title, content, date, writer, writerId, reply, recommand } = req.body;
+  const recommandList = [];
   try {
     notice = new Notice({
       id,
@@ -58,13 +62,73 @@ router.post("/notice/write", async (req, res) => {
       content,
       date,
       writer,
+      writerId,
       reply,
       recommand,
+      recommandList,
     });
     await notice.save();
     res.json({
       success: true,
       message: "글이 성공적으로 작성되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/bbs/recommand", async (req, res) => {
+  let { id, userId, recommand_count, recommand_list } = req.body;
+  console.log(id, userId, recommand_count, recommand_list);
+  recommand_list.push(userId);
+  try {
+    await Article.updateOne({ id: id }, { recommand: recommand_count + 1 });
+    await Article.updateOne({ id: id }, { recommandList: recommand_list });
+    res.json({
+      success: true,
+      message: "추천되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/notice/recommand", async (req, res) => {
+  const { id, userId, recommand_count, recommand_list } = req.body;
+  console.log(id, userId, recommand_count, recommand_list);
+  recommand_list.push(userId);
+  try {
+    await Notice.updateOne({ id: id }, { recommand: recommand_count + 1 });
+    await Notice.updateOne({ id: id }, { recommandList: recommand_list });
+    res.json({
+      success: true,
+      message: "추천되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/bbs/delete", async (req, res) => {
+  const id = req.body.id;
+  try {
+    await Article.deleteOne({ id: id });
+    res.json({
+      success: true,
+      message: "글이 삭제되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/notice/delete", async (req, res) => {
+  const id = req.body.id;
+  try {
+    await Notice.deleteOne({ id: id });
+    res.json({
+      success: true,
+      message: "글이 삭제되었습니다.",
     });
   } catch (err) {
     console.log(err);

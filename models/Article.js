@@ -23,12 +23,20 @@ let ArticleSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    writerId: {
+      type: String,
+      required: true,
+    },
     reply: {
       type: Number,
       required: true,
     },
     recommand: {
       type: Number,
+      required: true,
+    },
+    recommandList: {
+      type: Array,
       required: true,
     },
   },

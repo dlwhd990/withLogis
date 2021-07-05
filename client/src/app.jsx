@@ -48,7 +48,7 @@ const App = (props) => {
     callAPI("/auth/session-check")
       .then((res) => {
         if ("user" in res) {
-          setSessionUser(res.user.nickname);
+          setSessionUser(res.user);
         }
       })
       .catch((err) => console.error(err));
