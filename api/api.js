@@ -135,6 +135,32 @@ router.post("/notice/delete", async (req, res) => {
   }
 });
 
+router.post("/bbs/edit", async (req, res) => {
+  const { id } = req.body;
+  try {
+    Article.findOne({ id: id }, (err, data) => {
+      res.send(data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/bbs/edit/submit", async (req, res) => {
+  const { id, title, content } = req.body;
+  try {
+    console.log(req.body);
+    await Article.updateOne({ id: id }, { title: title });
+    await Article.updateOne({ id: id }, { content: content });
+    res.json({
+      message: "수정되었습니다.",
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get("/exportProcess", (req, res) => {
   ExportProcess.find({}, (err, data) => {
     res.send(data);

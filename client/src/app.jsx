@@ -21,6 +21,7 @@ import Signup from "./components/signup/signup";
 import axios from "axios";
 import WriteArticle from "./components/community/writeArticle/writeArticle";
 import ArticleView from "./components/community/articleView/articleView";
+import EditArticle from "./components/community/editArticle/editArticle";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -124,6 +125,9 @@ const App = (props) => {
               user={sessionUser}
             />
           )}
+        </Route>
+        <Route exact path="/:where/edit/:id">
+          <EditArticle user={sessionUser} />
         </Route>
         <Route exact path="/policies">
           {policyData && <Policies data={policyData} />}

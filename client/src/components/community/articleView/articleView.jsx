@@ -30,7 +30,7 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
       setIsWriter(true);
     }
     setRecommandCount(article.recommand);
-  }, [user]);
+  }, [user, article]);
 
   const onRecommandHandler = () => {
     if (!user) {
@@ -74,6 +74,11 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
     }
   };
 
+  const onEditHandler = () => {
+    window.scrollTo({ top: 0 });
+    history.push(`/${where}/edit/${article.id}`);
+  };
+
   return (
     <section className={styles.articleView}>
       <article className={styles.article}>
@@ -86,7 +91,11 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
             <p className={styles.date}>{article.date}</p>
           </div>
           <div className={styles.button_container}>
-            {isWriter && <button className={styles.edit}>수정</button>}
+            {isWriter && (
+              <button className={styles.edit} onClick={onEditHandler}>
+                수정
+              </button>
+            )}
             {isWriter && (
               <button className={styles.delete} onClick={onDeleteHandler}>
                 삭제

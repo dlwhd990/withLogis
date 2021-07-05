@@ -26,9 +26,19 @@ const WriteArticle = ({ user }) => {
     e.preventDefault();
     if (!user) {
       window.alert("로그인 상태를 다시 확인해주세요");
+      return;
     }
     const nowTitle = titleRef.current.value;
     const nowContent = contentRef.current.value;
+
+    if (nowTitle === "") {
+      window.alert("제목을 입력해주세요");
+      return;
+    }
+    if (nowContent === "") {
+      window.alert("내용을 입력해주세요");
+      return;
+    }
 
     makeDate();
 
