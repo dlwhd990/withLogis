@@ -3,6 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import styles from "./articleView.module.css";
 import axios from "axios";
 import Reply from "../reply/reply";
+import ErrorPage from "../../errorPage/errorPage";
 
 const ArticleView = ({
   articles,
@@ -16,43 +17,65 @@ const ArticleView = ({
   const history = useHistory();
   const [isWriter, setIsWriter] = useState(false);
   const [recommandCount, setRecommandCount] = useState(null);
-  let article, replyList, replyKeyList;
+  const [article, setArticle] = useState(null);
+  const [replyList, setReplyList] = useState(null);
+  const [replyKeyList, setReplyKeyList] = useState(null);
   let timeId, month, day, hour, minute;
   let i;
 
   // 더 나은 방법이 있을 지 생각해보기 (그냥 id와 인덱스를 매치하면 삭제 때문에 불가능함)
-  if (where === "bbs") {
-    for (i = 0; i < articles.length; i++) {
-      if (articles[i].id.toString() === id) {
-        article = articles[i];
+
+  const articleSetting = () => {
+    if (where === "bbs") {
+      for (i = 0; i < articles.length; i++) {
+        if (articles[i].id.toString() === id) {
+          setArticle(articles[i]);
+        }
+      }
+    } else if (where === "notice") {
+      for (let i = 0; i < noticeArticles.length; i++) {
+        if (noticeArticles[i].id.toString() === id) {
+          setArticle(noticeArticles[i]);
+        }
       }
     }
-    for (i = 0; i < replies.length; i++) {
-      if (replies[i].id === article.id) {
-        replyList = replies[i].replyList;
-        replyKeyList = Object.keys(replyList);
+  };
+
+  const replySetting = () => {
+    if (where === "bbs") {
+      for (i = 0; i < replies.length; i++) {
+        if (replies[i].id === article.id) {
+          setReplyList(replies[i].replyList);
+          break;
+        }
+      }
+    } else if (where === "notice") {
+      for (i = 0; i < noticeReplies.length; i++) {
+        if (noticeReplies[i].id === article.id) {
+          setReplyList(noticeReplies[i].replyList);
+        }
       }
     }
-  } else if (where === "notice") {
-    for (let i = 0; i < noticeArticles.length; i++) {
-      if (noticeArticles[i].id.toString() === id) {
-        article = noticeArticles[i];
-      }
-    }
-    for (i = 0; i < noticeReplies.length; i++) {
-      if (noticeReplies[i].id === article.id) {
-        replyList = noticeReplies[i].replyList;
-        replyKeyList = Object.keys(replyList);
-      }
-    }
-  }
+  };
 
   useEffect(() => {
-    if (user && article.writerId === user.userId) {
+    articleSetting();
+  }, []);
+
+  useEffect(() => {
+    article && replySetting();
+    article && setRecommandCount(article.recommand);
+  }, [article]);
+
+  useEffect(() => {
+    replyList && setReplyKeyList(Object.keys(replyList));
+  }, [replyList]);
+
+  useEffect(() => {
+    if (user && article && article.writerId === user.userId) {
       setIsWriter(true);
     }
-    setRecommandCount(article.recommand);
-  }, [user, article]);
+  }, []);
 
   const makeDate = () => {
     let date = new Date();
@@ -65,7 +88,7 @@ const ArticleView = ({
 
   const onRecommandHandler = () => {
     if (!user) {
-      window.alert("로그인 후에 추천이 가능합니다.");
+      window.alert(" 로그인 후에 추천이 가능합니다.");
       return;
     }
     console.log(user.userId, article.recommandList);
@@ -82,7 +105,7 @@ const ArticleView = ({
         .then((res) => {
           window.alert(res.data.message);
           setRecommandCount(recommandCount + 1);
-          window.location.reload(); // 나중에 새로고침 없이 되도록 개선할 것
+          window.location.reload(); // 새로고침 없이 하려면 댓글처럼 따로 컬렉션을 두어야할지
         })
         .catch((err) => console.error("error: ", err.response));
     }
@@ -110,6 +133,20 @@ const ArticleView = ({
     history.push(`/${where}/edit/${article.id}`);
   };
 
+  const loadReply = () => {
+    axios //
+      .get(`/api/${where}/reply`)
+      .then((res) => {
+        const replies = res.data;
+        for (i = 0; i < replies.length; i++) {
+          if (replies[i].id === article.id) {
+            setReplyList(replies[i].replyList);
+            break;
+          }
+        }
+      });
+  };
+
   const onReplySubmitHandler = (e) => {
     e.preventDefault();
 
@@ -120,75 +157,90 @@ const ArticleView = ({
 
     makeDate();
 
+    const newReply = {
+      id: id,
+      timeId: timeId,
+      content: replyRef.current.value,
+      date: `${month}/${day} ${hour}:${minute}`,
+      writer: user.nickname,
+      writerId: user.userId,
+    };
+
     axios
-      .post(`/api/${where}/writeReply`, {
-        id: id,
-        timeId: timeId,
-        content: replyRef.current.value,
-        date: `${month}/${day} ${hour}:${minute}`,
-        writer: user.nickname,
-        writerId: user.userId,
+      .post(`/api/${where}/writeReply`, newReply)
+      .then(() => {
+        loadReply();
+        replyRef.current.value = "";
       })
       .catch((err) => console.error("error: ", err.response));
   };
 
-  return (
-    <section className={styles.article_view}>
-      <article className={styles.article}>
-        <div className={styles.title_container}>
-          <p className={styles.title}>{article.title}</p>
-        </div>
-        <div className={styles.user_data_and_button_container}>
-          <div className={styles.user_data_container}>
-            <p className={styles.writer}>{article.writer}</p>
-            <p className={styles.date}>{article.date}</p>
+  if (article && replyList && replyKeyList) {
+    return (
+      <section className={styles.article_view}>
+        <article className={styles.article}>
+          <div className={styles.title_container}>
+            <p className={styles.title}>{article.title}</p>
           </div>
-          <div className={styles.button_container}>
-            {isWriter && (
-              <button className={styles.edit} onClick={onEditHandler}>
-                수정
+          <div className={styles.user_data_and_button_container}>
+            <div className={styles.user_data_container}>
+              <p className={styles.writer}>{article.writer}</p>
+              <p className={styles.date}>{article.date}</p>
+            </div>
+            <div className={styles.button_container}>
+              {isWriter && (
+                <button className={styles.edit} onClick={onEditHandler}>
+                  수정
+                </button>
+              )}
+              {isWriter && (
+                <button className={styles.delete} onClick={onDeleteHandler}>
+                  삭제
+                </button>
+              )}
+              <button className={styles.recommand} onClick={onRecommandHandler}>
+                추천하기
               </button>
-            )}
-            {isWriter && (
-              <button className={styles.delete} onClick={onDeleteHandler}>
-                삭제
-              </button>
-            )}
-            <button className={styles.recommand} onClick={onRecommandHandler}>
-              추천하기
-            </button>
-            <p className={styles.recommand_count}>{`추천 ${recommandCount}`}</p>
+              <p
+                className={styles.recommand_count}
+              >{`추천 ${recommandCount}`}</p>
+            </div>
           </div>
-        </div>
-        <div className={styles.content_container}>
-          <p className={styles.content}>{article.content}</p>
-        </div>
-        <div className={styles.reply_input_container}>
-          <p className={styles.reply_input_title}>댓글 0</p>
-          <form
-            className={styles.reply_input_form}
-            onSubmit={onReplySubmitHandler}
-          >
-            <textarea
-              ref={replyRef}
-              className={styles.reply_input_textarea}
-              name="reply"
-              spellCheck="false"
-              placeholder="주제와 무관한 댓글, 타인의 권리를 침해하거나 명예를 훼손하는 게시물은 제재를 받을 수 있습니다."
-            ></textarea>
-            <button type="submit" className={styles.reply_submit_button}>
-              등록
-            </button>
-          </form>
-        </div>
-        <div className={styles.reply_container}>
-          {replyKeyList.map((key) => (
-            <Reply key={key} reply={replyList[key]} user={user} />
-          ))}
-        </div>
-      </article>
-    </section>
-  );
+          <div className={styles.content_container}>
+            <p className={styles.content}>{article.content}</p>
+          </div>
+          <div className={styles.reply_input_container}>
+            <p
+              className={styles.reply_input_title}
+            >{`댓글 ${replyList.length}`}</p>
+            <form
+              className={styles.reply_input_form}
+              onSubmit={onReplySubmitHandler}
+            >
+              <textarea
+                ref={replyRef}
+                className={styles.reply_input_textarea}
+                name="reply"
+                spellCheck="false"
+                placeholder="주제와 무관한 댓글, 타인의 권리를 침해하거나 명예를 훼손하는 게시물은 제재를 받을 수 있습니다."
+              ></textarea>
+              <button type="submit" className={styles.reply_submit_button}>
+                등록
+              </button>
+            </form>
+          </div>
+          <div className={styles.reply_container}>
+            {replyKeyList &&
+              replyKeyList.map((key) => (
+                <Reply key={key} reply={replyList[key]} user={user} />
+              ))}
+          </div>
+        </article>
+      </section>
+    );
+  } else {
+    return <ErrorPage />;
+  }
 };
 
 export default ArticleView;

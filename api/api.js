@@ -36,6 +36,8 @@ router.post("/bbs/writeReply", async (req, res) => {
       date,
     });
     await Reply.updateOne({ id: id }, { replyList: list });
+    await Article.updateOne({ id: id }, { reply: list.length });
+    res.json({ success: true });
   } catch (err) {
     console.log(err);
   }
@@ -104,6 +106,8 @@ router.post("/notice/writeReply", async (req, res) => {
       date,
     });
     await NoticeReply.updateOne({ id: id }, { replyList: list });
+    await Notice.updateOne({ id: id }, { reply: list.length });
+    res.json({ success: true });
   } catch (err) {
     console.log(err);
   }
