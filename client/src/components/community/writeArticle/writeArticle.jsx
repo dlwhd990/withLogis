@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const WriteArticle = ({ user }) => {
-  let year, month, day, hour, minute;
+  let timeId, year, month, day, hour, minute;
   const { where } = useParams();
   const titleRef = useRef();
   const contentRef = useRef();
@@ -15,6 +15,7 @@ const WriteArticle = ({ user }) => {
 
   const makeDate = () => {
     let date = new Date();
+    timeId = date.getTime();
     year = date.getFullYear().toString();
     month = (date.getMonth() + 1).toString().padStart(2, "0");
     day = date.getDate().toString().padStart(2, "0");
@@ -42,10 +43,9 @@ const WriteArticle = ({ user }) => {
 
     makeDate();
 
-    console.log(nowTitle, nowContent);
-    console.log(year, month, day, hour, minute);
     axios
       .post(`/api/${where}/write`, {
+        timeId: timeId,
         title: nowTitle,
         content: nowContent,
         date: `${month}/${day} ${hour}:${minute}`,

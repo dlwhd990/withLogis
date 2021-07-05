@@ -29,20 +29,34 @@ const EditArticle = ({ user }) => {
     const nowTitle = titleRef.current.value;
     const nowContent = contentRef.current.value;
 
-    axios
-      .post("/api/bbs/edit/submit", {
-        id: id,
-        title: nowTitle,
-        content: nowContent,
-      })
-      .then((res) => {
-        window.alert(res.data.message);
-        window.location.href = `/bbs/view/${id}`;
-      })
-      .catch((err) => console.error(err));
+    if (where === "bbs") {
+      axios
+        .post("/api/bbs/edit/submit", {
+          id: id,
+          title: nowTitle,
+          content: nowContent,
+        })
+        .then((res) => {
+          window.alert(res.data.message);
+          window.location.href = `/bbs/view/${id}`;
+        })
+        .catch((err) => console.error(err));
+    } else if (where === "notice") {
+      axios
+        .post("/api/notice/edit/submit", {
+          id: id,
+          title: nowTitle,
+          content: nowContent,
+        })
+        .then((res) => {
+          window.alert(res.data.message);
+          window.location.href = `/notice/view/${id}`;
+        })
+        .catch((err) => console.error(err));
+    }
   };
 
-  if (user && user.userId === article.writerId) {
+  if (user && article && user.userId === article.writerId) {
     return (
       <section className={styles.edit_article}>
         <h1 className={styles.page_title}>글쓰기</h1>
@@ -71,7 +85,7 @@ const EditArticle = ({ user }) => {
           </div>
           <div className={styles.button_container}>
             <button type="submit" className={styles.submit_button}>
-              업로드
+              수정
             </button>
           </div>
         </form>

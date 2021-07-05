@@ -30,6 +30,8 @@ const App = (props) => {
   const [sessionUser, setSessionUser] = useState(null);
   const [bbsArticles, setBbsArticles] = useState(null);
   const [noticeArticles, setNoticeArticles] = useState(null);
+  const [bbsReplies, setBbsReplies] = useState(null);
+  const [noticeReplies, setNoticeReplies] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
@@ -64,6 +66,18 @@ const App = (props) => {
   useEffect(() => {
     callAPI("/api/notice") //
       .then((res) => setNoticeArticles(res))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    callAPI("/api/bbs/reply") //
+      .then((res) => setBbsReplies(res))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    callAPI("/api/notice/reply") //
+      .then((res) => setNoticeReplies(res))
       .catch((err) => console.error(err));
   }, []);
 
@@ -118,10 +132,12 @@ const App = (props) => {
           <WriteArticle user={sessionUser} />
         </Route>
         <Route exact path="/:where/view/:id">
-          {bbsArticles && noticeArticles && (
+          {bbsArticles && noticeArticles && bbsReplies && noticeReplies && (
             <ArticleView
               articles={bbsArticles}
               noticeArticles={noticeArticles}
+              replies={bbsReplies}
+              noticeReplies={noticeReplies}
               user={sessionUser}
             />
           )}

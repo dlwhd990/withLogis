@@ -1,26 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styles from "./articleView.module.css";
 import axios from "axios";
+import Reply from "../reply/reply";
 
-const ArticleView = ({ articles, noticeArticles, user }) => {
+const ArticleView = ({
+  articles,
+  noticeArticles,
+  replies,
+  noticeReplies,
+  user,
+}) => {
   const { where, id } = useParams();
+  const replyRef = useRef();
   const history = useHistory();
   const [isWriter, setIsWriter] = useState(false);
   const [recommandCount, setRecommandCount] = useState(null);
-  let article;
+  let article, replyList, replyKeyList;
+  let timeId, month, day, hour, minute;
+  let i;
 
   // 더 나은 방법이 있을 지 생각해보기 (그냥 id와 인덱스를 매치하면 삭제 때문에 불가능함)
   if (where === "bbs") {
-    for (let i = 0; i < articles.length; i++) {
+    for (i = 0; i < articles.length; i++) {
       if (articles[i].id.toString() === id) {
         article = articles[i];
+      }
+    }
+    for (i = 0; i < replies.length; i++) {
+      if (replies[i].id === article.id) {
+        replyList = replies[i].replyList;
+        replyKeyList = Object.keys(replyList);
       }
     }
   } else if (where === "notice") {
     for (let i = 0; i < noticeArticles.length; i++) {
       if (noticeArticles[i].id.toString() === id) {
         article = noticeArticles[i];
+      }
+    }
+    for (i = 0; i < noticeReplies.length; i++) {
+      if (noticeReplies[i].id === article.id) {
+        replyList = noticeReplies[i].replyList;
+        replyKeyList = Object.keys(replyList);
       }
     }
   }
@@ -31,6 +53,15 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
     }
     setRecommandCount(article.recommand);
   }, [user, article]);
+
+  const makeDate = () => {
+    let date = new Date();
+    timeId = date.getTime();
+    month = (date.getMonth() + 1).toString().padStart(2, "0");
+    day = date.getDate().toString().padStart(2, "0");
+    hour = date.getHours().toString().padStart(2, "0");
+    minute = date.getMinutes().toString().padStart(2, "0");
+  };
 
   const onRecommandHandler = () => {
     if (!user) {
@@ -79,8 +110,30 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
     history.push(`/${where}/edit/${article.id}`);
   };
 
+  const onReplySubmitHandler = (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      window.alert("로그인 후에 댓글 작성이 가능합니다.");
+      return;
+    }
+
+    makeDate();
+
+    axios
+      .post(`/api/${where}/writeReply`, {
+        id: id,
+        timeId: timeId,
+        content: replyRef.current.value,
+        date: `${month}/${day} ${hour}:${minute}`,
+        writer: user.nickname,
+        writerId: user.userId,
+      })
+      .catch((err) => console.error("error: ", err.response));
+  };
+
   return (
-    <section className={styles.articleView}>
+    <section className={styles.article_view}>
       <article className={styles.article}>
         <div className={styles.title_container}>
           <p className={styles.title}>{article.title}</p>
@@ -109,6 +162,29 @@ const ArticleView = ({ articles, noticeArticles, user }) => {
         </div>
         <div className={styles.content_container}>
           <p className={styles.content}>{article.content}</p>
+        </div>
+        <div className={styles.reply_input_container}>
+          <p className={styles.reply_input_title}>댓글 0</p>
+          <form
+            className={styles.reply_input_form}
+            onSubmit={onReplySubmitHandler}
+          >
+            <textarea
+              ref={replyRef}
+              className={styles.reply_input_textarea}
+              name="reply"
+              spellCheck="false"
+              placeholder="주제와 무관한 댓글, 타인의 권리를 침해하거나 명예를 훼손하는 게시물은 제재를 받을 수 있습니다."
+            ></textarea>
+            <button type="submit" className={styles.reply_submit_button}>
+              등록
+            </button>
+          </form>
+        </div>
+        <div className={styles.reply_container}>
+          {replyKeyList.map((key) => (
+            <Reply key={key} reply={replyList[key]} user={user} />
+          ))}
         </div>
       </article>
     </section>

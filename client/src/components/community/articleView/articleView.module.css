@@ -1,6 +1,6 @@
 @import "/src/constant.css";
 
-.articleView {
+.article_view {
   min-height: calc(100vh - 246px);
   width: 800px;
   margin: auto;
@@ -9,7 +9,6 @@
 
 .article {
   padding: 40px 50px;
-  margin-bottom: 300px;
 }
 
 .title_container {
@@ -89,7 +88,7 @@
 
 .content_container {
   margin-top: 35px;
-  margin-bottom: 150px;
+  padding-bottom: 200px;
 }
 
 .content {
@@ -97,4 +96,41 @@
   font-weight: 300;
   white-space: pre-line;
   overflow-wrap: break-word;
+}
+
+.reply_input_title {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.reply_input_form {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  border: 1px solid lightgray;
+}
+
+.reply_input_textarea {
+  font-family: "Noto Sans KR", sans-serif;
+  width: calc(100% - 120px);
+  height: 120px;
+  resize: none;
+  outline: none;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.reply_submit_button {
+  width: 120px;
+  outline: none;
+  border: none;
+  border-left: 1px solid lightgray;
+  cursor: pointer;
+}
+
+.reply_container {
+  margin-top: 50px;
+  margin-bottom: 200px;
 }
