@@ -84,7 +84,11 @@ const Bbs = ({ articles, user }) => {
       </section>
       <section className={styles.body}>
         {pages[numbering].map((key) => (
-          <ArticlePreview key={key} article={articles[key]} where="bbs" />
+          <ArticlePreview
+            key={articles[key].id}
+            article={articles[key]}
+            where="bbs"
+          />
         ))}
       </section>
       <section className={styles.bottom}>

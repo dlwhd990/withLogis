@@ -10,6 +10,8 @@ const ArticleView = ({
   noticeArticles,
   replies,
   noticeReplies,
+  loadBbsReply,
+  loadNoticeReply,
   user,
 }) => {
   const { where, id } = useParams();
@@ -53,6 +55,7 @@ const ArticleView = ({
       for (i = 0; i < noticeReplies.length; i++) {
         if (noticeReplies[i].id === article.id) {
           setReplyList(noticeReplies[i].replyList);
+          break;
         }
       }
     }
@@ -65,7 +68,7 @@ const ArticleView = ({
   useEffect(() => {
     article && replySetting();
     article && setRecommandCount(article.recommand);
-  }, [article]);
+  }, [article, replies, noticeReplies]);
 
   useEffect(() => {
     replyList && setReplyKeyList(Object.keys(replyList));
@@ -75,7 +78,7 @@ const ArticleView = ({
     if (user && article && article.writerId === user.userId) {
       setIsWriter(true);
     }
-  }, []);
+  }, [user, article]);
 
   const makeDate = () => {
     let date = new Date();
@@ -133,25 +136,17 @@ const ArticleView = ({
     history.push(`/${where}/edit/${article.id}`);
   };
 
-  const loadReply = () => {
-    axios //
-      .get(`/api/${where}/reply`)
-      .then((res) => {
-        const replies = res.data;
-        for (i = 0; i < replies.length; i++) {
-          if (replies[i].id === article.id) {
-            setReplyList(replies[i].replyList);
-            break;
-          }
-        }
-      });
-  };
-
   const onReplySubmitHandler = (e) => {
     e.preventDefault();
 
+    const nowContent = replyRef.current.value;
+
     if (!user) {
       window.alert("로그인 후에 댓글 작성이 가능합니다.");
+      return;
+    }
+    if (nowContent === "") {
+      window.alert("내용이 없는 댓글은 작성할 수 없습니다.");
       return;
     }
 
@@ -160,7 +155,7 @@ const ArticleView = ({
     const newReply = {
       id: id,
       timeId: timeId,
-      content: replyRef.current.value,
+      content: nowContent,
       date: `${month}/${day} ${hour}:${minute}`,
       writer: user.nickname,
       writerId: user.userId,
@@ -169,13 +164,18 @@ const ArticleView = ({
     axios
       .post(`/api/${where}/writeReply`, newReply)
       .then(() => {
-        loadReply();
+        if (where === "bbs") {
+          loadBbsReply();
+        } else if (where === "notice") {
+          loadNoticeReply();
+        }
+
         replyRef.current.value = "";
       })
       .catch((err) => console.error("error: ", err.response));
   };
 
-  if (article && replyList && replyKeyList) {
+  if (article && replyKeyList) {
     return (
       <section className={styles.article_view}>
         <article className={styles.article}>
@@ -232,7 +232,11 @@ const ArticleView = ({
           <div className={styles.reply_container}>
             {replyKeyList &&
               replyKeyList.map((key) => (
-                <Reply key={key} reply={replyList[key]} user={user} />
+                <Reply
+                  key={replyList[key].timeId}
+                  reply={replyList[key]}
+                  user={user}
+                />
               ))}
           </div>
         </article>

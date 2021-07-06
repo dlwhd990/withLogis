@@ -69,10 +69,24 @@ const App = (props) => {
       .catch((err) => console.error(err));
   }, []);
 
-  useEffect(() => {
+  const loadBbsReply = () => {
     callAPI("/api/bbs/reply") //
       .then((res) => setBbsReplies(res))
       .catch((err) => console.error(err));
+  };
+
+  const loadNoticeReply = () => {
+    callAPI("/api/notice/reply") //
+      .then((res) => setNoticeReplies(res))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    loadBbsReply();
+  }, []);
+
+  useEffect(() => {
+    loadNoticeReply();
   }, []);
 
   useEffect(() => {
@@ -138,6 +152,8 @@ const App = (props) => {
               noticeArticles={noticeArticles}
               replies={bbsReplies}
               noticeReplies={noticeReplies}
+              loadBbsReply={loadBbsReply}
+              loadNoticeReply={loadNoticeReply}
               user={sessionUser}
             />
           )}

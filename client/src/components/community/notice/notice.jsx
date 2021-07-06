@@ -88,7 +88,11 @@ const Notice = ({ articles, user }) => {
       </section>
       <section className={styles.body}>
         {pages[numbering].map((key) => (
-          <ArticlePreview key={key} article={articles[key]} where="notice" />
+          <ArticlePreview
+            key={articles[key].id}
+            article={articles[key]}
+            where="notice"
+          />
         ))}
       </section>
       <section className={styles.bottom}>
