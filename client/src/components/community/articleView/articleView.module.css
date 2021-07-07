@@ -1,23 +1,38 @@
 @import "/src/constant.css";
 
 .article_view {
+  padding: 190px 0;
   min-height: calc(100vh - 246px);
+  background-color: var(--color-smoke-white);
+}
+
+.article_container {
   width: 800px;
   margin: auto;
-  margin-top: 200px;
+  padding: 50px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 1px 1px 3px 1px lightgray;
 }
 
 .article {
-  padding: 40px 50px;
+  padding-bottom: 200px;
 }
 
 .title_container {
   width: 450px;
 }
 
+.where {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-theme);
+}
+
 .title {
   overflow-wrap: break-word;
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 500;
 }
 
@@ -27,6 +42,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid lightgray;
+  padding: 40px 0 30px 0;
 }
 
 .button_container {
@@ -35,39 +51,46 @@
   align-content: center;
 }
 
-.button_container > button {
+.edit,
+.delete {
   border: none;
   background-color: transparent;
   font-size: 15px;
   font-weight: 300;
   cursor: pointer;
+  outline: none;
 }
 
 .edit {
   color: var(--color-dark-theme);
-  outline: none;
 }
 
 .delete {
   color: red;
-  outline: none;
 }
 
-.recommand {
-  padding-right: 8px;
-  outline: none;
-}
-
-.recommand_count {
+.recommand_button {
+  width: 80px;
+  height: 30px;
+  margin-left: 16px;
   font-size: 15px;
-  font-weight: 300;
-  padding-left: 8px;
-  border-left: 1.8px solid lightgray;
-  cursor: default;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color: var(--color-theme);
+  cursor: pointer;
+  transition: 200ms all ease-in;
+}
+
+.recommand_button:hover {
+  background-color: var(--color-theme-hover);
+  transform: scale(1.05);
 }
 
 .user_data_container {
-  padding: 20px 0 30px 0;
+  height: 40px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -76,26 +99,33 @@
 .writer {
   padding-right: 10px;
   border-right: 2px solid lightgray;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 300;
+  color: var(--color-desc);
 }
 
 .date {
   padding-left: 10px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 300;
+  color: var(--color-desc);
 }
 
 .content_container {
-  margin-top: 35px;
-  padding-bottom: 200px;
+  margin-top: 50px;
+  padding-bottom: 100px;
 }
 
 .content {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 300;
   white-space: pre-line;
   overflow-wrap: break-word;
+  color: var(--color-article);
+}
+
+.reply_input_form:focus-within {
+  border: 1px solid var(--color-theme);
 }
 
 .reply_input_title {
@@ -119,7 +149,8 @@
   outline: none;
   border: none;
   padding: 5px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 300;
 }
 
 .reply_submit_button {
@@ -127,11 +158,26 @@
   outline: none;
   border: none;
   border-left: 1px solid lightgray;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: var(--color-theme);
+  color: white;
   cursor: pointer;
+  transition: all 200ms ease-in;
+}
+
+.reply_submit_button:hover {
+  background-color: var(--color-theme-hover);
 }
 
 .reply_container {
   margin-top: 50px;
+  margin-bottom: 200px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  box-shadow: 1px 3px 3px 1px var(--color-box-shadow-light);
+}
+
+.reply_container_none {
   margin-bottom: 200px;
 }

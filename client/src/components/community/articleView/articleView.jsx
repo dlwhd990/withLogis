@@ -22,6 +22,13 @@ const ArticleView = ({
   const [replyList, setReplyList] = useState(null);
   let timeId, month, day, hour, minute;
   let i;
+  let boardName;
+
+  if (where === "bbs") {
+    boardName = "자유게시판";
+  } else if (where === "notice") {
+    boardName = "공지사항";
+  }
 
   // 더 나은 방법이 있을 지 생각해보기 (그냥 id와 인덱스를 매치하면 삭제 때문에 불가능함)
   // 글마다 오브젝트명을 id값으로 하면 되는데 mongodb에서 이를 어떻게 하는지 모름
@@ -167,37 +174,40 @@ const ArticleView = ({
   if (article && replyList) {
     return (
       <section className={styles.article_view}>
-        <article className={styles.article}>
-          <div className={styles.title_container}>
-            <p className={styles.title}>{article.title}</p>
-          </div>
-          <div className={styles.user_data_and_button_container}>
-            <div className={styles.user_data_container}>
-              <p className={styles.writer}>{article.writer}</p>
-              <p className={styles.date}>{article.date}</p>
+        <section className={styles.article_container}>
+          <article className={styles.article}>
+            <div className={styles.title_container}>
+              <p className={styles.where}>{boardName}</p>
+              <p className={styles.title}>{article.title}</p>
             </div>
-            <div className={styles.button_container}>
-              {isWriter && (
-                <button className={styles.edit} onClick={onEditHandler}>
-                  수정
+            <div className={styles.user_data_and_button_container}>
+              <div className={styles.user_data_container}>
+                <p className={styles.writer}>{article.writer}</p>
+                <p className={styles.date}>{article.date}</p>
+              </div>
+              <div className={styles.button_container}>
+                {isWriter && (
+                  <button className={styles.edit} onClick={onEditHandler}>
+                    수정
+                  </button>
+                )}
+                {isWriter && (
+                  <button className={styles.delete} onClick={onDeleteHandler}>
+                    삭제
+                  </button>
+                )}
+                <button
+                  className={styles.recommand_button}
+                  onClick={onRecommandHandler}
+                >
+                  {`추천 ${recommandCount}`}
                 </button>
-              )}
-              {isWriter && (
-                <button className={styles.delete} onClick={onDeleteHandler}>
-                  삭제
-                </button>
-              )}
-              <button className={styles.recommand} onClick={onRecommandHandler}>
-                추천하기
-              </button>
-              <p
-                className={styles.recommand_count}
-              >{`추천 ${recommandCount}`}</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.content_container}>
-            <p className={styles.content}>{article.content}</p>
-          </div>
+            <div className={styles.content_container}>
+              <p className={styles.content}>{article.content}</p>
+            </div>
+          </article>
           <div className={styles.reply_input_container}>
             <p
               className={styles.reply_input_title}
@@ -218,7 +228,13 @@ const ArticleView = ({
               </button>
             </form>
           </div>
-          <div className={styles.reply_container}>
+          <div
+            className={
+              replyList.length === 0
+                ? `${styles.reply_container_none}`
+                : `${styles.reply_container}`
+            }
+          >
             {replyList &&
               replyList.map((reply, index) => (
                 <Reply
@@ -232,7 +248,7 @@ const ArticleView = ({
                 />
               ))}
           </div>
-        </article>
+        </section>
       </section>
     );
   } else {

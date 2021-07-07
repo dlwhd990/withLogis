@@ -1,6 +1,6 @@
 .reply {
   border-bottom: 1px solid lightgray;
-  padding: 20px 30px;
+  padding: 20px;
 }
 
 .user_data_and_button {
@@ -40,4 +40,5 @@
 .content {
   margin-top: 10px;
   font-size: 18px;
+  font-weight: 300;
 }
