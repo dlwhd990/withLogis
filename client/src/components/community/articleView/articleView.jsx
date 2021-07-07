@@ -10,8 +10,7 @@ const ArticleView = ({
   noticeArticles,
   replies,
   noticeReplies,
-  loadBbsReply,
-  loadNoticeReply,
+  loadArticlesAndReplies,
   user,
 }) => {
   const { where, id } = useParams();
@@ -63,7 +62,7 @@ const ArticleView = ({
 
   useEffect(() => {
     articleSetting();
-  }, []);
+  }, [articles, noticeArticles]);
 
   useEffect(() => {
     article && replySetting();
@@ -90,7 +89,6 @@ const ArticleView = ({
       window.alert(" 로그인 후에 추천이 가능합니다.");
       return;
     }
-    console.log(user.userId, article.recommandList);
     if (article.recommandList.includes(user.userId)) {
       window.alert("이미 추천하셨습니다.");
     } else {
@@ -102,9 +100,8 @@ const ArticleView = ({
           recommand_list: article.recommandList,
         })
         .then((res) => {
+          loadArticlesAndReplies();
           window.alert(res.data.message);
-          setRecommandCount(recommandCount + 1);
-          window.location.reload(); // 새로고침 없이 하려면 댓글처럼 따로 컬렉션을 두어야할지
         })
         .catch((err) => console.error("error: ", err.response));
     }
@@ -122,7 +119,8 @@ const ArticleView = ({
           id: article.id,
         })
         .then((res) => window.alert(res.data.message))
-        .then(afterDelete)
+        .then(() => loadArticlesAndReplies())
+        .then(() => afterDelete())
         .catch((err) => console.error("error: ", err.response));
     }
   };
@@ -160,12 +158,7 @@ const ArticleView = ({
     axios
       .post(`/api/${where}/writeReply`, newReply)
       .then(() => {
-        if (where === "bbs") {
-          loadBbsReply();
-        } else if (where === "notice") {
-          loadNoticeReply();
-        }
-
+        loadArticlesAndReplies();
         replyRef.current.value = "";
       })
       .catch((err) => console.error("error: ", err.response));
@@ -234,8 +227,7 @@ const ArticleView = ({
                   timeId={replyList[index].timeId}
                   where={where}
                   reply={reply}
-                  loadBbsReply={loadBbsReply}
-                  loadNoticeReply={loadNoticeReply}
+                  loadArticlesAndReplies={loadArticlesAndReplies}
                   user={user}
                 />
               ))}

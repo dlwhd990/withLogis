@@ -12,12 +12,12 @@
   border: 1px solid lightgray;
   border-radius: 16px;
   margin: auto;
-  margin-top: 165px;
+  margin-top: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem;
-  box-shadow: 1px 1px 3px 1px lightgray;
+  box-shadow: 1px 3px 3px 1px var(--color-box-shadow-light);
 }
 
 .fare_expect_container_title {

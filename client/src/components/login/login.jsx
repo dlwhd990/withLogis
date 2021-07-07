@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
 import styles from "./login.module.css";
+import { useHistory } from "react-router";
 import axios from "axios";
 
 const Login = (props) => {
+  const history = useHistory();
   const userIdRef = useRef();
   const passwordRef = useRef();
 
@@ -59,7 +61,12 @@ const Login = (props) => {
       <div className={styles.bottom}>
         <span className={styles.find_id}>아이디 찾기</span>
         <span className={styles.find_pw}>비밀번호 찾기</span>
-        <span className={styles.signup}>회원가입</span>
+        <span
+          className={styles.signup}
+          onClick={() => history.push("/auth/signup")}
+        >
+          회원가입
+        </span>
       </div>
     </section>
   );

@@ -1,16 +1,18 @@
 import React, { useRef } from "react";
 import styles from "./writeArticle.module.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-const WriteArticle = ({ user }) => {
+const WriteArticle = ({ user, loadArticlesAndReplies }) => {
   let timeId, month, day, hour, minute;
+  const history = useHistory();
   const { where } = useParams();
   const titleRef = useRef();
   const contentRef = useRef();
 
   const afterSubmit = () => {
-    window.location.href = `/${where}`;
+    loadArticlesAndReplies();
+    history.push(`/${where}`);
   };
 
   const makeDate = () => {

@@ -1,6 +1,7 @@
 const express = require("express");
 const Article = require("../models/Article");
 const ArticleNumberCounter = require("../models/ArticleNumberCounter");
+const Consulting = require("../models/Consulting");
 const ExportProcess = require("../models/ExportProcess");
 const Notice = require("../models/Notice");
 const NoticeReply = require("../models/NoticeReply");
@@ -49,17 +50,18 @@ router.post("/bbs/reply/delete", async (req, res) => {
     const articleReplies = await Reply.findOne({
       id: articleId,
     });
+    console.log(articleReplies._id, "DD");
     const replyList = articleReplies.replyList;
 
     for (let i = 0; i < replyList.length; i++) {
       if (replyList[i].timeId === replyId) {
         replyList.splice(i, 1);
-        console.log(replyList);
         break;
       }
     }
 
     await Reply.updateOne({ id: articleId }, { replyList });
+    await Article.updateOne({ id: articleId }, { reply: replyList.length });
     res.json({
       success: true,
       message: "댓글이 삭제되었습니다.",
@@ -145,17 +147,18 @@ router.post("/notice/reply/delete", async (req, res) => {
     const articleReplies = await NoticeReply.findOne({
       id: articleId,
     });
+    console.log(articleReplies._id, "DDD");
     const replyList = articleReplies.replyList;
 
     for (let i = 0; i < replyList.length; i++) {
       if (replyList[i].timeId === replyId) {
         replyList.splice(i, 1);
-        console.log(replyList);
         break;
       }
     }
 
     await NoticeReply.updateOne({ id: articleId }, { replyList });
+    await Notice.updateOne({ id: articleId }, { reply: replyList.length });
     res.json({
       success: true,
       message: "댓글이 삭제되었습니다.",
@@ -327,6 +330,12 @@ router.get("/organization", (req, res) => {
 
 router.get("/policy", (req, res) => {
   Policy.find({}, (err, data) => {
+    res.send(data);
+  });
+});
+
+router.get("/consulting", (req, res) => {
+  Consulting.find({}, (err, data) => {
     res.send(data);
   });
 });

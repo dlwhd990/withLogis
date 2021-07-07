@@ -27,6 +27,7 @@ const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
   const [organizationData, setOrganizationData] = useState(null);
   const [policyData, setPolicyData] = useState(null);
+  const [consultingData, setConsultingData] = useState(null);
   const [sessionUser, setSessionUser] = useState(null);
   const [bbsArticles, setBbsArticles] = useState(null);
   const [noticeArticles, setNoticeArticles] = useState(null);
@@ -57,17 +58,17 @@ const App = (props) => {
       .catch((err) => console.error(err));
   }, []);
 
-  useEffect(() => {
+  const loadBbsArticle = () => {
     callAPI("/api/bbs") //
       .then((res) => setBbsArticles(res))
       .catch((err) => console.error(err));
-  }, []);
+  };
 
-  useEffect(() => {
+  const loadNoticeArticle = () => {
     callAPI("/api/notice") //
       .then((res) => setNoticeArticles(res))
       .catch((err) => console.error(err));
-  }, []);
+  };
 
   const loadBbsReply = () => {
     callAPI("/api/bbs/reply") //
@@ -81,12 +82,16 @@ const App = (props) => {
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
+  const loadArticlesAndReplies = () => {
+    console.log("DD");
+    loadBbsArticle();
+    loadNoticeArticle();
     loadBbsReply();
-  }, []);
+    loadNoticeReply();
+  };
 
   useEffect(() => {
-    loadNoticeReply();
+    loadArticlesAndReplies();
   }, []);
 
   useEffect(() => {
@@ -110,6 +115,12 @@ const App = (props) => {
   useEffect(() => {
     callAPI("/api/policy")
       .then((res) => setPolicyData(res))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    callAPI("/api/consulting")
+      .then((res) => setConsultingData(res))
       .catch((err) => console.error(err));
   }, []);
 
@@ -143,7 +154,10 @@ const App = (props) => {
           {bbsArticles && <Bbs articles={bbsArticles} user={sessionUser} />}
         </Route>
         <Route exact path="/:where/write">
-          <WriteArticle user={sessionUser} />
+          <WriteArticle
+            user={sessionUser}
+            loadArticlesAndReplies={loadArticlesAndReplies}
+          />
         </Route>
         <Route exact path="/:where/view/:id">
           {bbsArticles && noticeArticles && bbsReplies && noticeReplies && (
@@ -152,8 +166,7 @@ const App = (props) => {
               noticeArticles={noticeArticles}
               replies={bbsReplies}
               noticeReplies={noticeReplies}
-              loadBbsReply={loadBbsReply}
-              loadNoticeReply={loadNoticeReply}
+              loadArticlesAndReplies={loadArticlesAndReplies}
               user={sessionUser}
             />
           )}
@@ -168,7 +181,7 @@ const App = (props) => {
           {organizationData && <Organizations data={organizationData} />}
         </Route>
         <Route exact path="/consulting">
-          <Consulting />
+          {consultingData && <Consulting data={consultingData} />}
         </Route>
         <Route exact path="/mypage/myArticle">
           <MyArticleAndReply />

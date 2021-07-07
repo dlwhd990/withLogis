@@ -7,8 +7,7 @@ const Reply = ({
   articleId,
   timeId,
   where,
-  loadBbsReply,
-  loadNoticeReply,
+  loadArticlesAndReplies,
   user,
 }) => {
   const [isWriter, setIsWriter] = useState(false);
@@ -30,13 +29,7 @@ const Reply = ({
         replyId: timeId,
       })
       .then((res) => window.alert(res.data.message))
-      .then(() => {
-        if (where === "bbs") {
-          loadBbsReply();
-        } else if (where === "notice") {
-          loadNoticeReply();
-        }
-      })
+      .then(() => loadArticlesAndReplies())
       .catch((err) => console.error(err));
   };
 

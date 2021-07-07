@@ -1,0 +1,20 @@
+.consulting {
+  min-height: calc(100vh - 316px);
+  margin-top: 180px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+}
