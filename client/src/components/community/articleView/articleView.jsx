@@ -21,11 +21,11 @@ const ArticleView = ({
   const [recommandCount, setRecommandCount] = useState(null);
   const [article, setArticle] = useState(null);
   const [replyList, setReplyList] = useState(null);
-  const [replyKeyList, setReplyKeyList] = useState(null);
   let timeId, month, day, hour, minute;
   let i;
 
   // 더 나은 방법이 있을 지 생각해보기 (그냥 id와 인덱스를 매치하면 삭제 때문에 불가능함)
+  // 글마다 오브젝트명을 id값으로 하면 되는데 mongodb에서 이를 어떻게 하는지 모름
 
   const articleSetting = () => {
     if (where === "bbs") {
@@ -71,10 +71,6 @@ const ArticleView = ({
   }, [article, replies, noticeReplies]);
 
   useEffect(() => {
-    replyList && setReplyKeyList(Object.keys(replyList));
-  }, [replyList]);
-
-  useEffect(() => {
     if (user && article && article.writerId === user.userId) {
       setIsWriter(true);
     }
@@ -82,7 +78,7 @@ const ArticleView = ({
 
   const makeDate = () => {
     let date = new Date();
-    timeId = date.getTime();
+    timeId = date.getTime().toString();
     month = (date.getMonth() + 1).toString().padStart(2, "0");
     day = date.getDate().toString().padStart(2, "0");
     hour = date.getHours().toString().padStart(2, "0");
@@ -175,7 +171,7 @@ const ArticleView = ({
       .catch((err) => console.error("error: ", err.response));
   };
 
-  if (article && replyKeyList) {
+  if (article && replyList) {
     return (
       <section className={styles.article_view}>
         <article className={styles.article}>
@@ -230,11 +226,16 @@ const ArticleView = ({
             </form>
           </div>
           <div className={styles.reply_container}>
-            {replyKeyList &&
-              replyKeyList.map((key) => (
+            {replyList &&
+              replyList.map((reply, index) => (
                 <Reply
-                  key={replyList[key].timeId}
-                  reply={replyList[key]}
+                  key={replyList[index].timeId}
+                  articleId={id}
+                  timeId={replyList[index].timeId}
+                  where={where}
+                  reply={reply}
+                  loadBbsReply={loadBbsReply}
+                  loadNoticeReply={loadNoticeReply}
                   user={user}
                 />
               ))}

@@ -83,10 +83,10 @@ const Bbs = ({ articles, user }) => {
         <div className={styles.report}>신고</div>
       </section>
       <section className={styles.body}>
-        {pages[numbering].map((key) => (
+        {pages[numbering].map((index) => (
           <ArticlePreview
-            key={articles[key].id}
-            article={articles[key]}
+            key={articles[index].id}
+            article={articles[index]}
             where="bbs"
           />
         ))}

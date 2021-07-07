@@ -43,6 +43,32 @@ router.post("/bbs/writeReply", async (req, res) => {
   }
 });
 
+router.post("/bbs/reply/delete", async (req, res) => {
+  const { articleId, replyId } = req.body;
+  try {
+    const articleReplies = await Reply.findOne({
+      id: articleId,
+    });
+    const replyList = articleReplies.replyList;
+
+    for (let i = 0; i < replyList.length; i++) {
+      if (replyList[i].timeId === replyId) {
+        replyList.splice(i, 1);
+        console.log(replyList);
+        break;
+      }
+    }
+
+    await Reply.updateOne({ id: articleId }, { replyList });
+    res.json({
+      success: true,
+      message: "댓글이 삭제되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.post("/bbs/write", async (req, res) => {
   const counter = await ArticleNumberCounter.findOne({ name: "bbs" });
   const id = counter.count + 1;

@@ -1,7 +1,16 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./reply.module.css";
 
-const Reply = ({ reply, user }) => {
+const Reply = ({
+  reply,
+  articleId,
+  timeId,
+  where,
+  loadBbsReply,
+  loadNoticeReply,
+  user,
+}) => {
   const [isWriter, setIsWriter] = useState(false);
 
   useEffect(() => {
@@ -11,7 +20,24 @@ const Reply = ({ reply, user }) => {
   }, []);
 
   const onReplyDeleteHandler = () => {
-    console.log("DD");
+    const confirmPopup = window.confirm("정말로 댓글을 삭제하시겠습니까?");
+    if (!confirmPopup) {
+      return;
+    }
+    axios
+      .post(`/api/${where}/reply/delete`, {
+        articleId,
+        replyId: timeId,
+      })
+      .then((res) => window.alert(res.data.message))
+      .then(() => {
+        if (where === "bbs") {
+          loadBbsReply();
+        } else if (where === "notice") {
+          loadNoticeReply();
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
