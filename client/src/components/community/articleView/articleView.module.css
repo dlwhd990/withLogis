@@ -1,7 +1,7 @@
 .article_view {
   padding: 190px 0;
   min-height: calc(100vh - 246px);
-  background-color: var(--color-smoke-white);
+  background-color: var(--color-background-blue);
 }
 
 .article_container {

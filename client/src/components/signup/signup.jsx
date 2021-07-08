@@ -13,7 +13,6 @@ const Signup = (props) => {
   const [checkedNickname, setCheckedNickname] = useState(null);
   const [tempPhoneNum, setTempPhoneNum] = useState(null);
   const [checkedPhoneNum, setCheckedPhoneNum] = useState(null);
-  const [checkedAuthNum, setCheckedAuthNum] = useState(null);
 
   const idRef = useRef();
   const pwRef = useRef();

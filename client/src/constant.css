@@ -1,6 +1,7 @@
 :root {
   --color-theme: #6b9efd;
   --color-dark-theme: #377dff;
+  --color-light-theme: #8ed3f3;
   --color-theme-hover: #5d95fd;
   --color-desc: #6c757d;
   --color-smoke-white: #f8f9fa;
@@ -8,4 +9,6 @@
   --color-article: #4d4d4d;
   --color-placeholder: #b8b8b8;
   --color-box-shadow-light: rgb(241, 241, 241);
+  --color-background-blue: rgb(233, 239, 250);
+  --color-pastel-pink: rgb(255, 187, 187);
 }

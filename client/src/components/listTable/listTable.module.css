@@ -1,4 +1,18 @@
-.table_container {
+.header {
+  background-color: var(--color-light-theme);
+  border-radius: 8px 8px 0 0;
+}
+
+.title {
+  padding: 1.2rem 0;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+  cursor: default;
+}
+
+.list_table {
   border: 1px solid lightgray;
   width: 760px;
   margin: auto;

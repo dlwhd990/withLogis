@@ -24,6 +24,7 @@ import ArticleView from "./components/community/articleView/articleView";
 import EditArticle from "./components/community/editArticle/editArticle";
 import FindId from "./components/findId/findId";
 import FindPw from "./components/findPw/findPw";
+import ErrorPage from "./components/errorPage/errorPage";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -185,13 +186,13 @@ const App = (props) => {
           {consultingData && <Consulting data={consultingData} />}
         </Route>
         <Route exact path="/mypage/myArticle">
-          <MyArticleAndReply />
+          {sessionUser ? <MyArticleAndReply /> : <ErrorPage />}
         </Route>
         <Route exact path="/mypage/fareExpect">
-          <FareExpectList />
+          {sessionUser ? <FareExpectList /> : <ErrorPage />}
         </Route>
         <Route exact path="/mypage/edit">
-          <MyPageEdit />
+          {sessionUser ? <MyPageEdit /> : <ErrorPage />}
         </Route>
         <Route exact path="/auth/login">
           <Login />

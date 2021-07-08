@@ -218,6 +218,10 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    if (!user) {
+                      window.alert("로그인 후에 사용가능합니다.");
+                      return;
+                    }
                     setViewDropDown(false);
                     history.push("/mypage/myArticle");
                     window.scrollTo({ top: 0 });
@@ -228,6 +232,10 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    if (!user) {
+                      window.alert("로그인 후에 사용가능합니다.");
+                      return;
+                    }
                     setViewDropDown(false);
                     history.push("/mypage/fareExpect");
                     window.scrollTo({ top: 0 });
@@ -238,6 +246,10 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    if (!user) {
+                      window.alert("로그인 후에 사용가능합니다.");
+                      return;
+                    }
                     setViewDropDown(false);
                     history.push("/mypage/edit");
                     window.scrollTo({ top: 0 });

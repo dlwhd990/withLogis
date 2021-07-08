@@ -166,8 +166,8 @@ const ArticleView = ({
       .post(`/api/${where}/writeReply`, newReply)
       .then((res) => {
         if (res.data.success) {
-          loadArticlesAndReplies();
           replyRef.current.value = "";
+          loadArticlesAndReplies();
         }
       })
       .catch((err) => console.error("error: ", err.response));

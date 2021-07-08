@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./listItem.module.css";
 
-const ListItem = ({ item, id }) => {
+const ListItem = ({ item, id, length }) => {
   const [viewContent, setViewContent] = useState(false);
   const [isFirst, setIsFirst] = useState(false);
   const [isLast, setIsLast] = useState(false);
@@ -12,7 +12,7 @@ const ListItem = ({ item, id }) => {
   useEffect(() => {
     if (id === "0") {
       setIsFirst(true);
-    } else if (id === "7") {
+    } else if (id === (length - 1).toString()) {
       setIsLast(true);
     }
   }, []);

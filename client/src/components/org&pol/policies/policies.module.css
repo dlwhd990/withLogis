@@ -2,10 +2,3 @@
   padding: 12rem 0;
   background-color: var(--color-smoke-white);
 }
-.title {
-  margin-bottom: 2rem;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 500;
-  cursor: default;
-}

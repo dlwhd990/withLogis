@@ -5,8 +5,7 @@ import styles from "./exportProcess.module.css";
 const ExportProcess = ({ data }) => {
   return (
     <section className={styles.exportProcess}>
-      <h1 className={styles.title}>수출 한눈에 보기</h1>
-      <ListTable items={data} />
+      <ListTable items={data} title="수출 한눈에 보기" />
     </section>
   );
 };

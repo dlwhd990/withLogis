@@ -113,7 +113,7 @@
   margin-left: 0.3rem;
   outline: none;
   border: none;
-  background-color: var(--color-dark-theme);
+  background-color: var(--color-light-theme);
   box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
   width: 100px;
@@ -157,10 +157,11 @@
   height: 60px;
   outline: none;
   border: none;
-  background-color: var(--color-dark-theme);
+  background-color: var(--color-light-theme);
   box-shadow: 1px 1px 3px 1px lightgray;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  font-weight: 500;
   border-radius: 8px;
   cursor: pointer;
   transition: 150ms all ease-in;
