@@ -53,6 +53,9 @@ module.exports.signup_post = async (req, res) => {
       user,
     });
   } catch (err) {
+    res.json({
+      success: false,
+    });
     console.log(err);
   }
 };

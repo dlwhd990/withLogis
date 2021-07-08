@@ -114,10 +114,6 @@ const ArticleView = ({
     }
   };
 
-  const afterDelete = () => {
-    window.location.href = `/${where}`;
-  };
-
   const onDeleteHandler = () => {
     const confirmPopup = window.confirm("정말로 글을 삭제하시겠습니까?");
     if (confirmPopup) {
@@ -125,9 +121,13 @@ const ArticleView = ({
         .post(`/api/${where}/delete`, {
           id: article.id,
         })
-        .then((res) => window.alert(res.data.message))
-        .then(() => loadArticlesAndReplies())
-        .then(() => afterDelete())
+        .then((res) => {
+          if (res.data.success) {
+            window.alert(res.data.message);
+            loadArticlesAndReplies();
+            history.push(`/${where}`);
+          }
+        })
         .catch((err) => console.error("error: ", err.response));
     }
   };
@@ -164,9 +164,11 @@ const ArticleView = ({
 
     axios
       .post(`/api/${where}/writeReply`, newReply)
-      .then(() => {
-        loadArticlesAndReplies();
-        replyRef.current.value = "";
+      .then((res) => {
+        if (res.data.success) {
+          loadArticlesAndReplies();
+          replyRef.current.value = "";
+        }
       })
       .catch((err) => console.error("error: ", err.response));
   };

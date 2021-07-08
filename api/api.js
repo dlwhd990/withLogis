@@ -40,6 +40,7 @@ router.post("/bbs/writeReply", async (req, res) => {
     await Article.updateOne({ id: id }, { reply: list.length });
     res.json({ success: true });
   } catch (err) {
+    res.json({ success: false });
     console.log(err);
   }
 });
@@ -50,7 +51,6 @@ router.post("/bbs/reply/delete", async (req, res) => {
     const articleReplies = await Reply.findOne({
       id: articleId,
     });
-    console.log(articleReplies._id, "DD");
     const replyList = articleReplies.replyList;
 
     for (let i = 0; i < replyList.length; i++) {
@@ -67,6 +67,9 @@ router.post("/bbs/reply/delete", async (req, res) => {
       message: "댓글이 삭제되었습니다.",
     });
   } catch (err) {
+    res.json({
+      success: false,
+    });
     console.log(err);
   }
 });
@@ -147,7 +150,6 @@ router.post("/notice/reply/delete", async (req, res) => {
     const articleReplies = await NoticeReply.findOne({
       id: articleId,
     });
-    console.log(articleReplies._id, "DDD");
     const replyList = articleReplies.replyList;
 
     for (let i = 0; i < replyList.length; i++) {
@@ -164,6 +166,9 @@ router.post("/notice/reply/delete", async (req, res) => {
       message: "댓글이 삭제되었습니다.",
     });
   } catch (err) {
+    res.json({
+      success: false,
+    });
     console.log(err);
   }
 });
@@ -285,6 +290,9 @@ router.post("/bbs/edit/submit", async (req, res) => {
       success: true,
     });
   } catch (err) {
+    res.json({
+      success: false,
+    });
     console.log(err);
   }
 });

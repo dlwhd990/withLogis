@@ -33,8 +33,12 @@ const Reply = ({
         articleId,
         replyId: timeId,
       })
-      .then((res) => window.alert(res.data.message))
-      .then(() => loadArticlesAndReplies())
+      .then((res) => {
+        if (res.data.success) {
+          window.alert(res.data.message);
+          loadArticlesAndReplies();
+        }
+      })
       .catch((err) => console.error(err));
   };
 

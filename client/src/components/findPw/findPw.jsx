@@ -35,7 +35,7 @@ const FindPw = (props) => {
     axios
       .post("/auth/find-pw", { userId: checkedId, resetPassword: newPw })
       .then((res) => {
-        if (res.data.success === true) {
+        if (res.data.success) {
           window.alert(res.data.message);
           setCheckedId(null);
           setCheckedPhoneNum(null);
@@ -78,8 +78,7 @@ const FindPw = (props) => {
     axios
       .post("/auth/find-pw/id-phoneNum-check", { userId: id, phoneNum })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.success === true) {
+        if (res.data.success) {
           setCheckedId(id);
           setCheckedPhoneNum(phoneNum);
           sendSMS(phoneNum);
@@ -95,7 +94,7 @@ const FindPw = (props) => {
       .post("/auth/sms-auth-check", { authNum: authNumRef.current.value })
       .then((res) => {
         window.alert(res.data.message);
-        if (res.data.success === true) {
+        if (res.data.success) {
           setCheckedAuthNum(true);
         }
       })

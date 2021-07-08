@@ -13,6 +13,7 @@ const Signup = (props) => {
   const [checkedNickname, setCheckedNickname] = useState(null);
   const [tempPhoneNum, setTempPhoneNum] = useState(null);
   const [checkedPhoneNum, setCheckedPhoneNum] = useState(null);
+  const [checkedAuthNum, setCheckedAuthNum] = useState(null);
 
   const idRef = useRef();
   const pwRef = useRef();
@@ -20,11 +21,6 @@ const Signup = (props) => {
   const nicknameRef = useRef();
   const phoneNumRef = useRef();
   const authNumRef = useRef();
-
-  const afterSignup = () => {
-    window.location.href = "/";
-    return;
-  };
 
   const idCheckHandler = () => {
     if (idRef.current.value.length < 6 || idRef.current.value.length > 15) {
@@ -75,16 +71,20 @@ const Signup = (props) => {
       .post("/auth/sms-auth", { phoneNum })
       .then((response) => {
         window.alert(response.data.message);
+        setTempPhoneNum(phoneNum);
       })
-      .then(setTempPhoneNum(phoneNum))
       .catch((err) => console.error("error: ", err.response));
   };
 
   const checkAuthNumHandler = () => {
     axios
       .post("/auth/sms-auth-check", { authNum: authNumRef.current.value })
-      .then((response) => window.alert(response.data.message))
-      .then(setCheckedPhoneNum(tempPhoneNum))
+      .then((res) => {
+        window.alert(res.data.message);
+        if (res.data.success) {
+          setCheckedPhoneNum(tempPhoneNum);
+        }
+      })
       .catch((err) => console.error("error: ", err.response));
   };
 
@@ -122,9 +122,12 @@ const Signup = (props) => {
 
     axios
       .post("/auth/signup", newUser)
-      .then((response) => console.log(response))
-      .then(window.alert("회원가입 성공"))
-      .then(afterSignup)
+      .then((res) => {
+        if (res.data.success) {
+          window.alert("회원가입 성공");
+          window.location.href = "/";
+        }
+      })
       .catch((err) => console.error("error: ", err.response));
   };
 

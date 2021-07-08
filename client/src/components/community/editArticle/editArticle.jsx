@@ -37,8 +37,10 @@ const EditArticle = ({ user }) => {
           content: nowContent,
         })
         .then((res) => {
-          window.alert(res.data.message);
-          window.location.href = `/bbs/view/${id}`;
+          if (res.data.success) {
+            window.alert(res.data.message);
+            window.location.href = `/bbs/view/${id}`;
+          }
         })
         .catch((err) => console.error(err));
     } else if (where === "notice") {
@@ -49,8 +51,10 @@ const EditArticle = ({ user }) => {
           content: nowContent,
         })
         .then((res) => {
-          window.alert(res.data.message);
-          window.location.href = `/notice/view/${id}`;
+          if (res.data.success) {
+            window.alert(res.data.message);
+            window.location.href = `/bbs/view/${id}`;
+          }
         })
         .catch((err) => console.error(err));
     }
