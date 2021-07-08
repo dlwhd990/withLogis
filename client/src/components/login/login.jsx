@@ -59,8 +59,18 @@ const Login = (props) => {
         </form>
       </div>
       <div className={styles.bottom}>
-        <span className={styles.find_id}>아이디 찾기</span>
-        <span className={styles.find_pw}>비밀번호 찾기</span>
+        <span
+          className={styles.find_id}
+          onClick={() => history.push("/auth/findID")}
+        >
+          아이디 찾기
+        </span>
+        <span
+          className={styles.find_pw}
+          onClick={() => history.push("/auth/findPW")}
+        >
+          비밀번호 찾기
+        </span>
         <span
           className={styles.signup}
           onClick={() => history.push("/auth/signup")}

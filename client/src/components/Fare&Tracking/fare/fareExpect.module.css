@@ -1,5 +1,3 @@
-@import "/src/constant.css";
-
 .fare_expect {
   height: calc(140vh - 246px);
   display: flex;

@@ -8,7 +8,7 @@ const Consulting = ({ data }) => {
       <p className={styles.title}>컨설팅 가능 기관</p>
       <section className={styles.container}>
         {data.map((item) => (
-          <ConsultingItem item={item} />
+          <ConsultingItem key={item.id} item={item} />
         ))}
       </section>
     </section>

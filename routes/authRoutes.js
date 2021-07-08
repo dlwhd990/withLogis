@@ -34,6 +34,10 @@ router.post("/find-id", authController.findID_post);
 // PW 찾기 (필수 파라미터: userId, phoneNum, authNum, password)
 // 요청 url 예시 http://localhost:3333/auth/find-pw
 //router.get("/find-pw", authController.findPW_get);
+router.post(
+  "/find-pw/id-phoneNum-check",
+  authController.findPW_id_phoneNum_check
+);
 router.post("/find-pw", authController.findPW_post);
 
 // SMS로 인증 번호를 전송하는 부분을 여기에 따로 작성하였습니다.

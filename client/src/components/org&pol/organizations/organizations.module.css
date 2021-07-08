@@ -1,5 +1,6 @@
 .organizations {
-  margin: 10rem 0;
+  padding: 12rem 0;
+  background-color: var(--color-smoke-white);
 }
 .title {
   margin-bottom: 2rem;

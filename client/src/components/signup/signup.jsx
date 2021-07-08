@@ -61,23 +61,22 @@ const Signup = (props) => {
       .catch((err) => console.error("error: ", err.response));
   };
 
-  const signupFailed = (message, e) => {
-    window.alert(message);
-    e.preventDefault();
-  };
-
   const sendSMSHandler = (e) => {
-    if (
-      phoneNumRef.current.value.length !== 10 &&
-      phoneNumRef.current.value.length !== 11
-    ) {
-      signupFailed("핸드폰 번호를 다시 확인해주세요.", e);
+    const phoneNum = phoneNumRef.current.value;
+    if (phoneNum.length !== 10 && phoneNum.length !== 11) {
+      window.alert("핸드폰 번호를 다시 확인해주세요.");
+      return;
+    }
+    if (!(phoneNum[0] === "0" && phoneNum[1] === "1")) {
+      window.alert("핸드폰 번호를 다시 확인해주세요. ");
       return;
     }
     axios
-      .post("/auth/sms-auth", { phoneNum: phoneNumRef.current.value })
-      .then((response) => window.alert(response.data))
-      .then(setTempPhoneNum(phoneNumRef.current.value))
+      .post("/auth/sms-auth", { phoneNum })
+      .then((response) => {
+        window.alert(response.data.message);
+      })
+      .then(setTempPhoneNum(phoneNum))
       .catch((err) => console.error("error: ", err.response));
   };
 
@@ -98,19 +97,19 @@ const Signup = (props) => {
     const phoneNum = checkedPhoneNum;
 
     if (!id) {
-      signupFailed("아이디 중복을 확인해주세요.", e);
+      window.alert("아이디 중복을 확인해주세요.");
       return;
     } else if (pw.length < 6 || pw.length > 15) {
-      signupFailed("비밀번호 길이가 올바르지 않습니다. (6자 ~ 15자)", e);
+      window.alert("비밀번호 길이가 올바르지 않습니다. (6자 ~ 15자)");
       return;
     } else if (pw !== pwConfirm) {
-      signupFailed("비밀번호가 확인과 다릅니다.", e);
+      window.alert("비밀번호가 확인과 다릅니다.");
       return;
     } else if (!nickname) {
-      signupFailed("닉네임 중복을 확인해주세요", e);
+      window.alert("닉네임 중복을 확인해주세요");
       return;
     } else if (!phoneNum) {
-      signupFailed("휴대폰 인증을 완료하셔야 합니다.", e);
+      window.alert("휴대폰 인증을 완료하셔야 합니다.");
       return;
     }
 

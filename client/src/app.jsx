@@ -22,6 +22,8 @@ import axios from "axios";
 import WriteArticle from "./components/community/writeArticle/writeArticle";
 import ArticleView from "./components/community/articleView/articleView";
 import EditArticle from "./components/community/editArticle/editArticle";
+import FindId from "./components/findId/findId";
+import FindPw from "./components/findPw/findPw";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -83,7 +85,6 @@ const App = (props) => {
   };
 
   const loadArticlesAndReplies = () => {
-    console.log("DD");
     loadBbsArticle();
     loadNoticeArticle();
     loadBbsReply();
@@ -197,6 +198,12 @@ const App = (props) => {
         </Route>
         <Route exact path="/auth/signup">
           <Signup />
+        </Route>
+        <Route exact path="/auth/findID">
+          <FindId />
+        </Route>
+        <Route exact path="/auth/findPW">
+          <FindPw />
         </Route>
         <Footer />
       </BrowserRouter>

@@ -1,0 +1,98 @@
+.find_pw {
+  height: calc(100vh - 246px);
+  margin-top: 110px;
+}
+
+.main {
+  padding-top: 150px;
+  width: 420px;
+  margin: auto;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.id_input,
+.reset_pw_input {
+  margin: 10px 0;
+  height: 45px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 1px 1px 3px 1px lightgray;
+}
+
+.phone_input_container,
+.auth_num_input_container {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 45px;
+  padding: 8px;
+  padding-right: 0;
+  box-shadow: 1px 1px 3px 1px lightgray;
+  margin: 10px 0;
+}
+
+.auth_num_input {
+  flex-basis: 80%;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+.phone_input {
+  flex-basis: 75%;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+.phone_check_button {
+  flex-basis: 28%;
+  height: 30px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  margin: 5px;
+  font-size: 90%;
+}
+
+.auth_num_check_button {
+  flex-basis: 20%;
+  height: 30px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  margin: 5px;
+  font-size: 90%;
+}
+
+.submit_button {
+  margin-top: 15px;
+  height: 45px;
+  outline: none;
+  border: none;
+  background-color: var(--color-dark-theme);
+  color: white;
+  font-size: 23px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 3px 1px var(--color-dark-theme);
+  cursor: pointer;
+}

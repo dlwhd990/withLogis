@@ -245,6 +245,7 @@ const ArticleView = ({
                   reply={reply}
                   loadArticlesAndReplies={loadArticlesAndReplies}
                   user={user}
+                  index={index}
                 />
               ))}
           </div>

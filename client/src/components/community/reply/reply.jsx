@@ -9,12 +9,17 @@ const Reply = ({
   where,
   loadArticlesAndReplies,
   user,
+  index,
 }) => {
   const [isWriter, setIsWriter] = useState(false);
+  const [isFirst, setIsFirst] = useState(false);
 
   useEffect(() => {
     if (user && user.userId === reply.writerId) {
       setIsWriter(true);
+    }
+    if (index === 0) {
+      setIsFirst(true);
     }
   }, []);
 
@@ -34,7 +39,7 @@ const Reply = ({
   };
 
   return (
-    <section className={styles.reply}>
+    <section className={isFirst ? `${styles.reply_first}` : `${styles.reply}`}>
       <div className={styles.user_data_and_button}>
         <div className={styles.user_data_container}>
           <p className={styles.name}>{reply.writer}</p>

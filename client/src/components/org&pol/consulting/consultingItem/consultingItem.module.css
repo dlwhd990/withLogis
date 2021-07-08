@@ -1,5 +1,3 @@
-@import "/src/constant.css";
-
 .item {
   width: 220px;
   height: 450px;
@@ -26,7 +24,7 @@
 
 .item_body {
   width: 220px;
-  height: 230px;
+  height: 240px;
   border: 1px solid lightgray;
   border-top: none;
   text-align: center;

@@ -1,5 +1,10 @@
 .reply {
-  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  padding: 20px;
+}
+
+.reply_first {
+  border: none;
   padding: 20px;
 }
 

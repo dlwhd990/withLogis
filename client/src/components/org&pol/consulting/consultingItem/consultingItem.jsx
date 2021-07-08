@@ -8,7 +8,11 @@ const ConsultingItem = ({ item }) => {
   return (
     <section className={styles.consulting_item}>
       <div className={styles.item}>
-        <div className={styles.item_head}></div>
+        <img
+          src={item.image}
+          alt="consulting_image"
+          className={styles.item_head}
+        />
         <div className={styles.border_maker}></div>
         <div className={styles.item_body}>
           <p className={styles.name}>{item.name}</p>

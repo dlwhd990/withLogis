@@ -24,8 +24,6 @@ const index = path.resolve(
   "../../withLogis/client/build/index.html"
 );
 
-let savedAuthNum;
-
 // 세션 체크
 module.exports.session_check = async (req, res) => {
   return res.send(req.session);
@@ -34,7 +32,6 @@ module.exports.session_check = async (req, res) => {
 // 회원가입
 module.exports.signup_post = async (req, res) => {
   const { nickname, userId, password, phoneNum } = req.body; // body로 부터 입력 받은 값들 저장
-  console.log(nickname, userId, password, phoneNum);
   const users = await User.findOne({ userId }); // 입력받은 userId에 해당하는 계정을 DB로 부터 받아옴
 
   let salt = await bcrypt.genSalt(); // 지금 사용된 salt를 password 재설정 시에도 사용할 예정
@@ -51,7 +48,6 @@ module.exports.signup_post = async (req, res) => {
     });
     await user.save(); // 유저 정보 DB에 저장
     req.session.user = user; // 유저 정보 session에 저장
-    console.log(session);
     res.json({
       success: true,
       user,
@@ -148,7 +144,10 @@ module.exports.findID_get = (res) => {
 module.exports.findID_post = async (req, res) => {
   const { phoneNum } = req.body; // 입력받은 전화번호를 사용해
   const users = await User.findOne({ phoneNum }); // DB에서 사용자 정보 조회
-  const userPhoneNum = users.phoneNum; // 조회한 사용자 정보속 phoneNum를 사용
+  let userPhoneNum;
+  if (users) {
+    userPhoneNum = users.phoneNum; // 조회한 사용자 정보속 phoneNum를 사용
+  }
 
   try {
     if (userPhoneNum === phoneNum) {
@@ -175,67 +174,88 @@ module.exports.findPW_get = async (res) => {
   res.send("<h1>안녕? 여기는 PW찾기 페이지야</h1>");
 };
 
-module.exports.findPW_post = async (req, res) => {
-  const { userId, phoneNum, authNum, resetPassword } = req.body;
-  // userId는 DB에서 유저 정보를 조회하기 위함, phoneNum는 인증번호를 발송하기 위함
-  // authNum은 수신받은 SMS의 인증번호를 입력하기 위함, resetPassword는 password를 재설정하기 위함 (phoneNum, authNum) ajax 처리 필요
-
+module.exports.findPW_id_phoneNum_check = async (req, res) => {
+  const { userId, phoneNum } = req.body;
   const users = await User.findOne({ userId });
-  if (!users) {
-    return console.log("아이디가 존재하지 않습니다.");
-  }
-  const savedPhoneNum = users.phoneNum;
-  if (savedPhoneNum !== phoneNum) {
-    return console.log("핸드폰 번호를 확인해 주세요");
-  }
+  console.log(users, "A", userId, "B", phoneNum);
   try {
-    // const savedAuthNum = smsController.sendsms(phoneNum); // 인증번호 전송 모듈 사용
-
-    const savedAuthNum = "123456";
-    console.log(authNum);
-    console.log(savedAuthNum);
-    if (savedAuthNum === authNum) {
-      // 인증번호 일치시
-      const salt = users.salt;
-      const hashedPassword = await bcrypt.hash(resetPassword, salt); // 회원가입과 동일한 salt로 암호화
-      await User.findOneAndUpdate(
-        // User정보 조회 후 Update
-        {},
-        { password: hashedPassword },
-        { new: true, useFindAndModify: false }, // findOnAndUpdate 사용위해 useFindAndModify: false 설정 추가, 업데이트된 User 정보 확인을 위한 new:true
-        (err, docs) => {
-          if (err) console.log(err);
-          else {
-            res.json({
-              message: "비밀번호 변경 완료",
-              docs,
-            });
-          }
-        }
-      );
-    } else {
-      return console.log("인증번호를 확인해주세요");
+    if (!users) {
+      res.json({ success: false, message: "존재하지 않는 아이디입니다." });
+      return;
     }
+    const savedPhoneNum = users.phoneNum;
+    if (savedPhoneNum !== phoneNum) {
+      res.json({ success: false, message: "핸드폰 번호를 다시 확인해주세요" });
+      return;
+    }
+    res.json({ success: true });
   } catch (err) {
     console.log(err);
+    res.json({ success: false, message: "인증 실패" });
+  }
+};
+
+module.exports.findPW_post = async (req, res) => {
+  const { userId, resetPassword } = req.body;
+
+  try {
+    const users = await User.findOne({ userId });
+    const salt = users.salt;
+    const hashedPassword = await bcrypt.hash(resetPassword, salt); // 회원가입과 동일한 salt로 암호화
+    await User.findOneAndUpdate(
+      // User정보 조회 후 Update
+      { userId },
+      { password: hashedPassword },
+      { new: true, useFindAndModify: false }, // findOneAndUpdate 사용위해 useFindAndModify: false 설정 추가, 업데이트된 User 정보 확인을 위한 new:true
+      (err, docs) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            success: false,
+            docs,
+          });
+        } else {
+          res.json({
+            message: "비밀번호 변경 완료",
+            success: true,
+            docs,
+          });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      docs,
+    });
   }
 };
 
 // SMS 인증
-
 module.exports.smsAuth_send = (req, res) => {
   const { phoneNum } = req.body;
-  savedAuthNum = smsController.sendsms(phoneNum).toString();
-  res.json("인증 번호가 전송되었습니다.");
+  const savedAuthNum = smsController.sendsms(phoneNum).toString();
+  req.session.authNum = savedAuthNum;
+  console.log(req.session);
+  res.json({
+    message: "인증 번호가 전송되었습니다.",
+  });
 };
 
 module.exports.smsAuth_check = (req, res) => {
   const { authNum } = req.body;
+  const savedAuthNum = req.session.authNum;
   try {
     if (authNum === savedAuthNum) {
+      req.session.authNum = null;
+      console.log(req.session);
       res.json({
         success: true,
         message: "인증되었습니다.",
+      });
+      req.session.destroy((err) => {
+        if (err) throw err;
       });
     } else {
       res.json({

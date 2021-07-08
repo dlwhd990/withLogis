@@ -49,7 +49,12 @@
   text-align: center;
 }
 
-.report {
+.report_container {
   flex-basis: 5%;
   text-align: center;
+  transition: 150ms all ease-in;
+}
+
+.report_icon {
+  margin-top: 2px;
 }

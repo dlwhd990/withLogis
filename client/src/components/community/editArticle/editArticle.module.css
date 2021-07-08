@@ -1,5 +1,3 @@
-@import "/src/constant.css";
-
 .edit_article {
   min-height: calc(100vh - 200px);
   width: 720px;

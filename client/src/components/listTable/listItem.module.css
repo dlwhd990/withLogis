@@ -1,6 +1,27 @@
-.listItem {
-  border: 1px solid lightgray;
-  cursor: default;
+.list_item {
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+  background-color: white;
+}
+
+.list_item_first {
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  background-color: white;
+}
+
+.list_item_last {
+  border-top: 1px solid lightgray;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.list_item:hover,
+.list_item_first:hover,
+.list_item_last:hover {
+  background-color: rgb(247, 247, 247);
 }
 
 .item {
@@ -22,10 +43,11 @@
 }
 
 .content_container {
-  padding: 0.5rem 0 2rem 1rem;
+  padding: 0.5rem 1rem 2rem 1rem;
 }
 
 .content {
   font-size: 1.2rem;
   font-weight: 400;
+  color: var(--color-article);
 }
