@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ArticlePreview from "../articlePreview/articlePreview";
+import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./bbs.module.css";
 
 const Bbs = ({ articles, user }) => {
   const history = useHistory();
   const [numbering, setNumbering] = useState(1);
+  const [reportOn, setReportOn] = useState(false);
   const articleKeyList = Object.keys(articles).reverse();
 
   let pagelength = 0;
@@ -51,6 +53,10 @@ const Bbs = ({ articles, user }) => {
     window.scrollTo({ top: 0 });
   };
 
+  const reportOnChange = () => {
+    setReportOn(!reportOn);
+  };
+
   return (
     <section className={styles.bbs}>
       <h1 className={styles.bbs_title}>자유게시판</h1>
@@ -88,6 +94,7 @@ const Bbs = ({ articles, user }) => {
             key={articles[index].id}
             article={articles[index]}
             where="bbs"
+            reportOnChange={reportOnChange}
           />
         ))}
       </section>
@@ -104,6 +111,8 @@ const Bbs = ({ articles, user }) => {
           ))}
         </ul>
       </section>
+      {reportOn && <div className={styles.report_filter}></div>}
+      {reportOn && <ReportPopup reportOnChange={reportOnChange} />}
     </section>
   );
 };

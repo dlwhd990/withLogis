@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./articlePreview.module.css";
 
-const ArticlePreview = ({ article, where }) => {
+const ArticlePreview = ({ article, where, reportOnChange }) => {
   const history = useHistory();
   const viewArticle = () => {
     window.scrollTo({ top: 0 });
@@ -11,7 +11,7 @@ const ArticlePreview = ({ article, where }) => {
 
   const onReportHandler = (e) => {
     e.stopPropagation(); // 이벤트 버블링 방지
-    console.log("REPORT!");
+    reportOnChange();
   };
 
   return (

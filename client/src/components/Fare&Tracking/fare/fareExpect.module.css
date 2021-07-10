@@ -184,7 +184,6 @@
 }
 
 .calc_popup {
-  position: relative;
   z-index: 2;
   width: 800px;
   position: absolute;
