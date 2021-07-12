@@ -13,7 +13,14 @@ const ReportPopup = ({ reportOnChange }) => {
   };
 
   const reportSubmitHandler = () => {
-    console.log("DD");
+    // 일단 처리 되었습니다 라고 표시만 되도록 하고 진짜 신고 접수되는 건 나중에 함
+    const confirmMessage = window.confirm(
+      "정말로 신고하시겠습니까? \n신고 접수는 취소할 수 없습니다. \n허위 신고의 경우 불이익이 있을 수 있습니다.\n확인 버튼을 클릭하시면 신고 접수가 완료됩니다."
+    );
+    if (confirmMessage) {
+      window.alert("신고가 접수되었습니다. 감사합니다.");
+      reportOnChange();
+    }
   };
 
   return (

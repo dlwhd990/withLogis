@@ -17,8 +17,6 @@ const ListItem = ({ item, id, length }) => {
     }
   }, []);
 
-  console.log(item.content);
-
   return (
     <section
       className={
