@@ -3,7 +3,11 @@ import { useHistory } from "react-router-dom";
 import styles from "./myPageArticlePreview.module.css";
 import axios from "axios";
 
-const MyPageArticlePreview = ({ article, loadArticlesAndReplies }) => {
+const MyPageArticlePreview = ({
+  article,
+  loadArticlesAndReplies,
+  selector,
+}) => {
   const history = useHistory();
   const viewArticle = () => {
     window.scrollTo({ top: 0 });

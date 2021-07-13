@@ -1,6 +1,7 @@
 .articlePreview {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   padding: 1rem;
   font-weight: bolder;
   color: rgb(77, 77, 77);
@@ -44,13 +45,12 @@
   text-align: center;
 }
 
-.edit_and_delete {
-  flex-basis: 15%;
+.delete_container {
+  flex-basis: 10%;
   text-align: center;
   transition: 150ms all ease-in;
 }
 
-.edit_button,
 .delete_button {
   border: none;
   outline: none;
@@ -59,19 +59,15 @@
   cursor: pointer;
 }
 
-.edit_button {
-  border-right: 1px solid lightgray;
-}
-
 .date_reply {
-  flex-basis: 20%;
+  flex-basis: 15%;
   text-align: center;
 }
 
 .content_reply {
-  flex-basis: 32.5%;
+  flex-basis: 35%;
 }
 
 .title_reply {
-  flex-basis: 32.5%;
+  flex-basis: 35%;
 }

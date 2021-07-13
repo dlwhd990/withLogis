@@ -91,9 +91,8 @@
   height: 35px;
   font-size: 18px;
   font-weight: 700;
-  background-color: var(--color-theme);
-  color: white;
   cursor: pointer;
+  background-color: white;
   box-shadow: 1px 1px 3px 1px lightgray;
   transition: all 120ms ease-in;
 }
@@ -109,11 +108,18 @@
 .article_button:hover,
 .reply_button:hover {
   background-color: var(--color-theme-hover);
+  color: white;
+}
+
+.on {
+  background-color: var(--color-theme);
+  color: white;
 }
 
 .header {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   padding: 1rem;
   font-weight: bolder;
   color: rgb(77, 77, 77);
@@ -210,4 +216,21 @@
   height: 100%;
   background-color: rgb(95, 95, 95);
   opacity: 0.7;
+}
+
+.date_reply {
+  flex-basis: 15%;
+  text-align: center;
+}
+
+.content_reply {
+  flex-basis: 35%;
+}
+
+.title_reply {
+  flex-basis: 35%;
+}
+
+.delete_reply {
+  flex-basis: 10%;
 }

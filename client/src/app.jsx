@@ -37,6 +37,7 @@ const App = (props) => {
   const [bbsReplies, setBbsReplies] = useState(null);
   const [noticeReplies, setNoticeReplies] = useState(null);
   const [myArticles, setMyArticles] = useState(null);
+  const [myReplies, setMyReplies] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
@@ -94,12 +95,21 @@ const App = (props) => {
         .catch((err) => console.log(err));
   };
 
+  const loadMyReply = () => {
+    sessionUser &&
+      axios
+        .post("/api/mypage/myReplies", { userId: sessionUser.userId })
+        .then((res) => setMyReplies(res.data))
+        .catch((err) => console.log(err));
+  };
+
   const loadArticlesAndReplies = () => {
     loadBbsArticle();
     loadNoticeArticle();
     loadBbsReply();
     loadNoticeReply();
     loadMyArticle();
+    loadMyReply();
   };
 
   useEffect(() => {
@@ -108,6 +118,7 @@ const App = (props) => {
 
   useEffect(() => {
     loadMyArticle();
+    loadMyReply();
   }, [sessionUser]);
 
   useEffect(() => {
@@ -198,9 +209,12 @@ const App = (props) => {
         </Route>
         <Route exact path="/mypage/myArticle">
           {sessionUser ? (
-            myArticles && (
+            myArticles &&
+            myReplies && (
               <MyArticleAndReply
                 articles={myArticles}
+                replies={myReplies}
+                allArticles={bbsArticles}
                 loadArticlesAndReplies={loadArticlesAndReplies}
               />
             )

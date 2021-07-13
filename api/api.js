@@ -10,16 +10,24 @@ const Policy = require("../models/policy");
 const Reply = require("../models/Reply");
 const router = express.Router();
 
-router.get("/bbs", (req, res) => {
-  Article.find({}, (err, data) => {
-    res.send(data);
-  });
+router.get("/bbs", async (req, res) => {
+  try {
+    await Article.find({}, (err, data) => {
+      res.send(data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-router.get("/bbs/reply", (req, res) => {
-  Reply.find({}, (err, data) => {
-    res.send(data);
-  });
+router.get("/bbs/reply", async (req, res) => {
+  try {
+    await Reply.find({}, (err, data) => {
+      res.send(data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.post("/bbs/writeReply", async (req, res) => {
@@ -325,11 +333,34 @@ router.post("/notice/edit/submit", async (req, res) => {
   }
 });
 
-router.post("/mypage/myArticles", (req, res) => {
+router.post("/mypage/myArticles", async (req, res) => {
   const { userId } = req.body;
-  Article.find({ writerId: userId }, (err, data) => {
-    res.send(data);
-  });
+  try {
+    await Article.find({ writerId: userId }, (err, data) => {
+      res.send(data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/mypage/myReplies", async (req, res) => {
+  const { userId } = req.body;
+  const result = [];
+  try {
+    const replies = await Reply.find({});
+    for (let i = 0; i < replies.length; i++) {
+      const list = replies[i].replyList;
+      for (let j = 0; j < list.length; j++) {
+        if (list[j].writerId === userId) {
+          result.push(list[j]);
+        }
+      }
+    }
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get("/exportProcess", (req, res) => {
