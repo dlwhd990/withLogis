@@ -245,7 +245,8 @@ router.post("/notice/recommand", async (req, res) => {
 router.post("/bbs/delete", async (req, res) => {
   const id = req.body.id;
   try {
-    await Article.deleteOne({ id: id });
+    await Article.deleteOne({ id });
+    await Reply.deleteOne({ id });
     res.json({
       success: true,
       message: "글이 삭제되었습니다.",
@@ -322,6 +323,13 @@ router.post("/notice/edit/submit", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+router.post("/mypage/myArticles", (req, res) => {
+  const { userId } = req.body;
+  Article.find({ writerId: userId }, (err, data) => {
+    res.send(data);
+  });
 });
 
 router.get("/exportProcess", (req, res) => {

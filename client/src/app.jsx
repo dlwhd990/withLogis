@@ -36,6 +36,7 @@ const App = (props) => {
   const [noticeArticles, setNoticeArticles] = useState(null);
   const [bbsReplies, setBbsReplies] = useState(null);
   const [noticeReplies, setNoticeReplies] = useState(null);
+  const [myArticles, setMyArticles] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
@@ -85,11 +86,20 @@ const App = (props) => {
       .catch((err) => console.error(err));
   };
 
+  const loadMyArticle = () => {
+    sessionUser &&
+      axios
+        .post("/api/mypage/myArticles", { userId: sessionUser.userId })
+        .then((res) => setMyArticles(res.data))
+        .catch((err) => console.log(err));
+  };
+
   const loadArticlesAndReplies = () => {
     loadBbsArticle();
     loadNoticeArticle();
     loadBbsReply();
     loadNoticeReply();
+    loadMyArticle();
   };
 
   useEffect(() => {
@@ -97,10 +107,8 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    callAPI("/api/notice/reply") //
-      .then((res) => setNoticeReplies(res))
-      .catch((err) => console.error(err));
-  }, []);
+    loadMyArticle();
+  }, [sessionUser]);
 
   useEffect(() => {
     callAPI("/api/exportProcess")
@@ -174,7 +182,10 @@ const App = (props) => {
           )}
         </Route>
         <Route exact path="/:where/edit/:id">
-          <EditArticle user={sessionUser} />
+          <EditArticle
+            user={sessionUser}
+            loadArticlesAndReplies={loadArticlesAndReplies}
+          />
         </Route>
         <Route exact path="/policies">
           {policyData && <Policies data={policyData} />}
@@ -186,7 +197,16 @@ const App = (props) => {
           {consultingData && <Consulting data={consultingData} />}
         </Route>
         <Route exact path="/mypage/myArticle">
-          {sessionUser ? <MyArticleAndReply /> : <ErrorPage />}
+          {sessionUser ? (
+            myArticles && (
+              <MyArticleAndReply
+                articles={myArticles}
+                loadArticlesAndReplies={loadArticlesAndReplies}
+              />
+            )
+          ) : (
+            <ErrorPage />
+          )}
         </Route>
         <Route exact path="/mypage/fareExpect">
           {sessionUser ? <FareExpectList /> : <ErrorPage />}

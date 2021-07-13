@@ -95,10 +95,10 @@
   font-size: 1.3rem;
   outline: none;
   border: none;
-  background-color: #377dff;
+  background-color: var(--color-dark-theme);
   color: white;
   border-radius: 8px;
-  box-shadow: 1px 1px 3px 1px #377dff;
+  box-shadow: 1px 1px 3px 1px var(--color-dark-theme);
   cursor: pointer;
 }
 
