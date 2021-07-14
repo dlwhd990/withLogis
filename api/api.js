@@ -8,6 +8,7 @@ const NoticeReply = require("../models/NoticeReply");
 const Organization = require("../models/organization");
 const Policy = require("../models/policy");
 const Reply = require("../models/Reply");
+const TradeTerm = require("../models/Tradeterm");
 const router = express.Router();
 
 router.get("/bbs", async (req, res) => {
@@ -118,14 +119,14 @@ router.post("/bbs/write", async (req, res) => {
   }
 });
 
-router.get("/notice", (req, res) => {
-  Notice.find({}, (err, data) => {
+router.get("/notice", async (req, res) => {
+  await Notice.find({}, (err, data) => {
     res.send(data);
   });
 });
 
-router.get("/notice/reply", (req, res) => {
-  NoticeReply.find({}, (err, data) => {
+router.get("/notice/reply", async (req, res) => {
+  await NoticeReply.find({}, (err, data) => {
     res.send(data);
   });
 });
@@ -280,7 +281,7 @@ router.post("/notice/delete", async (req, res) => {
 router.post("/bbs/edit", async (req, res) => {
   const { id } = req.body;
   try {
-    Article.findOne({ id: id }, (err, data) => {
+    await Article.findOne({ id: id }, (err, data) => {
       res.send(data);
     });
   } catch (err) {
@@ -310,7 +311,7 @@ router.post("/bbs/edit/submit", async (req, res) => {
 router.post("/notice/edit", async (req, res) => {
   const { id } = req.body;
   try {
-    Notice.findOne({ id: id }, (err, data) => {
+    await Notice.findOne({ id: id }, (err, data) => {
       res.send(data);
     });
   } catch (err) {
@@ -363,26 +364,32 @@ router.post("/mypage/myReplies", async (req, res) => {
   }
 });
 
-router.get("/exportProcess", (req, res) => {
-  ExportProcess.find({}, (err, data) => {
+router.get("/exportProcess", async (req, res) => {
+  await ExportProcess.find({}, (err, data) => {
     res.send(data);
   });
 });
 
-router.get("/organization", (req, res) => {
-  Organization.find({}, (err, data) => {
+router.get("/organization", async (req, res) => {
+  await Organization.find({}, (err, data) => {
     res.send(data);
   });
 });
 
-router.get("/policy", (req, res) => {
-  Policy.find({}, (err, data) => {
+router.get("/policy", async (req, res) => {
+  await Policy.find({}, (err, data) => {
     res.send(data);
   });
 });
 
-router.get("/consulting", (req, res) => {
-  Consulting.find({}, (err, data) => {
+router.get("/consulting", async (req, res) => {
+  await Consulting.find({}, (err, data) => {
+    res.send(data);
+  });
+});
+
+router.get("/tradeTerm", async (req, res) => {
+  await TradeTerm.find({}, (err, data) => {
     res.send(data);
   });
 });

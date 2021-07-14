@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import styles from "./app.module.css";
 import FareExpect from "./components/Fare&Tracking/fare/fareExpect";
 import Tracking from "./components/Fare&Tracking/tracking/tracking";
@@ -32,6 +32,7 @@ const App = (props) => {
   const [organizationData, setOrganizationData] = useState(null);
   const [policyData, setPolicyData] = useState(null);
   const [consultingData, setConsultingData] = useState(null);
+  const [tradeTermData, setTradeTermData] = useState(null);
   const [sessionUser, setSessionUser] = useState(null);
   const [session, setSession] = useState(null);
   const [bbsArticles, setBbsArticles] = useState(null);
@@ -152,25 +153,29 @@ const App = (props) => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    callAPI("/api/tradeTerm")
+      .then((res) => setTradeTermData(res))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <section className={styles.app}>
       <BrowserRouter>
         <Header user={sessionUser} logout={logout} />
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route exact path="/exportProcess">
-            {exportProcessdata ? (
-              <ExportProcess data={exportProcessdata} />
-            ) : (
-              <LoadingPage />
-            )}
-          </Route>
-          <Route exact path="/tradeTerms">
-            <Tradeterm />
-          </Route>
-        </Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route exact path="/exportProcess">
+          {exportProcessdata ? (
+            <ExportProcess data={exportProcessdata} />
+          ) : (
+            <LoadingPage />
+          )}
+        </Route>
+        <Route exact path="/tradeTerms">
+          {tradeTermData && <Tradeterm termList={tradeTermData} />}
+        </Route>
         <Route exact path="/fareExpect">
           <FareExpect />
         </Route>
