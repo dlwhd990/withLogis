@@ -1,37 +1,42 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router"
-import styles from "./mainPage.module.css"
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import styles from "./mainPage.module.css";
 
 const MainPage = (props) => {
-  const history = useHistory()
-  const [lookContents, setLookContents] = useState(false)
-  const [fareExpectContents, setFareExpectContents] = useState(false)
+  const history = useHistory();
+  const [lookContents, setLookContents] = useState(false);
+  const [fareExpectContents, setFareExpectContents] = useState(false);
   const viewLookContents = () => {
-    setLookContents(true)
-  }
+    setLookContents(true);
+  };
   const leaveLookContents = () => {
-    setLookContents(false)
-  }
+    setLookContents(false);
+  };
   const viewFareExpectContents = () => {
-    setFareExpectContents(true)
-  }
+    setFareExpectContents(true);
+  };
   const leaveFareExpectContents = () => {
-    setFareExpectContents(false)
-  }
+    setFareExpectContents(false);
+  };
   return (
     <section className={styles.main_page}>
       <section className={styles.main_top}>
         <p className={styles.main_top_text}>당신의 수출과 함께하겠습니다</p>
         <h1 className={styles.main_top_title}>With Logis</h1>
-        <button
+        <div
           className={styles.main_top_button}
           onClick={() => {
-            history.push("/fareExpect")
-            window.scrollTo({ top: 0 })
+            history.push("/fareExpect");
+            window.scrollTo({ top: 0 });
           }}
         >
-          예상 운임 조회
-        </button>
+          <p className={styles.main_top_button_text}>예상 운임 조회</p>
+          <div className={styles.main_top_button_mini}>
+            <i
+              className={`${styles.main_top_button_icon} fas fa-arrow-right`}
+            ></i>
+          </div>
+        </div>
       </section>
       <section className={styles.main_page_desc}>
         <p className={styles.main_page_desc_subtitle}>
@@ -91,8 +96,8 @@ const MainPage = (props) => {
                   <p
                     className={styles.look_detail_view}
                     onClick={() => {
-                      history.push("/exportProcess")
-                      window.scrollTo({ top: 0 })
+                      history.push("/exportProcess");
+                      window.scrollTo({ top: 0 });
                     }}
                   >
                     자세히 보기
@@ -118,8 +123,8 @@ const MainPage = (props) => {
                   <p
                     className={styles.fare_expect_detail_view}
                     onClick={() => {
-                      history.push("/fareExpect")
-                      window.scrollTo({ top: 0 })
+                      history.push("/fareExpect");
+                      window.scrollTo({ top: 0 });
                     }}
                   >
                     자세히 보기
@@ -131,7 +136,7 @@ const MainPage = (props) => {
         </div>
       </section>
     </section>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;

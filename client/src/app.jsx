@@ -33,6 +33,7 @@ const App = (props) => {
   const [policyData, setPolicyData] = useState(null);
   const [consultingData, setConsultingData] = useState(null);
   const [sessionUser, setSessionUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [bbsArticles, setBbsArticles] = useState(null);
   const [noticeArticles, setNoticeArticles] = useState(null);
   const [bbsReplies, setBbsReplies] = useState(null);
@@ -49,8 +50,10 @@ const App = (props) => {
   const logout = (callback) => {
     axios
       .post("/auth/logout")
-      .then((response) => window.alert("성공적으로 로그아웃 되었습니다."))
-      .then(callback)
+      .then((response) => {
+        window.alert("성공적으로 로그아웃 되었습니다.");
+        callback();
+      })
       .catch((err) => console.error("error: ", err.response));
   };
 
@@ -59,7 +62,10 @@ const App = (props) => {
       .then((res) => {
         if ("user" in res) {
           setSessionUser(res.user);
+        } else {
+          setSessionUser(null);
         }
+        setSession(res);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -206,6 +212,7 @@ const App = (props) => {
         <Route exact path="/:where/edit/:id">
           <EditArticle
             user={sessionUser}
+            session={session}
             loadArticlesAndReplies={loadArticlesAndReplies}
           />
         </Route>
@@ -227,25 +234,45 @@ const App = (props) => {
           )}
         </Route>
         <Route exact path="/mypage/myArticle">
-          {sessionUser ? (
-            myArticles &&
-            myReplies && (
-              <MyArticleAndReply
-                articles={myArticles}
-                replies={myReplies}
-                allArticles={bbsArticles}
-                loadArticlesAndReplies={loadArticlesAndReplies}
-              />
+          {session ? (
+            sessionUser ? (
+              myArticles &&
+              myReplies && (
+                <MyArticleAndReply
+                  articles={myArticles}
+                  replies={myReplies}
+                  allArticles={bbsArticles}
+                  loadArticlesAndReplies={loadArticlesAndReplies}
+                />
+              )
+            ) : (
+              <ErrorPage />
             )
           ) : (
             <LoadingPage />
           )}
         </Route>
         <Route exact path="/mypage/fareExpect">
-          {sessionUser ? <FareExpectList /> : <LoadingPage />}
+          {session ? (
+            sessionUser ? (
+              <FareExpectList />
+            ) : (
+              <ErrorPage />
+            )
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/mypage/edit">
-          {sessionUser ? <MyPageEdit /> : <LoadingPage />}
+          {session ? (
+            sessionUser ? (
+              <MyPageEdit />
+            ) : (
+              <ErrorPage />
+            )
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/auth/login">
           <Login />

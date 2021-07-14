@@ -57,6 +57,11 @@
   background-color: transparent;
   font-size: 15px;
   cursor: pointer;
+  transition: 140ms all ease-in;
+}
+
+.delete_button:hover {
+  color: red;
 }
 
 .date_reply {

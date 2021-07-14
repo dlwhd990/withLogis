@@ -57,6 +57,7 @@
   background-color: transparent;
   font-size: 15px;
   cursor: pointer;
+  transition: 140ms all ease-in;
 }
 
 .edit_button {
@@ -66,6 +67,14 @@
 .date_reply {
   flex-basis: 20%;
   text-align: center;
+}
+
+.edit_button:hover {
+  color: var(--color-dark-theme);
+}
+
+.delete_button:hover {
+  color: red;
 }
 
 .content_reply {
