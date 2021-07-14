@@ -12,7 +12,7 @@ const ListItem = ({ item, id, length }) => {
   useEffect(() => {
     if (id === "0") {
       setIsFirst(true);
-    } else if (id === (length - 1).toString()) {
+    } else if (id === length - 1) {
       setIsLast(true);
     }
   }, []);

@@ -4,6 +4,7 @@ import styles from "./articleView.module.css";
 import axios from "axios";
 import Reply from "../reply/reply";
 import ErrorPage from "../../errorPage/errorPage";
+import LoadingPage from "../../loadingPage/loadingPage";
 
 const ArticleView = ({
   articles,
@@ -255,7 +256,7 @@ const ArticleView = ({
       </section>
     );
   } else {
-    return <ErrorPage />;
+    return <LoadingPage />;
   }
 };
 

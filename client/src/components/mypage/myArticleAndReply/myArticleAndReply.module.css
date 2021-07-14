@@ -207,17 +207,6 @@
   color: white;
 }
 
-.report_filter {
-  z-index: 1;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(95, 95, 95);
-  opacity: 0.7;
-}
-
 .date_reply {
   flex-basis: 15%;
   text-align: center;

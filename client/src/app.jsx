@@ -25,6 +25,7 @@ import EditArticle from "./components/community/editArticle/editArticle";
 import FindId from "./components/findId/findId";
 import FindPw from "./components/findPw/findPw";
 import ErrorPage from "./components/errorPage/errorPage";
+import LoadingPage from "./components/loadingPage/loadingPage";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -154,7 +155,11 @@ const App = (props) => {
             <MainPage />
           </Route>
           <Route exact path="/exportProcess">
-            {exportProcessdata && <ExportProcess data={exportProcessdata} />}
+            {exportProcessdata ? (
+              <ExportProcess data={exportProcessdata} />
+            ) : (
+              <LoadingPage />
+            )}
           </Route>
           <Route exact path="/tradeTerms">
             <Tradeterm />
@@ -167,12 +172,18 @@ const App = (props) => {
           <Tracking />
         </Route>
         <Route exact path="/notice">
-          {noticeArticles && (
+          {noticeArticles ? (
             <Notice articles={noticeArticles} user={sessionUser} />
+          ) : (
+            <LoadingPage />
           )}
         </Route>
         <Route exact path="/bbs">
-          {bbsArticles && <Bbs articles={bbsArticles} user={sessionUser} />}
+          {bbsArticles ? (
+            <Bbs articles={bbsArticles} user={sessionUser} />
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/:where/write">
           <WriteArticle
@@ -199,13 +210,21 @@ const App = (props) => {
           />
         </Route>
         <Route exact path="/policies">
-          {policyData && <Policies data={policyData} />}
+          {policyData ? <Policies data={policyData} /> : <LoadingPage />}
         </Route>
         <Route exact path="/organizations">
-          {organizationData && <Organizations data={organizationData} />}
+          {organizationData ? (
+            <Organizations data={organizationData} />
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/consulting">
-          {consultingData && <Consulting data={consultingData} />}
+          {consultingData ? (
+            <Consulting data={consultingData} />
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/mypage/myArticle">
           {sessionUser ? (
@@ -219,14 +238,14 @@ const App = (props) => {
               />
             )
           ) : (
-            <ErrorPage />
+            <LoadingPage />
           )}
         </Route>
         <Route exact path="/mypage/fareExpect">
-          {sessionUser ? <FareExpectList /> : <ErrorPage />}
+          {sessionUser ? <FareExpectList /> : <LoadingPage />}
         </Route>
         <Route exact path="/mypage/edit">
-          {sessionUser ? <MyPageEdit /> : <ErrorPage />}
+          {sessionUser ? <MyPageEdit /> : <LoadingPage />}
         </Route>
         <Route exact path="/auth/login">
           <Login />
