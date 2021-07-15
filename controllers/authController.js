@@ -274,9 +274,9 @@ module.exports.smsAuth_check = (req, res) => {
 // ID 중복 확인
 module.exports.dup_id_post = async (req, res) => {
   const { checkId } = req.body;
-  const users = await User.findOne({ userId: checkId });
+  const user = await User.findOne({ userId: checkId });
   try {
-    if (users) {
+    if (user) {
       res.json("이미 사용중인 아이디입니다.");
     } else {
       res.json("사용 가능한 아이디입니다.");
@@ -289,12 +289,32 @@ module.exports.dup_id_post = async (req, res) => {
 // NICKNAME 중복 확인
 module.exports.dup_nickname_post = async (req, res) => {
   const { checkNickname } = req.body;
-  const users = await User.findOne({ nickname: checkNickname });
+  const user = await User.findOne({ nickname: checkNickname });
   try {
-    if (users) {
+    if (user) {
       res.json("이미 사용중인 닉네임입니다.");
     } else {
       res.json("사용 가능한 닉네임입니다.");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// PHONENUM 중복확인
+module.exports.dup_phoneNum_post = async (req, res) => {
+  const { phoneNum } = req.body;
+  const user = await User.findOne({ phoneNum });
+  try {
+    console.log(user);
+    if (!user) {
+      res.json({
+        success: true,
+      });
+    } else {
+      res.json({
+        success: false,
+      });
     }
   } catch (err) {
     console.log(err);

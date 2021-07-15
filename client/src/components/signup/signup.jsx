@@ -13,6 +13,7 @@ const Signup = (props) => {
   const [checkedNickname, setCheckedNickname] = useState(null);
   const [tempPhoneNum, setTempPhoneNum] = useState(null);
   const [checkedPhoneNum, setCheckedPhoneNum] = useState(null);
+  const [sendSmsCheck, setSendSmsCheck] = useState(false);
 
   const idRef = useRef();
   const pwRef = useRef();
@@ -66,13 +67,26 @@ const Signup = (props) => {
       window.alert("핸드폰 번호를 다시 확인해주세요. ");
       return;
     }
+
     axios
-      .post("/auth/sms-auth", { phoneNum })
-      .then((response) => {
-        window.alert(response.data.message);
-        setTempPhoneNum(phoneNum);
+      .post("/auth/dup-phoneNum", { phoneNum })
+      .then((res) => {
+        console.log(res.data);
+        if (!res.data.success) {
+          window.alert("이미 가입된 번호입니다.");
+          return;
+        }
+        // 이미 가입된 번호 아닐 때만 인증번호 전송
+        setSendSmsCheck(true);
+        axios
+          .post("/auth/sms-auth", { phoneNum })
+          .then((res) => {
+            window.alert(res.data.message);
+            setTempPhoneNum(phoneNum);
+          })
+          .catch((err) => console.error("error: ", err.response));
       })
-      .catch((err) => console.error("error: ", err.response));
+      .catch((err) => console.error(err));
   };
 
   const checkAuthNumHandler = () => {
@@ -197,7 +211,12 @@ const Signup = (props) => {
             <button
               type="button"
               onClick={sendSMSHandler}
-              className={styles.phone_check_button}
+              className={
+                sendSmsCheck
+                  ? `${styles.phone_check_button} ${styles.checked}`
+                  : `${styles.phone_check_button} ${styles.not_checked}`
+              }
+              disabled={sendSmsCheck ? "disabled" : ""}
             >
               인증번호 전송
             </button>

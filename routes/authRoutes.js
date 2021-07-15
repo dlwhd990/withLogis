@@ -57,4 +57,6 @@ router.post("/dup-id", authController.dup_id_post);
 // 요청 url 예시 http://localhost:3333/auth/dup-nickname
 router.post("/dup-nickname", authController.dup_nickname_post);
 
+router.post("/dup-phoneNum", authController.dup_phoneNum_post);
+
 module.exports = router;

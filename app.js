@@ -51,7 +51,7 @@ mongoose
     app.listen(port, () => console.log(`Listening on port ${port}`));
     console.log("Database connected");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.error("error: ", err.response));
 
 const store = new mongoDBSession({
   uri: dbURI,
