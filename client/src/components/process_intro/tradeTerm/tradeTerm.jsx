@@ -1,6 +1,8 @@
+import { set } from "mongoose";
 import React, { useEffect, useState } from "react";
 import styles from "./tradeTerm.module.css";
 import TradeTermItem from "./tradeTermItem/tradeTermItem";
+import { debounce } from "lodash";
 
 const Tradeterm = ({ termList }) => {
   const [selected, setSelected] = useState("전체");
@@ -20,9 +22,10 @@ const Tradeterm = ({ termList }) => {
     setSelected(e.target.textContent);
   };
 
-  const inputChangeHandler = (e) => {
+  const inputChangeHandler = debounce((e) => {
     setInputValue(e.target.value);
-  };
+    console.log(e.target.value);
+  }, 200);
 
   const makeSelectedList = () => {
     const result = [];
