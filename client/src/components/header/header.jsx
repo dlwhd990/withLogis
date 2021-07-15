@@ -74,6 +74,8 @@ const Header = ({ user, logout }) => {
               className={styles.userNickname}
               onClick={() => {
                 setViewDropDown(false);
+                history.push("/mypage/myArticle");
+                window.scrollTo({ top: 0 });
               }}
             >
               {`${user.nickname} 님`}

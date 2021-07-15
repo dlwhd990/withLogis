@@ -1,46 +1,77 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ArticlePreview from "../articlePreview/articlePreview";
 import ReportPopup from "../reportPopup/reportPopup";
-import styles from "./bbs.module.css";
+import styles from "./articleSearch.module.css";
 
-const Bbs = ({ articles, user }) => {
-  const history = useHistory();
+const ArticleSearch = ({ articles, user }) => {
+  const { where, type, query } = useParams();
   const searchTypeRef = useRef();
   const searchInputRef = useRef();
+  const history = useHistory();
+  const [resultArticles, setResultArticles] = useState([]);
   const [numbering, setNumbering] = useState(1);
   const [reportOn, setReportOn] = useState(false);
-  const articleKeyList = Object.keys(articles).reverse();
-
-  let pagelength = 0;
-
-  if (articleKeyList.length % 10 === 0) {
-    pagelength = parseInt(articleKeyList.length / 10);
-  } else if (articleKeyList.length <= 10) {
-    pagelength = 1;
-  } else {
-    pagelength = parseInt(articleKeyList.length / 10) + 1;
-  }
-
-  const list = [];
-
-  for (let i = 1; i <= pagelength; i++) {
-    list.push(i);
-  }
-
-  let pages = [];
-  for (let i = 0; i <= pagelength; i++) {
-    pages[i] = new Array();
-  }
-
-  for (let i = 1; i <= pagelength; i++) {
-    for (let j = 10 * (i - 1); j < 10 * i; j++) {
-      if (articleKeyList[j] === undefined) {
-        break;
-      }
-      pages[i].push(articleKeyList[j]);
+  const [pageList, setPageList] = useState([]);
+  const [numList, setNumList] = useState([]);
+  const [boardName, setBoardName] = useState(() => {
+    if (where === "bbs") {
+      return "자유게시판";
+    } else if (where === "notice") {
+      return "공지사항";
     }
-  }
+  });
+
+  const makePage = () => {
+    const articleKeyList = Object.keys(resultArticles).reverse();
+    let pagelength = 0;
+    const list = [];
+    const pages = [];
+
+    if (articleKeyList.length % 10 === 0) {
+      pagelength = parseInt(articleKeyList.length / 10);
+    } else if (articleKeyList.length <= 10) {
+      pagelength = 1;
+    } else {
+      pagelength = parseInt(articleKeyList.length / 10) + 1;
+    }
+
+    for (let i = 1; i <= pagelength; i++) {
+      list.push(i);
+    }
+
+    for (let i = 0; i <= pagelength; i++) {
+      pages[i] = new Array();
+    }
+
+    for (let i = 1; i <= pagelength; i++) {
+      for (let j = 10 * (i - 1); j < 10 * i; j++) {
+        if (articleKeyList[j] === undefined) {
+          break;
+        }
+        pages[i].push(articleKeyList[j]);
+      }
+    }
+    setPageList(pages);
+    setNumList(list);
+  };
+
+  useEffect(() => {
+    setPageList([]);
+    const searchData = {
+      type,
+      query,
+    };
+    axios
+      .post(`/api/${where}/search`, searchData)
+      .then((res) => setResultArticles(res.data))
+      .catch((err) => console.log(err));
+  }, [type, query]);
+
+  useEffect(() => {
+    resultArticles && makePage();
+  }, [resultArticles]);
 
   const pageNumberClick = (e) => {
     setNumbering(e.target.textContent);
@@ -67,7 +98,7 @@ const Bbs = ({ articles, user }) => {
       return;
     }
     searchInputRef.current.value = "";
-    history.push(`/bbs/search/${type}/${query}`);
+    history.push(`/${where}/search/${type}/${query}`);
     window.scrollTo({ top: 0 });
   };
 
@@ -86,8 +117,8 @@ const Bbs = ({ articles, user }) => {
   }, []);
 
   return (
-    <section className={styles.bbs}>
-      <h1 className={styles.bbs_title}>자유게시판</h1>
+    <section className={styles.article_search}>
+      <h1 className={styles.bbs_title}>{`${boardName} 검색결과`}</h1>
       <section className={styles.top}>
         <section className={styles.search}>
           <select
@@ -124,26 +155,28 @@ const Bbs = ({ articles, user }) => {
         <div className={styles.report}>신고</div>
       </section>
       <section className={styles.body}>
-        {pages[numbering].map((index) => (
-          <ArticlePreview
-            key={articles[index].id}
-            article={articles[index]}
-            where="bbs"
-            reportOnChange={reportOnChange}
-          />
-        ))}
+        {pageList.length > 1 &&
+          pageList[numbering].map((index) => (
+            <ArticlePreview
+              key={resultArticles[index].id}
+              article={resultArticles[index]}
+              where="bbs"
+              reportOnChange={reportOnChange}
+            />
+          ))}
       </section>
       <section className={styles.bottom}>
         <ul className={styles.page_numbers}>
-          {list.map((num) => (
-            <li
-              key={num}
-              className={styles.page_number}
-              onClick={pageNumberClick}
-            >
-              {num}
-            </li>
-          ))}
+          {numList &&
+            numList.map((num) => (
+              <li
+                key={num}
+                className={styles.page_number}
+                onClick={pageNumberClick}
+              >
+                {num}
+              </li>
+            ))}
         </ul>
       </section>
       {reportOn && <div className={styles.report_filter}></div>}
@@ -152,4 +185,4 @@ const Bbs = ({ articles, user }) => {
   );
 };
 
-export default Bbs;
+export default ArticleSearch;

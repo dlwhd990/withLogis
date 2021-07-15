@@ -54,6 +54,13 @@
   border: 1px solid var(--color-theme);
 }
 
+.search_button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  padding: 0;
+}
+
 .search_icon {
   font-size: 24px;
   color: var(--color-desc);

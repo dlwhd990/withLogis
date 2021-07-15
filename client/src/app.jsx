@@ -26,6 +26,7 @@ import FindId from "./components/findId/findId";
 import FindPw from "./components/findPw/findPw";
 import ErrorPage from "./components/errorPage/errorPage";
 import LoadingPage from "./components/loadingPage/loadingPage";
+import ArticleSearch from "./components/community/articleSearch/articleSearch";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -220,6 +221,11 @@ const App = (props) => {
             session={session}
             loadArticlesAndReplies={loadArticlesAndReplies}
           />
+        </Route>
+        <Route exact path="/:where/search/:type/:query">
+          {bbsArticles && (
+            <ArticleSearch articles={bbsArticles} user={sessionUser} />
+          )}
         </Route>
         <Route exact path="/policies">
           {policyData ? <Policies data={policyData} /> : <LoadingPage />}

@@ -364,6 +364,54 @@ router.post("/mypage/myReplies", async (req, res) => {
   }
 });
 
+router.post("/bbs/search", async (req, res) => {
+  const { type, query } = req.body;
+  const result = [];
+  try {
+    const articles = await Article.find({});
+    if (type === "title") {
+      for (let i = 0; i < articles.length; i++) {
+        if (articles[i].title.includes(query)) {
+          result.push(articles[i]);
+        }
+      }
+    } else if (type === "writer") {
+      for (let i = 0; i < articles.length; i++) {
+        if (articles[i].writer.includes(query)) {
+          result.push(articles[i]);
+        }
+      }
+    }
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/notice/search", async (req, res) => {
+  const { type, query } = req.body;
+  const result = [];
+  try {
+    const articles = await Notice.find({});
+    if (type === "title") {
+      for (let i = 0; i < articles.length; i++) {
+        if (articles[i].title.includes(query)) {
+          result.push(articles[i]);
+        }
+      }
+    } else if (type === "writer") {
+      for (let i = 0; i < articles.length; i++) {
+        if (articles[i].writer.includes(query)) {
+          result.push(articles[i]);
+        }
+      }
+    }
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get("/exportProcess", async (req, res) => {
   await ExportProcess.find({}, (err, data) => {
     res.send(data);

@@ -24,7 +24,7 @@ const ArticlePreview = ({ article, where, reportOnChange }) => {
       <div className={styles.recommand}>{article.recommand}</div>
       <div className={styles.report_container}>
         <img
-          src="images/report_icon.png"
+          src="/images/report_icon.png"
           alt="report_icon"
           className={styles.report_icon}
           name="report_icon"

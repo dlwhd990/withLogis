@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import ArticlePreview from "../articlePreview/articlePreview";
+import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./notice.module.css";
 
 const Notice = ({ articles, user }) => {
+  const searchTypeRef = useRef();
+  const searchInputRef = useRef();
   const history = useHistory();
   const articleKeyList = Object.keys(articles).reverse();
   const [numbering, setNumbering] = useState(1);
+  const [reportOn, setReportOn] = useState(false);
   const adminId = "dlwhd990"; // env가 안돼서 일단 이렇게 작성 (이유는 모름)
 
   const goWrite = () => {
@@ -55,12 +59,43 @@ const Notice = ({ articles, user }) => {
     setNumbering(e.target.textContent);
   };
 
+  const reportOnChange = () => {
+    setReportOn(!reportOn);
+  };
+
+  const onSearchHandler = () => {
+    const query = searchInputRef.current.value;
+    const type = searchTypeRef.current.value;
+    if (query === "") {
+      window.alert("검색어를 입력하세요");
+      return;
+    }
+    searchInputRef.current.value = "";
+    history.push(`/notice/search/${type}/${query}`);
+    window.scrollTo({ top: 0 });
+  };
+
+  const keyHandler = (e) => {
+    if (e.key !== "Enter") {
+      return;
+    }
+    onSearchHandler();
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyHandler);
+    return () => {
+      window.removeEventListener("keydown", keyHandler);
+    };
+  }, []);
+
   return (
     <section className={styles.notice}>
       <h1 className={styles.notice_title}>공지사항</h1>
       <section className={styles.top}>
         <section className={styles.search}>
           <select
+            ref={searchTypeRef}
             name="search_type"
             id="search_type"
             className={styles.search_type_select}
@@ -68,8 +103,14 @@ const Notice = ({ articles, user }) => {
             <option value="title">글 제목</option>
             <option value="writer">작성자</option>
           </select>
-          <input type="text" className={styles.search_text_input} />
-          <i className={`${styles.search_icon} fas fa-search`}></i>
+          <input
+            ref={searchInputRef}
+            type="text"
+            className={styles.search_text_input}
+          />
+          <button className={styles.search_button} onClick={onSearchHandler}>
+            <i className={`${styles.search_icon} fas fa-search`}></i>
+          </button>
         </section>
         <section className={styles.button_container}>
           <button className={styles.write_button} onClick={goWrite}>
@@ -92,6 +133,7 @@ const Notice = ({ articles, user }) => {
             key={articles[index].id}
             article={articles[index]}
             where="notice"
+            reportOnChange={reportOnChange}
           />
         ))}
       </section>
@@ -108,6 +150,8 @@ const Notice = ({ articles, user }) => {
           ))}
         </ul>
       </section>
+      {reportOn && <div className={styles.report_filter}></div>}
+      {reportOn && <ReportPopup reportOnChange={reportOnChange} />}
     </section>
   );
 };

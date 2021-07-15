@@ -2,15 +2,19 @@ import React, { useEffect } from "react";
 import styles from "./tradeTermPopup.module.css";
 
 const TradeTermPopup = ({ term, popupHandler }) => {
+  const keyHandler = (e) => {
+    console.log(e.key);
+    if (e.key !== "Escape") {
+      return;
+    }
+    popupHandler();
+  };
   useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      if (e.key !== "Escape") {
-        return;
-      }
-      console.log(e.key);
-      popupHandler();
-    });
-  });
+    window.addEventListener("keyup", keyHandler);
+    return () => {
+      window.removeEventListener("keyup", keyHandler);
+    };
+  }, []);
 
   return (
     <div className={styles.popup}>
