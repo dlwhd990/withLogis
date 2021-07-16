@@ -74,7 +74,7 @@ const ArticleSearch = ({ articles, user }) => {
   }, [resultArticles]);
 
   const pageNumberClick = (e) => {
-    setNumbering(e.target.textContent);
+    setNumbering(parseInt(e.target.textContent));
   };
 
   const goWrite = () => {
@@ -95,6 +95,9 @@ const ArticleSearch = ({ articles, user }) => {
     const type = searchTypeRef.current.value;
     if (query === "") {
       window.alert("검색어를 입력하세요");
+      return;
+    } else if (query === "?") {
+      window.alert("물음표는 검색할 수 없습니다."); // 왜 안되는지 모름
       return;
     }
     searchInputRef.current.value = "";
@@ -171,7 +174,11 @@ const ArticleSearch = ({ articles, user }) => {
             numList.map((num) => (
               <li
                 key={num}
-                className={styles.page_number}
+                className={
+                  numbering === num
+                    ? `${styles.page_number} ${styles.page_on}`
+                    : `${styles.page_number} ${styles.page_off}`
+                }
                 onClick={pageNumberClick}
               >
                 {num}

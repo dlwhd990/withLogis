@@ -6,7 +6,7 @@ import axios from "axios";
 const MyPageArticlePreview = ({
   article,
   loadArticlesAndReplies,
-  selector,
+  checkIfLastArticle,
 }) => {
   const history = useHistory();
   const viewArticle = () => {
@@ -18,6 +18,7 @@ const MyPageArticlePreview = ({
     e.stopPropagation();
     const confirmPopup = window.confirm("정말로 글을 삭제하시겠습니까?");
     if (confirmPopup) {
+      checkIfLastArticle();
       axios
         .post("/api/bbs/delete", {
           id: article.id,

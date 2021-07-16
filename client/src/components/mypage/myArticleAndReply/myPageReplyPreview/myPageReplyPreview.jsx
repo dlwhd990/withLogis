@@ -3,7 +3,12 @@ import { useHistory } from "react-router-dom";
 import styles from "./myPageReplyPreview.module.css";
 import axios from "axios";
 
-const MyPageReplyPreview = ({ reply, allArticles, loadArticlesAndReplies }) => {
+const MyPageReplyPreview = ({
+  reply,
+  allArticles,
+  loadArticlesAndReplies,
+  checkIfLastReply,
+}) => {
   const history = useHistory();
   const [article, setArticle] = useState(null);
   const findArticle = () => {
@@ -26,22 +31,22 @@ const MyPageReplyPreview = ({ reply, allArticles, loadArticlesAndReplies }) => {
   const onReplyDeleteHandler = (e) => {
     e.stopPropagation();
     const confirmPopup = window.confirm("정말로 댓글을 삭제하시겠습니까?");
-    if (!confirmPopup) {
-      return;
+    if (confirmPopup) {
+      checkIfLastReply();
+      article &&
+        axios
+          .post(`/api/bbs/reply/delete`, {
+            articleId: article.id,
+            replyId: reply.timeId,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              window.alert(res.data.message);
+              loadArticlesAndReplies();
+            }
+          })
+          .catch((err) => console.error(err));
     }
-    article &&
-      axios
-        .post(`/api/bbs/reply/delete`, {
-          articleId: article.id,
-          replyId: reply.timeId,
-        })
-        .then((res) => {
-          if (res.data.success) {
-            window.alert(res.data.message);
-            loadArticlesAndReplies();
-          }
-        })
-        .catch((err) => console.error(err));
   };
 
   return (

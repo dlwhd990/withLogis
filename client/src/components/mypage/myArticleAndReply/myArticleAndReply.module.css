@@ -180,6 +180,10 @@
   cursor: pointer;
 }
 
+.page_on {
+  color: var(--color-theme);
+}
+
 .upload_box {
   position: relative;
 }

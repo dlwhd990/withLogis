@@ -65,6 +65,9 @@ const Bbs = ({ articles, user }) => {
     if (query === "") {
       window.alert("검색어를 입력하세요");
       return;
+    } else if (query === "?") {
+      window.alert("물음표는 검색할 수 없습니다."); // 왜 안되는지 모름
+      return;
     }
     searchInputRef.current.value = "";
     history.push(`/bbs/search/${type}/${query}`);

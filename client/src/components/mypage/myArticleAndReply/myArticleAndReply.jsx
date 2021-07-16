@@ -81,11 +81,11 @@ const MyArticleAndReply = ({
   }
 
   const pageNumberClick = (e) => {
-    setNumbering(e.target.textContent);
+    setNumbering(parseInt(e.target.textContent));
   };
 
   const replyPageNumberClick = (e) => {
-    setReplyNumbering(e.target.textContent);
+    setReplyNumbering(parseInt(e.target.textContent));
   };
 
   const changeToArticle = () => {
@@ -94,6 +94,29 @@ const MyArticleAndReply = ({
 
   const changeToReply = () => {
     setSelector(false);
+  };
+
+  const checkIfLastAricle = () => {
+    if (numbering === pages.length - 1 && pages[numbering].length === 1) {
+      console.log("ㅋㅋㅋㅋㅋ");
+      setNumbering(numbering - 1);
+    }
+  };
+
+  const checkIfLastReply = () => {
+    console.log(
+      replyNumbering,
+      replyPages.length - 1,
+      replyPages[replyNumbering].length
+    );
+    console.log(replyPages);
+    if (
+      replyNumbering === replyPages.length - 1 &&
+      replyPages[replyNumbering].length === 1
+    ) {
+      console.log("ㅋㅋㅋㅋㅋ");
+      setReplyNumbering(replyNumbering - 1);
+    }
   };
 
   return (
@@ -151,6 +174,7 @@ const MyArticleAndReply = ({
                 key={articles[index].id}
                 article={articles[index]}
                 loadArticlesAndReplies={loadArticlesAndReplies}
+                checkIfLastAricle={checkIfLastAricle}
               />
             ))
           : replies.length !== 0 &&
@@ -160,6 +184,7 @@ const MyArticleAndReply = ({
                 reply={replies[index]}
                 allArticles={allArticles}
                 loadArticlesAndReplies={loadArticlesAndReplies}
+                checkIfLastReply={checkIfLastReply}
               />
             ))}
       </section>
@@ -169,7 +194,11 @@ const MyArticleAndReply = ({
             ? list.map((num) => (
                 <li
                   key={num}
-                  className={styles.page_number}
+                  className={
+                    numbering === num
+                      ? `${styles.page_number} ${styles.page_on}`
+                      : `${styles.page_number} ${styles.page_off}`
+                  }
                   onClick={pageNumberClick}
                 >
                   {num}
@@ -178,7 +207,11 @@ const MyArticleAndReply = ({
             : replyList.map((num) => (
                 <li
                   key={num}
-                  className={styles.page_number}
+                  className={
+                    replyNumbering === num
+                      ? `${styles.page_number} ${styles.page_on}`
+                      : `${styles.page_number} ${styles.page_off}`
+                  }
                   onClick={replyPageNumberClick}
                 >
                   {num}

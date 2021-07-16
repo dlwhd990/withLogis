@@ -37,6 +37,10 @@ const WriteArticle = ({ user, loadArticlesAndReplies }) => {
       window.alert("제목을 입력해주세요");
       return;
     }
+    if (nowTitle.length > 100) {
+      window.alert("제목은 100자를 넘을 수 없습니다.");
+      return;
+    }
     if (nowContent === "") {
       window.alert("내용을 입력해주세요");
       return;
