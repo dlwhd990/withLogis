@@ -211,6 +211,8 @@ const App = (props) => {
               replies={bbsReplies}
               noticeReplies={noticeReplies}
               loadArticlesAndReplies={loadArticlesAndReplies}
+              loadBbsReply={loadBbsReply}
+              loadNoticeReply={loadNoticeReply}
               user={sessionUser}
             />
           )}

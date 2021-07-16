@@ -12,6 +12,8 @@ const ArticleView = ({
   replies,
   noticeReplies,
   loadArticlesAndReplies,
+  loadBbsReply,
+  loadNoticeReply,
   user,
 }) => {
   const { where, id } = useParams();
@@ -174,6 +176,14 @@ const ArticleView = ({
       .catch((err) => console.error("error: ", err.response));
   };
 
+  const refreshButtonHandler = () => {
+    if (where === "bbs") {
+      loadBbsReply();
+    } else if (where === "notice") {
+      loadNoticeReply();
+    }
+  };
+
   if (article && replyList) {
     return (
       <section className={styles.article_view}>
@@ -212,9 +222,17 @@ const ArticleView = ({
             </div>
           </article>
           <div className={styles.reply_input_container}>
-            <p
-              className={styles.reply_input_title}
-            >{`댓글 ${replyList.length}`}</p>
+            <div className={styles.reply_input_title_and_refresh_button}>
+              <p
+                className={styles.reply_input_title}
+              >{`댓글 ${replyList.length}`}</p>
+              <button
+                className={styles.refresh_button}
+                onClick={refreshButtonHandler}
+              >
+                <i className={`${styles.refresh_button_icon} fas fa-redo`}></i>
+              </button>
+            </div>
             <form
               className={styles.reply_input_form}
               onSubmit={onReplySubmitHandler}

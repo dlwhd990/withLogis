@@ -126,10 +126,36 @@
   border: 1px solid var(--color-theme);
 }
 
+.reply_input_title_and_refresh_button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 .reply_input_title {
   font-size: 20px;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-right: 10px;
+}
+
+.refresh_button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.refresh_button_icon {
+  margin-top: 5px;
+  color: var(--color-article);
+  transition: 140ms all ease-in;
+}
+
+.refresh_button:hover > .refresh_button_icon {
+  color: var(--color-theme);
 }
 
 .reply_input_form {
