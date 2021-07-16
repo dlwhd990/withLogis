@@ -49,4 +49,6 @@
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--color-article);
+  white-space: pre-line;
+  padding: 10px 20px 0 20px;
 }

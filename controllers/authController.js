@@ -80,7 +80,6 @@ module.exports.login_post = async (req, res) => {
       });
     } else {
       req.session.user = users;
-      console.log(req.session);
       return res.json({
         success: true,
         message: `${req.session.user.nickname} 님 환영합니다.`,
@@ -180,7 +179,6 @@ module.exports.findPW_get = async (res) => {
 module.exports.findPW_id_phoneNum_check = async (req, res) => {
   const { userId, phoneNum } = req.body;
   const users = await User.findOne({ userId });
-  console.log(users, "A", userId, "B", phoneNum);
   try {
     if (!users) {
       res.json({ success: false, message: "존재하지 않는 아이디입니다." });
@@ -240,7 +238,6 @@ module.exports.smsAuth_send = (req, res) => {
   const { phoneNum } = req.body;
   const savedAuthNum = smsController.sendsms(phoneNum).toString();
   req.session.authNum = savedAuthNum;
-  console.log(req.session);
   res.json({
     message: "인증 번호가 전송되었습니다.",
   });
@@ -252,7 +249,6 @@ module.exports.smsAuth_check = (req, res) => {
   try {
     if (authNum === savedAuthNum) {
       req.session.authNum = null;
-      console.log(req.session);
       res.json({
         success: true,
         message: "인증되었습니다.",

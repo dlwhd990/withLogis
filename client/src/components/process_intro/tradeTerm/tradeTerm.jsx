@@ -24,7 +24,6 @@ const Tradeterm = ({ termList }) => {
 
   const inputChangeHandler = debounce((e) => {
     setInputValue(e.target.value);
-    console.log(e.target.value);
   }, 200);
 
   const makeSelectedList = () => {

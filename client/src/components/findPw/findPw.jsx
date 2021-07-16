@@ -47,7 +47,6 @@ const FindPw = (props) => {
   };
 
   const sendSMS = (phoneNum) => {
-    console.log(phoneNum);
     axios
       .post("/auth/sms-auth", { phoneNum })
       .then((response) => window.alert(response.data.message))

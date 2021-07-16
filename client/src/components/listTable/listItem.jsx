@@ -5,6 +5,7 @@ const ListItem = ({ item, id, length }) => {
   const [viewContent, setViewContent] = useState(false);
   const [isFirst, setIsFirst] = useState(false);
   const [isLast, setIsLast] = useState(false);
+
   const controlView = () => {
     setViewContent(!viewContent);
   };

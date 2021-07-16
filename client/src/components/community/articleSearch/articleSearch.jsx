@@ -118,7 +118,7 @@ const ArticleSearch = ({ articles, user }) => {
 
   return (
     <section className={styles.article_search}>
-      <h1 className={styles.bbs_title}>{`${boardName} 검색결과`}</h1>
+      <h1 className={styles.article_search_title}>{`${boardName} 검색결과`}</h1>
       <section className={styles.top}>
         <section className={styles.search}>
           <select

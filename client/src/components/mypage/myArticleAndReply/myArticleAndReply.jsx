@@ -89,12 +89,10 @@ const MyArticleAndReply = ({
   };
 
   const changeToArticle = () => {
-    console.log("asdsa");
     setSelector(true);
   };
 
   const changeToReply = () => {
-    console.log("asdsa");
     setSelector(false);
   };
 

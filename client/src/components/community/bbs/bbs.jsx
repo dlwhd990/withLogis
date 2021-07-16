@@ -43,7 +43,7 @@ const Bbs = ({ articles, user }) => {
   }
 
   const pageNumberClick = (e) => {
-    setNumbering(e.target.textContent);
+    setNumbering(parseInt(e.target.textContent));
   };
 
   const goWrite = () => {
@@ -138,7 +138,11 @@ const Bbs = ({ articles, user }) => {
           {list.map((num) => (
             <li
               key={num}
-              className={styles.page_number}
+              className={
+                numbering === num
+                  ? `${styles.page_number} ${styles.page_on}`
+                  : `${styles.page_number} ${styles.page_off}`
+              }
               onClick={pageNumberClick}
             >
               {num}

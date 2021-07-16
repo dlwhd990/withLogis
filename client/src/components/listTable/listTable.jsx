@@ -6,7 +6,6 @@ const ListTable = ({ items, title }) => {
   items.sort(function (a, b) {
     return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
   });
-  console.log(items);
 
   return (
     <section className={styles.list_table}>

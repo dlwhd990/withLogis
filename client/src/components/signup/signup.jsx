@@ -71,7 +71,6 @@ const Signup = (props) => {
     axios
       .post("/auth/dup-phoneNum", { phoneNum })
       .then((res) => {
-        console.log(res.data);
         if (!res.data.success) {
           window.alert("이미 가입된 번호입니다.");
           return;

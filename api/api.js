@@ -33,7 +33,6 @@ router.get("/bbs/reply", async (req, res) => {
 
 router.post("/bbs/writeReply", async (req, res) => {
   const { id, timeId, content, date, writer, writerId } = req.body;
-  console.log(id, timeId, content, date, writer, writerId);
   try {
     const reply = await Reply.findOne({ id: id });
     const list = reply.replyList;
@@ -133,7 +132,6 @@ router.get("/notice/reply", async (req, res) => {
 
 router.post("/notice/writeReply", async (req, res) => {
   const { id, timeId, content, date, writer, writerId } = req.body;
-  console.log(id, timeId, content, date, writer, writerId);
   try {
     const reply = await NoticeReply.findOne({ id: id });
     const list = reply.replyList;
@@ -183,7 +181,6 @@ router.post("/notice/reply/delete", async (req, res) => {
 });
 
 router.post("/notice/write", async (req, res) => {
-  console.log(req.body);
   const counter = await ArticleNumberCounter.findOne({ name: "notice" });
   const id = counter.count + 1;
   await ArticleNumberCounter.updateOne({ name: "notice" }, { count: id });
@@ -221,7 +218,6 @@ router.post("/notice/write", async (req, res) => {
 
 router.post("/bbs/recommand", async (req, res) => {
   let { id, userId, recommand_count, recommand_list } = req.body;
-  console.log(id, userId, recommand_count, recommand_list);
   recommand_list.push(userId);
   try {
     await Article.updateOne({ id: id }, { recommand: recommand_count + 1 });
@@ -237,7 +233,6 @@ router.post("/bbs/recommand", async (req, res) => {
 
 router.post("/notice/recommand", async (req, res) => {
   const { id, userId, recommand_count, recommand_list } = req.body;
-  console.log(id, userId, recommand_count, recommand_list);
   recommand_list.push(userId);
   try {
     await Notice.updateOne({ id: id }, { recommand: recommand_count + 1 });
@@ -292,7 +287,6 @@ router.post("/bbs/edit", async (req, res) => {
 router.post("/bbs/edit/submit", async (req, res) => {
   const { id, title, content } = req.body;
   try {
-    console.log(req.body);
     await Article.updateOne({ id: id }, { title: title });
     await Article.updateOne({ id: id }, { content: content });
     res.json({
@@ -322,7 +316,6 @@ router.post("/notice/edit", async (req, res) => {
 router.post("/notice/edit/submit", async (req, res) => {
   const { id, title, content } = req.body;
   try {
-    console.log(req.body);
     await Notice.updateOne({ id: id }, { title: title });
     await Notice.updateOne({ id: id }, { content: content });
     res.json({
