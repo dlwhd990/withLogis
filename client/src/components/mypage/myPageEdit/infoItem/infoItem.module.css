@@ -1,0 +1,23 @@
+.info_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid lightgray;
+  border-bottom: none;
+  background-color: white;
+}
+
+.left_box {
+  border-right: 1px solid lightgray;
+  padding: 12px;
+  width: 120px;
+}
+
+.text {
+  font-size: 18px;
+}
+
+.data {
+  font-size: 20px;
+  margin-left: 15px;
+}

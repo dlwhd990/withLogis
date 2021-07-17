@@ -74,7 +74,7 @@ const Header = ({ user, logout }) => {
               className={styles.userNickname}
               onClick={() => {
                 setViewDropDown(false);
-                history.push("/mypage/myArticle");
+                history.push("/mypage");
                 window.scrollTo({ top: 0 });
               }}
             >
@@ -225,6 +225,20 @@ const Header = ({ user, logout }) => {
                       return;
                     }
                     setViewDropDown(false);
+                    history.push("/mypage/edit");
+                    window.scrollTo({ top: 0 });
+                  }}
+                >
+                  회원정보
+                </span>
+                <span
+                  className={styles.dropdown_menu_item}
+                  onClick={() => {
+                    if (!user) {
+                      window.alert("로그인 후에 사용가능합니다.");
+                      return;
+                    }
+                    setViewDropDown(false);
                     history.push("/mypage/myArticle");
                     window.scrollTo({ top: 0 });
                   }}
@@ -244,20 +258,6 @@ const Header = ({ user, logout }) => {
                   }}
                 >
                   운임 조회 내역
-                </span>
-                <span
-                  className={styles.dropdown_menu_item}
-                  onClick={() => {
-                    if (!user) {
-                      window.alert("로그인 후에 사용가능합니다.");
-                      return;
-                    }
-                    setViewDropDown(false);
-                    history.push("/mypage/edit");
-                    window.scrollTo({ top: 0 });
-                  }}
-                >
-                  정보 수정
                 </span>
               </div>
             )}

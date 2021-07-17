@@ -4,7 +4,7 @@ import ArticlePreview from "../articlePreview/articlePreview";
 import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./notice.module.css";
 
-const Notice = ({ articles, user }) => {
+const Notice = ({ articles, user, loadArticlesAndReplies }) => {
   const searchTypeRef = useRef();
   const searchInputRef = useRef();
   const history = useHistory();
@@ -90,6 +90,10 @@ const Notice = ({ articles, user }) => {
     return () => {
       window.removeEventListener("keydown", keyHandler);
     };
+  }, []);
+
+  useEffect(() => {
+    loadArticlesAndReplies();
   }, []);
 
   return (

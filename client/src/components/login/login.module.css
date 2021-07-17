@@ -2,6 +2,7 @@
   width: 360px;
   margin: auto;
   margin-top: 110px;
+  margin-bottom: 200px;
   height: calc(100vh - 246px);
   display: flex;
   flex-direction: column;

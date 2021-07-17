@@ -55,7 +55,7 @@ mongoose
 
 const store = new mongoDBSession({
   uri: dbURI,
-  collection: "userData",
+  collection: "session",
 });
 
 app.use(

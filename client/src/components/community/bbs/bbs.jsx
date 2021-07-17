@@ -4,13 +4,17 @@ import ArticlePreview from "../articlePreview/articlePreview";
 import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./bbs.module.css";
 
-const Bbs = ({ articles, user }) => {
+const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
   const history = useHistory();
   const searchTypeRef = useRef();
   const searchInputRef = useRef();
   const [numbering, setNumbering] = useState(1);
   const [reportOn, setReportOn] = useState(false);
   const articleKeyList = Object.keys(articles).reverse();
+
+  useEffect(() => {
+    loadArticlesAndReplies();
+  }, []);
 
   let pagelength = 0;
 

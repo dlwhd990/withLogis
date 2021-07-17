@@ -27,6 +27,7 @@ import FindPw from "./components/findPw/findPw";
 import ErrorPage from "./components/errorPage/errorPage";
 import LoadingPage from "./components/loadingPage/loadingPage";
 import ArticleSearch from "./components/community/articleSearch/articleSearch";
+import MyPageMain from "./components/mypage/myPageMain/myPageMain";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -185,14 +186,22 @@ const App = (props) => {
         </Route>
         <Route exact path="/notice">
           {noticeArticles ? (
-            <Notice articles={noticeArticles} user={sessionUser} />
+            <Notice
+              articles={noticeArticles}
+              user={sessionUser}
+              loadArticlesAndReplies={loadArticlesAndReplies}
+            />
           ) : (
             <LoadingPage />
           )}
         </Route>
         <Route exact path="/bbs">
           {bbsArticles ? (
-            <Bbs articles={bbsArticles} user={sessionUser} />
+            <Bbs
+              articles={bbsArticles}
+              user={sessionUser}
+              loadArticlesAndReplies={loadArticlesAndReplies}
+            />
           ) : (
             <LoadingPage />
           )}
@@ -246,6 +255,17 @@ const App = (props) => {
             <LoadingPage />
           )}
         </Route>
+        <Route exact path="/mypage">
+          {session ? (
+            sessionUser ? (
+              myArticles && myReplies && <MyPageMain user={sessionUser} />
+            ) : (
+              <ErrorPage />
+            )
+          ) : (
+            <LoadingPage />
+          )}
+        </Route>
         <Route exact path="/mypage/myArticle">
           {session ? (
             sessionUser ? (
@@ -279,7 +299,14 @@ const App = (props) => {
         <Route exact path="/mypage/edit">
           {session ? (
             sessionUser ? (
-              <MyPageEdit />
+              myArticles &&
+              myReplies && (
+                <MyPageEdit
+                  user={sessionUser}
+                  myArticles={myArticles}
+                  myReplies={myReplies}
+                />
+              )
             ) : (
               <ErrorPage />
             )
