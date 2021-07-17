@@ -109,7 +109,13 @@ const App = (props) => {
     sessionUser &&
       axios
         .post("/api/mypage/myReplies", { userId: sessionUser.userId })
-        .then((res) => setMyReplies(res.data))
+        .then((res) => {
+          const result = res.data;
+          result.sort(function (a, b) {
+            return b.timeId - a.timeId;
+          });
+          setMyReplies(result);
+        })
         .catch((err) => console.log(err));
   };
 
