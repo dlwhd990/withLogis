@@ -45,6 +45,5 @@
     "swagger-ui-express": "^4.1.6",
     "tail": "^2.2.3",
     "yarn": "^1.22.10"
-  },
-  "devDependencies": {}
+  }
 }

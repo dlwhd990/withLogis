@@ -64,6 +64,9 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
   };
 
   const onSearchHandler = () => {
+    if (!searchInputRef.current || !searchTypeRef.current) {
+      return;
+    }
     const query = searchInputRef.current.value;
     const type = searchTypeRef.current.value;
     if (query === "") {
