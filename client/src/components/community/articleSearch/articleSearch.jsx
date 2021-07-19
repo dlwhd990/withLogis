@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import LoadingPageSmall from "../../loadingPage/loadingPageSmall/loadingPageSmall";
 import ArticlePreview from "../articlePreview/articlePreview";
 import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./articleSearch.module.css";
@@ -10,7 +11,7 @@ const ArticleSearch = ({ articles, user }) => {
   const searchTypeRef = useRef();
   const searchInputRef = useRef();
   const history = useHistory();
-  const [resultArticles, setResultArticles] = useState([]);
+  const [resultArticles, setResultArticles] = useState(null);
   const [numbering, setNumbering] = useState(1);
   const [reportOn, setReportOn] = useState(false);
   const [pageList, setPageList] = useState([]);
@@ -103,6 +104,7 @@ const ArticleSearch = ({ articles, user }) => {
       window.alert("물음표는 검색할 수 없습니다."); // 왜 안되는지 모름
       return;
     }
+    setNumList(null);
     searchInputRef.current.value = "";
     history.push(`/${where}/search/${type}/${query}`);
     window.scrollTo({ top: 0 });
@@ -121,6 +123,10 @@ const ArticleSearch = ({ articles, user }) => {
       window.removeEventListener("keydown", keyHandler);
     };
   }, []);
+
+  useEffect(() => {
+    console.log(pageList);
+  }, [pageList]);
 
   return (
     <section className={styles.article_search}>
@@ -161,15 +167,22 @@ const ArticleSearch = ({ articles, user }) => {
         <div className={styles.report}>신고</div>
       </section>
       <section className={styles.body}>
-        {pageList.length > 1 &&
-          pageList[numbering].map((index) => (
-            <ArticlePreview
-              key={resultArticles[index].id}
-              article={resultArticles[index]}
-              where="bbs"
-              reportOnChange={reportOnChange}
-            />
-          ))}
+        {pageList.length > 0 ? (
+          pageList.length === 1 && pageList[0].length === 0 ? (
+            <p className={styles.no_result_message}>검색 결과가 없습니다</p>
+          ) : (
+            pageList[numbering].map((index) => (
+              <ArticlePreview
+                key={resultArticles[index].id}
+                article={resultArticles[index]}
+                where="bbs"
+                reportOnChange={reportOnChange}
+              />
+            ))
+          )
+        ) : (
+          <LoadingPageSmall />
+        )}
       </section>
       <section className={styles.bottom}>
         <ul className={styles.page_numbers}>
