@@ -96,27 +96,20 @@ const MyArticleAndReply = ({
     setSelector(false);
   };
 
-  const checkIfLastAricle = () => {
+  const checkIfLastArticle = () => {
     if (numbering === pages.length - 1 && pages[numbering].length === 1) {
-      console.log("ㅋㅋㅋㅋㅋ");
       setNumbering(numbering - 1);
     }
   };
 
   const checkIfLastReply = () => {
-    console.log(
-      replyNumbering,
-      replyPages.length - 1,
-      replyPages[replyNumbering].length
-    );
-    console.log(replyPages);
     if (
       replyNumbering === replyPages.length - 1 &&
       replyPages[replyNumbering].length === 1
     ) {
-      console.log("ㅋㅋㅋㅋㅋ");
       setReplyNumbering(replyNumbering - 1);
     }
+    console.log("DD");
   };
 
   return (
@@ -174,7 +167,7 @@ const MyArticleAndReply = ({
                 key={articles[index].id}
                 article={articles[index]}
                 loadArticlesAndReplies={loadArticlesAndReplies}
-                checkIfLastAricle={checkIfLastAricle}
+                checkIfLastArticle={checkIfLastArticle}
               />
             ))
           : replies.length !== 0 &&

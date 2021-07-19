@@ -3,7 +3,7 @@ import styles from "./writeArticle.module.css";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 
-const WriteArticle = ({ user, loadArticlesAndReplies }) => {
+const WriteArticle = ({ user }) => {
   let timeId, month, day, hour, minute;
   const history = useHistory();
   const { where } = useParams();
@@ -11,7 +11,6 @@ const WriteArticle = ({ user, loadArticlesAndReplies }) => {
   const contentRef = useRef();
 
   const afterSubmit = () => {
-    loadArticlesAndReplies();
     history.push(`/${where}`);
   };
 

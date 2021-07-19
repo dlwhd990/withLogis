@@ -213,10 +213,7 @@ const App = (props) => {
           )}
         </Route>
         <Route exact path="/:where/write">
-          <WriteArticle
-            user={sessionUser}
-            loadArticlesAndReplies={loadArticlesAndReplies}
-          />
+          <WriteArticle user={sessionUser} />
         </Route>
         <Route exact path="/:where/view/:id">
           {bbsArticles && noticeArticles && bbsReplies && noticeReplies && (
