@@ -72,8 +72,8 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
     if (query === "") {
       window.alert("검색어를 입력하세요");
       return;
-    } else if (query === "?") {
-      window.alert("물음표는 검색할 수 없습니다."); // 왜 안되는지 모름
+    } else if (query === "?" || query === "#") {
+      window.alert("?, #는 검색할 수 없습니다."); // 왜 안되는지 모름
       return;
     }
     searchInputRef.current.value = "";
@@ -98,6 +98,10 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
   useEffect(() => {
     loadArticlesAndReplies();
   }, []);
+
+  useEffect(() => {
+    searchInputRef && searchInputRef.current.focus();
+  }, [searchInputRef]);
 
   return (
     <section className={styles.notice}>

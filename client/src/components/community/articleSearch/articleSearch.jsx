@@ -6,7 +6,7 @@ import ArticlePreview from "../articlePreview/articlePreview";
 import ReportPopup from "../reportPopup/reportPopup";
 import styles from "./articleSearch.module.css";
 
-const ArticleSearch = ({ articles, user }) => {
+const ArticleSearch = ({ articles, user, loadBbsDatas, loadNoticeDatas }) => {
   const { where, type, query } = useParams();
   const searchTypeRef = useRef();
   const searchInputRef = useRef();
@@ -100,9 +100,14 @@ const ArticleSearch = ({ articles, user }) => {
     if (query === "") {
       window.alert("검색어를 입력하세요");
       return;
-    } else if (query === "?") {
-      window.alert("물음표는 검색할 수 없습니다."); // 왜 안되는지 모름
+    } else if (query === "?" || query === "#") {
+      window.alert("?, #는 검색할 수 없습니다."); // 왜 안되는지 모름
       return;
+    }
+    if (where === "bbs") {
+      loadBbsDatas();
+    } else if (where === "notice") {
+      loadNoticeDatas();
     }
     setNumList(null);
     searchInputRef.current.value = "";
@@ -125,8 +130,8 @@ const ArticleSearch = ({ articles, user }) => {
   }, []);
 
   useEffect(() => {
-    console.log(pageList);
-  }, [pageList]);
+    searchInputRef && searchInputRef.current.focus();
+  }, [searchInputRef]);
 
   return (
     <section className={styles.article_search}>

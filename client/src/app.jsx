@@ -128,6 +128,16 @@ const App = (props) => {
     loadMyReply();
   };
 
+  const loadBbsDatas = () => {
+    loadBbsArticle();
+    loadBbsReply();
+  };
+
+  const loadNoticeDatas = () => {
+    loadNoticeArticle();
+    loadNoticeReply();
+  };
+
   useEffect(() => {
     loadArticlesAndReplies();
   }, []);
@@ -238,7 +248,12 @@ const App = (props) => {
         </Route>
         <Route exact path="/:where/search/:type/:query">
           {bbsArticles && (
-            <ArticleSearch articles={bbsArticles} user={sessionUser} />
+            <ArticleSearch
+              articles={bbsArticles}
+              user={sessionUser}
+              loadBbsDatas={loadBbsDatas}
+              loadNoticeDatas={loadNoticeDatas}
+            />
           )}
         </Route>
         <Route exact path="/policies">
