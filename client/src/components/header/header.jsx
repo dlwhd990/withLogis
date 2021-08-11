@@ -34,9 +34,9 @@ const Header = ({ user, logout }) => {
           WithLogis
         </h1>
         <div className={styles.login_box}>
-          {user == null ? (
+          {user === null ? (
             <></>
-          ) : user == false ? (
+          ) : user === false ? (
             <div className="">
               <span
                 className={styles.login}

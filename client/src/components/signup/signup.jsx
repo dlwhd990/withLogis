@@ -49,8 +49,8 @@ const Signup = (props) => {
     axios
       .post("/auth/dup-nickname", { checkNickname: nicknameRef.current.value })
       .then((response) => {
-        window.alert(response.data);
-        if (response.data === "사용 가능한 닉네임입니다.") {
+        window.alert(response.data.message);
+        if (response.data.success) {
           setCheckedNickname(nicknameRef.current.value);
         }
       })

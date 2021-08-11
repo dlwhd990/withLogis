@@ -327,9 +327,15 @@ module.exports.dup_nickname_post = async (req, res) => {
   const user = await User.findOne({ nickname: checkNickname });
   try {
     if (user) {
-      res.json("이미 사용중인 닉네임입니다.");
+      res.json({
+        message: "이미 사용중인 닉네임입니다.",
+        success: false,
+      });
     } else {
-      res.json("사용 가능한 닉네임입니다.");
+      res.json({
+        message: "사용 가능한 닉네임입니다.",
+        success: true,
+      });
     }
   } catch (err) {
     console.log(err);
@@ -353,5 +359,26 @@ module.exports.dup_phoneNum_post = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+// 닉네임만 변경
+module.exports.change_nickname_post = async (req, res) => {
+  const { userId, newNickname } = req.body;
+  try {
+    await User.updateOne({ userId }, { nickname: newNickname });
+    const user = await User.findOne({ userId });
+    req.session.user = user;
+    console.log(req.session);
+    res.json({
+      success: true,
+      message: "닉네임 변경이 완료되었습니다",
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      message: "에러가 발생했습니다",
+    });
   }
 };

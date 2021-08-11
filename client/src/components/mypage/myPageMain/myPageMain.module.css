@@ -45,5 +45,5 @@
 
 .edit_button:hover,
 .withdrawal_button:hover {
-  background-color: var(--color-dark-theme);
+  background-color: var(--color-theme-hover);
 }

@@ -28,6 +28,7 @@ import LoadingPage from "./components/loadingPage/loadingPage";
 import ArticleSearch from "./components/community/articleSearch/articleSearch";
 import MyPageMain from "./components/mypage/myPageMain/myPageMain";
 import MyPageWithdrawal from "./components/mypage/myPageWithdrawal/myPageWithdrawal";
+import MyPageEdit from "./components/mypage/myPageEdit/myPageEdit";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -60,7 +61,7 @@ const App = (props) => {
       .catch((err) => console.error("error: ", err.response));
   };
 
-  useEffect(() => {
+  const sessionCheck = () => {
     callAPI("/auth/session-check")
       .then((res) => {
         if ("user" in res) {
@@ -71,6 +72,10 @@ const App = (props) => {
         setSession(res);
       })
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    sessionCheck();
   }, []);
 
   const loadBbsArticle = () => {
@@ -284,6 +289,17 @@ const App = (props) => {
                   myReplies={myReplies}
                 />
               )
+            ) : (
+              <ErrorPage />
+            )
+          ) : (
+            <LoadingPage />
+          )}
+        </Route>
+        <Route exact path="/mypage/edit">
+          {session ? (
+            sessionUser ? (
+              <MyPageEdit user={sessionUser} sessionCheck={sessionCheck} />
             ) : (
               <ErrorPage />
             )
