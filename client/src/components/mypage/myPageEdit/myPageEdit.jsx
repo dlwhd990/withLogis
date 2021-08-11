@@ -58,6 +58,14 @@ const MyPageEdit = ({ user, sessionCheck }) => {
     }
   };
 
+  const phoneNumHandler = () => {
+    if (!changePhoneNumOn) {
+      setChangePhoneNumOn(true);
+    } else {
+      console.log("추가예정");
+    }
+  };
+
   return (
     <section className={styles.myPageEdit}>
       <section className={styles.myPageEdit_container}>
@@ -111,13 +119,25 @@ const MyPageEdit = ({ user, sessionCheck }) => {
               ref={phoneNumRef}
               type="text"
               name="phoneNum"
-              className={styles.phone_input}
+              className={
+                changePhoneNumOn
+                  ? `${styles.phone_input}`
+                  : `${styles.disabled_phone_input}`
+              }
               placeholder="핸드폰 번호"
               spellCheck="false"
               disabled={!changePhoneNumOn}
             />
-            <button type="button" className={styles.phone_check_button}>
-              인증번호 전송
+            <button
+              type="button"
+              className={
+                changePhoneNumOn
+                  ? `${styles.phone_check_button}`
+                  : `${styles.disabled_button}`
+              }
+              onClick={phoneNumHandler}
+            >
+              {changePhoneNumOn ? "인증번호 전송" : "변경"}
             </button>
           </div>
           {changePhoneNumOn && (
@@ -154,7 +174,7 @@ const MyPageEdit = ({ user, sessionCheck }) => {
             <button
               type="button"
               className={styles.pw_check_button}
-              onClick={nicknameHandler}
+              onClick={pwHandler}
             >
               {nicknameChangeOn ? "확인" : "변경"}
             </button>
@@ -165,7 +185,7 @@ const MyPageEdit = ({ user, sessionCheck }) => {
               type="password"
               name="password_confirm"
               placeholder="비밀번호확인"
-              className={styles.pw_input}
+              className={styles.pw_confirm_input}
               spellCheck="false"
             />
           )}

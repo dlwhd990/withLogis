@@ -81,6 +81,21 @@
   cursor: default;
 }
 
+.pw_confirm_input {
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 45px;
+  padding: 8px;
+  box-shadow: 1px 1px 3px 1px lightgray;
+  font-size: 1.2rem;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
 .signup_submit_button {
   width: 100%;
   height: 45px;
@@ -116,4 +131,28 @@
 
 .disabled {
   background-color: rgba(235, 229, 229, 0.5);
+  transition: 200ms all ease-in;
+}
+
+.disabled:hover {
+  background-color: rgba(235, 229, 229, 0.9);
+}
+
+.disabled_button {
+  flex-basis: 20%;
+  height: 30px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  margin: 5px;
+  font-size: 90%;
+}
+
+.disabled_phone_input {
+  flex-basis: 80%;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
 }
