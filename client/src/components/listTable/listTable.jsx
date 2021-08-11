@@ -4,7 +4,7 @@ import styles from "./listTable.module.css";
 
 const ListTable = ({ items, title }) => {
   items.sort(function (a, b) {
-    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+    return a.step < b.step ? -1 : a.step > b.step ? 1 : 0;
   });
 
   return (

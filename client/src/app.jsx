@@ -66,7 +66,7 @@ const App = (props) => {
         if ("user" in res) {
           setSessionUser(res.user);
         } else {
-          setSessionUser(null);
+          setSessionUser(false);
         }
         setSession(res);
       })

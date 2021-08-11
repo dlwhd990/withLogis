@@ -34,52 +34,53 @@ const Header = ({ user, logout }) => {
           WithLogis
         </h1>
         <div className={styles.login_box}>
-          {!user && (
-            <span
-              className={styles.login}
-              onClick={() => {
-                setViewDropDown(false);
-                history.push("/auth/login");
-                window.scrollTo({ top: 0 });
-              }}
-            >
-              로그인
-            </span>
-          )}
-          {user && (
-            <span
-              className={styles.logout}
-              onClick={() => {
-                setViewDropDown(false);
-                logout(refresh);
-              }}
-            >
-              로그아웃
-            </span>
-          )}
-          {!user && (
-            <span
-              className={styles.signup}
-              onClick={() => {
-                setViewDropDown(false);
-                history.push("/auth/signup");
-                window.scrollTo({ top: 0 });
-              }}
-            >
-              회원가입
-            </span>
-          )}
-          {user && (
-            <span
-              className={styles.userNickname}
-              onClick={() => {
-                setViewDropDown(false);
-                history.push("/mypage");
-                window.scrollTo({ top: 0 });
-              }}
-            >
-              {`${user.nickname} 님`}
-            </span>
+          {user == null ? (
+            <></>
+          ) : user == false ? (
+            <div className="">
+              <span
+                className={styles.login}
+                onClick={() => {
+                  setViewDropDown(false);
+                  history.push("/auth/login");
+                  window.scrollTo({ top: 0 });
+                }}
+              >
+                로그인
+              </span>
+              <span
+                className={styles.signup}
+                onClick={() => {
+                  setViewDropDown(false);
+                  history.push("/auth/signup");
+                  window.scrollTo({ top: 0 });
+                }}
+              >
+                회원가입
+              </span>
+            </div>
+          ) : (
+            <div className="">
+              <span
+                className={styles.logout}
+                onClick={() => {
+                  setViewDropDown(false);
+                  logout(refresh);
+                }}
+              >
+                로그아웃
+              </span>
+              <span
+                className={styles.userNickname}
+                onClick={() => {
+                  setViewDropDown(false);
+                  history.push("/mypage");
+                  window.scrollTo({ top: 0 });
+                }}
+              >
+                {`${user.nickname} 님`}
+              </span>
+            </div>
           )}
         </div>
       </section>
