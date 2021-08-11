@@ -14,7 +14,6 @@ import Policies from "./components/org&pol/policies/policies";
 import Consulting from "./components/org&pol/consulting/consulting";
 import MyArticleAndReply from "./components/mypage/myArticleAndReply/myArticleAndReply";
 import FareExpectList from "./components/mypage/fareExpectList/fareExpectList";
-import MyPageEdit from "./components/mypage/myPageEdit/myPageEdit";
 import Footer from "./components/footer/footer";
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
@@ -28,6 +27,7 @@ import ErrorPage from "./components/errorPage/errorPage";
 import LoadingPage from "./components/loadingPage/loadingPage";
 import ArticleSearch from "./components/community/articleSearch/articleSearch";
 import MyPageMain from "./components/mypage/myPageMain/myPageMain";
+import MyPageWithdrawal from "./components/mypage/myPageWithdrawal/myPageWithdrawal";
 
 const App = (props) => {
   const [exportProcessdata, setExportProcessData] = useState(null);
@@ -276,7 +276,14 @@ const App = (props) => {
         <Route exact path="/mypage">
           {session ? (
             sessionUser ? (
-              myArticles && myReplies && <MyPageMain user={sessionUser} />
+              myArticles &&
+              myReplies && (
+                <MyPageMain
+                  user={sessionUser}
+                  myArticles={myArticles}
+                  myReplies={myReplies}
+                />
+              )
             ) : (
               <ErrorPage />
             )
@@ -314,17 +321,10 @@ const App = (props) => {
             <LoadingPage />
           )}
         </Route>
-        <Route exact path="/mypage/edit">
+        <Route exact path="/mypage/withdrawal">
           {session ? (
             sessionUser ? (
-              myArticles &&
-              myReplies && (
-                <MyPageEdit
-                  user={sessionUser}
-                  myArticles={myArticles}
-                  myReplies={myReplies}
-                />
-              )
+              <MyPageWithdrawal user={sessionUser} />
             ) : (
               <ErrorPage />
             )
@@ -332,6 +332,7 @@ const App = (props) => {
             <LoadingPage />
           )}
         </Route>
+
         <Route exact path="/auth/login">
           <Login />
         </Route>

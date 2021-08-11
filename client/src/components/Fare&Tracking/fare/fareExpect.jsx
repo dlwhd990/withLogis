@@ -59,32 +59,52 @@ const FareExpect = (props) => {
       <section className={styles.fare_expect_container}>
         <h1 className={styles.fare_expect_container_title}>예상 운임 조회</h1>
         <div className={styles.top}>
-          <div className={styles.departure}>
-            <span className={styles.title}>출발일</span>
-            <input
-              type="date"
-              value={departureDate}
-              onChange={onDepartureDateChange}
-              className={styles.departure_input}
-            />
+          <div className={styles.top_top}>
+            <div className={styles.depart_city}>
+              <span className={styles.title}>출발지</span>
+              <select name="" id="" className={styles.depart_city_select}>
+                <option value="서울">서울(SEOUL)</option>
+                <option value="인천">인천(INCHEON)</option>
+                <option value="부산">부산(BUSAN)</option>
+              </select>
+            </div>
+            <div className={styles.arrive_city}>
+              <span className={styles.title}>출발지</span>
+              <select name="" id="" className={styles.arrive_city_select}>
+                <option value="상하이">상하이(Shanghai)</option>
+                <option value="가오슝">가오슝(KAOSHIUNG)</option>
+                <option value="벤쿠버">벤쿠버(VANCOUVER)</option>
+              </select>
+            </div>
           </div>
-          <div className={styles.arrival}>
-            <span className={styles.title}>도착일</span>
-            <input
-              type="date"
-              value={arrivalDate}
-              onChange={onArrivalDateChange}
-              className={styles.arrival_input}
-            />
-          </div>
-          <div className={styles.expect_date}>
-            <span className={styles.title}>출고 예정일</span>
-            <input
-              type="date"
-              value={expectDate}
-              onChange={onExpectDateChange}
-              className={styles.expect_date_input}
-            />
+          <div className={styles.top_bottom}>
+            <div className={styles.departure}>
+              <span className={styles.title}>출발일</span>
+              <input
+                type="date"
+                value={departureDate}
+                onChange={onDepartureDateChange}
+                className={styles.departure_input}
+              />
+            </div>
+            <div className={styles.arrival}>
+              <span className={styles.title}>도착일</span>
+              <input
+                type="date"
+                value={arrivalDate}
+                onChange={onArrivalDateChange}
+                className={styles.arrival_input}
+              />
+            </div>
+            <div className={styles.expect_date}>
+              <span className={styles.title}>출고 예정일</span>
+              <input
+                type="date"
+                value={expectDate}
+                onChange={onExpectDateChange}
+                className={styles.expect_date_input}
+              />
+            </div>
           </div>
         </div>
         <div className={styles.mid}>
@@ -116,7 +136,7 @@ const FareExpect = (props) => {
               </div>
             </div>
           </div>
-          <div className={styles.mid_bottom}>
+          <div className={styles.mid_middle}>
             <div className={styles.transship}>
               <span className={styles.title}>환적여부</span>
               <button className={styles.select_button}>Y</button>
@@ -130,15 +150,18 @@ const FareExpect = (props) => {
               <button className={styles.select_button}>ETC</button>
             </div>
           </div>
+          <div className={styles.mid_bottom}>
+            <div className={styles.cargo_item_select}>
+              <span className={styles.title}>화물품목</span>
+              <button className={styles.select_button}>일반</button>
+              <button className={styles.select_button}>냉동/냉장</button>
+              <button className={styles.select_button}>화학제품</button>
+              <button className={styles.select_button}>위험</button>
+              <button className={styles.select_button}>기타</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.bottom}>
-          <span className={styles.title}>HS CODE</span>
-          <input
-            type="text"
-            className={styles.hscode_input}
-            spellCheck="false"
-          />
-        </div>
+
         <button className={styles.result_button}>예상 운임 조회</button>
       </section>
       {popup && <section className={styles.calc_popup_filter}></section>}

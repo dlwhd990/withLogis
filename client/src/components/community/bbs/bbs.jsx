@@ -79,6 +79,7 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
     searchInputRef.current.value = "";
     history.push(`/bbs/search/${type}/${query}`);
     window.scrollTo({ top: 0 });
+    loadArticlesAndReplies();
   };
 
   const keyHandler = (e) => {

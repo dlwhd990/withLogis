@@ -63,7 +63,7 @@ module.exports.signup_post = async (req, res) => {
 // 로그인
 
 module.exports.login_post = async (req, res) => {
-  const { userId, password } = req.body; // 위와 동일
+  const { userId, password, consist } = req.body; // 위와 동일
   const users = await User.findOne({ userId: userId }); // 위와 동일
   try {
     if (!users) {
@@ -79,7 +79,13 @@ module.exports.login_post = async (req, res) => {
         message: "비밀번호를 확인해 주세요.",
       });
     } else {
+      if (consist) {
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24;
+      } else {
+        req.session.cookie.maxAge = 1000 * 60 * 60;
+      }
       req.session.user = users;
+      console.log(req.session);
       return res.json({
         success: true,
         message: `${req.session.user.nickname} 님 환영합니다.`,
@@ -111,32 +117,65 @@ module.exports.logout_post = async (req, res) => {
   }
 };
 
-// 회원 탈퇴
-module.exports.withdraw_get = (res) => {
-  res.send("<h1>안녕? 여기는 회원탈퇴 페이지야</h1>");
-};
-
-module.exports.withdraw_delete = async (req, res) => {
+// 회원 탈퇴 (기존 코드를 이해하지 못해서 새로 만듭니다.)
+module.exports.withdraw_check = async (req, res) => {
+  const { userId, pw } = req.body;
   try {
-    await User.findOneAndDelete(
-      // url의 query parameter를 받아 해당 user정보를 조회하고 삭제
-      { _id: new mongoose.Types.ObjectId(req.query.id) }, // _id의 type이 ObjectId이므로 json 형식의 parameter를 ObjectId로 변환
-      (err, docs) => {
-        // findOneAndDelete의 callback함수는 err와, 삭제한 user정보를(docs)를 인수로 갖는다.
-        if (err) console.log(err);
-        else {
-          req.session.destroy();
-          res.json({
-            msg: "회원탈퇴 완료. 이용해주셔서 감사합니다.",
-            deleted: docs,
-          });
-        }
-      }
-    );
+    const users = await User.findOne({ userId });
+    const isMatch = await bcrypt.compare(pw, users.password);
+    if (!isMatch) {
+      return res.json({
+        success: false,
+        message: "비밀번호를 확인해 주세요.",
+      });
+    } else {
+      return res.json({
+        success: true,
+      });
+    }
   } catch (err) {
     console.log(err);
   }
 };
+
+module.exports.withdraw_delete = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    await User.deleteOne({ userId });
+    req.session.destroy();
+    console.log(req.session);
+    return res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
+//module.exports.withdraw_delete = async (req, res) => {
+//  try {
+//    await User.findOneAndDelete(
+//      // url의 query parameter를 받아 해당 user정보를 조회하고 삭제
+//      { _id: new mongoose.Types.ObjectId(req.query.id) }, // _id의 type이 ObjectId이므로 json 형식의 parameter를 ObjectId로 변환
+//      (err, docs) => {
+//        // findOneAndDelete의 callback함수는 err와, 삭제한 user정보를(docs)를 인수로 갖는다.
+//        if (err) console.log(err);
+//        else {
+//          req.session.destroy();
+//          res.json({
+//            msg: "회원탈퇴 완료. 이용해주셔서 감사합니다.",
+//            deleted: docs,
+//          });
+//        }
+//      }
+//    );
+//  } catch (err) {
+//    console.log(err);
+//  }
+//};
 
 // ID 찾기
 module.exports.findID_get = (res) => {

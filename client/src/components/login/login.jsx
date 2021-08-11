@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./login.module.css";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -7,6 +7,7 @@ const Login = (props) => {
   const history = useHistory();
   const userIdRef = useRef();
   const passwordRef = useRef();
+  const consistRef = useRef();
 
   const afterLogin = () => {
     window.location.href = "/";
@@ -19,6 +20,7 @@ const Login = (props) => {
       .post("/auth/login", {
         userId: userIdRef.current.value,
         password: passwordRef.current.value,
+        consist: consistRef.current.checked,
       })
       .then((response) => {
         window.alert(response.data.message);
@@ -53,8 +55,12 @@ const Login = (props) => {
             로그인
           </button>
           <div className={styles.always_login_container}>
-            <input type="checkbox" className={styles.always_login} />
-            <span className={styles.always_login_text}>로그인 상태 유지</span>
+            <input
+              ref={consistRef}
+              type="checkbox"
+              className={styles.consist_login}
+            />
+            <span className={styles.consist_login_text}>로그인 상태 유지</span>
           </div>
         </form>
       </div>

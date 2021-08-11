@@ -33,7 +33,10 @@ const Tradeterm = ({ termList }) => {
       return;
     }
     for (let i = 0; i < termList.length; i++) {
-      if (termList[i].class === selected) {
+      if (
+        termList[i].class_eng === selected ||
+        termList[i].class_kor === selected
+      ) {
         result.push(termList[i]);
       }
     }
@@ -46,7 +49,10 @@ const Tradeterm = ({ termList }) => {
       return;
     }
     for (let i = 0; i < selectedList.length; i++) {
-      if (selectedList[i].name.includes(inputValue)) {
+      const name = selectedList[i].word_kor
+        ? selectedList[i].word_kor
+        : selectedList[i].word_eng;
+      if (name.includes(inputValue)) {
         result.push(selectedList[i]);
       }
     }

@@ -79,6 +79,7 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
     searchInputRef.current.value = "";
     history.push(`/notice/search/${type}/${query}`);
     window.scrollTo({ top: 0 });
+    loadArticlesAndReplies();
   };
 
   const keyHandler = (e) => {

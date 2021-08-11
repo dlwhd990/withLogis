@@ -24,7 +24,8 @@ router.post("/logout", authController.logout_post);
 // 이를 위해선 로그인시 url에 _id정보를 필수로 포함시킨 후 숨겨야 할 것 같습니다.
 // 요청 url 예시 http://localhost:3333/auth/withdraw?id=60ad0935ad458513e01685f0
 //router.get("/withdraw", authController.withdraw_get);
-router.delete("/withdraw", authController.withdraw_delete);
+router.post("/withdrawal-check", authController.withdraw_check);
+router.post("/withdrawal-delete", authController.withdraw_delete);
 
 // ID 찾기 (필수 파라미터: phoneNum)
 // 요청 url 예시 http://localhost:3333/auth/find-id

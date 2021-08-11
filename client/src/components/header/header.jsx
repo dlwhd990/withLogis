@@ -225,7 +225,7 @@ const Header = ({ user, logout }) => {
                       return;
                     }
                     setViewDropDown(false);
-                    history.push("/mypage/edit");
+                    history.push("/mypage");
                     window.scrollTo({ top: 0 });
                   }}
                 >

@@ -25,7 +25,7 @@
 .name_container {
   width: 100%;
   border-radius: 16px 16px 0 0;
-  padding: 30px 50px;
+  padding: 30px 100px 30px 50px;
   background-color: var(--color-theme);
 }
 
@@ -36,7 +36,7 @@
 }
 
 .content_container {
-  padding: 30px 50px;
+  padding: 40px 50px;
 }
 
 .popup_content {

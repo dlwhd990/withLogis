@@ -30,7 +30,7 @@ const ListItem = ({ item, id, length }) => {
       onClick={controlView}
     >
       <div className={styles.item}>
-        <h1 className={styles.title}>{item.title}</h1>
+        <h1 className={styles.title}>{`${item.step}. ${item.title}`}</h1>
         <div className={styles.icon_container}>
           {viewContent ? (
             <img src="/images/up.png" alt="close" />
@@ -41,7 +41,7 @@ const ListItem = ({ item, id, length }) => {
       </div>
       {viewContent && (
         <div className={styles.content_container}>
-          <p className={styles.content}>{item.content}</p>
+          <p className={styles.content}>{item.desc}</p>
         </div>
       )}
     </section>
