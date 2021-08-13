@@ -13,6 +13,8 @@ const MyPageEdit = ({ user, sessionCheck }) => {
   const [nicknameChangeOn, setNicknameChangeOn] = useState(false);
   const [changePhoneNumOn, setChangePhoneNumOn] = useState(false);
   const [changePwOn, setChangePwOn] = useState(false);
+  const [tempPhoneNum, setTempPhoneNum] = useState(null);
+  const [sendSmsCheck, setSendSmsCheck] = useState(null);
 
   const nicknameHandler = () => {
     if (!nicknameChangeOn) {
@@ -57,13 +59,56 @@ const MyPageEdit = ({ user, sessionCheck }) => {
       console.log("추가예정");
     }
   };
-
   const phoneNumHandler = () => {
     if (!changePhoneNumOn) {
       setChangePhoneNumOn(true);
     } else {
-      console.log("추가예정");
+      const phoneNum = phoneNumRef.current.value;
+      if (phoneNum.length !== 10 && phoneNum.length !== 11) {
+        window.alert("핸드폰 번호를 다시 확인해주세요.");
+        return;
+      }
+      if (!(phoneNum[0] === "0" && phoneNum[1] === "1")) {
+        window.alert("핸드폰 번호를 다시 확인해주세요. ");
+        return;
+      }
+
+      axios
+        .post("/auth/dup-phoneNum", { phoneNum })
+        .then((res) => {
+          if (!res.data.success) {
+            window.alert("이미 가입된 번호입니다.");
+            return;
+          }
+          setSendSmsCheck(true);
+          axios
+            .post("/auth/sms-auth", { phoneNum })
+            .then((res) => {
+              window.alert(res.data.message);
+              setTempPhoneNum(phoneNum);
+            })
+            .catch((err) => console.error("error: ", err.response));
+        })
+        .catch((err) => console.error(err));
     }
+  };
+  const refresh = () => {
+    window.location.href = "/mypage/edit";
+  };
+
+  const authNumHandler = () => {
+    axios
+      .post("/auth/change-phone-num", {
+        userId: user.userId,
+        phoneNum: tempPhoneNum,
+        authNum: authNumRef.current.value,
+      })
+      .then((response) => {
+        window.alert(response.data.message);
+        if (response.data.success) {
+          refresh();
+        }
+      });
   };
 
   return (
@@ -150,7 +195,11 @@ const MyPageEdit = ({ user, sessionCheck }) => {
                 placeholder="인증번호"
                 spellCheck="false"
               />
-              <button type="button" className={styles.auth_num_check_button}>
+              <button
+                type="button"
+                className={styles.auth_num_check_button}
+                onClick={authNumHandler}
+              >
                 인증하기
               </button>
             </div>

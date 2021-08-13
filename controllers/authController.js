@@ -292,9 +292,6 @@ module.exports.smsAuth_check = (req, res) => {
         success: true,
         message: "인증되었습니다.",
       });
-      req.session.destroy((err) => {
-        if (err) throw err;
-      });
     } else {
       res.json({
         success: false,
@@ -380,5 +377,28 @@ module.exports.change_nickname_post = async (req, res) => {
       success: false,
       message: "에러가 발생했습니다",
     });
+  }
+};
+
+module.exports.change_phone_num = async (req, res) => {
+  const { authNum, phoneNum, userId } = req.body;
+  const savedAuthNum = req.session.authNum;
+  try {
+    if (authNum === savedAuthNum) {
+      req.session.authNum = null;
+      await User.updateOne({ userId }, { phoneNum });
+      console.log(req.session);
+      res.json({
+        success: true,
+        message: "인증되었습니다. 핸드폰 번호가 변경되었습니다.",
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "인증번호를 확인해주세요.",
+      });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };

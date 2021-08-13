@@ -41,9 +41,11 @@
   font-weight: 500;
   cursor: pointer;
   transition: 100ms all ease-in;
+  box-shadow: 0 0 10px rgb(221, 214, 214);
 }
 
 .edit_button:hover,
 .withdrawal_button:hover {
   background-color: var(--color-theme-hover);
+  box-shadow: 0 0 10px lightgray;
 }

@@ -62,4 +62,6 @@ router.post("/dup-phoneNum", authController.dup_phoneNum_post);
 
 router.post("/change-nickname", authController.change_nickname_post);
 
+router.post("/change-phone-num", authController.change_phone_num);
+
 module.exports = router;
