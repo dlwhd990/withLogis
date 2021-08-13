@@ -61,7 +61,6 @@ module.exports.signup_post = async (req, res) => {
 };
 
 // 로그인
-
 module.exports.login_post = async (req, res) => {
   const { userId, password, consist } = req.body; // 위와 동일
   const users = await User.findOne({ userId: userId }); // 위와 동일
@@ -380,6 +379,7 @@ module.exports.change_nickname_post = async (req, res) => {
   }
 };
 
+// 핸드폰 번호만 변경
 module.exports.change_phone_num = async (req, res) => {
   const { authNum, phoneNum, userId } = req.body;
   const savedAuthNum = req.session.authNum;
@@ -396,6 +396,32 @@ module.exports.change_phone_num = async (req, res) => {
       res.json({
         success: false,
         message: "인증번호를 확인해주세요.",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 비밀번호만 변경
+module.exports.change_password = async (req, res) => {
+  const { password, newPassword, userId } = req.body;
+  try {
+    const users = await User.findOne({ userId });
+    const isMatch = await bcrypt.compare(password, users.password);
+    if (!isMatch) {
+      return res.json({
+        success: false,
+        message: "비밀번호를 확인해 주세요.",
+      });
+    } else {
+      let salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      await User.updateOne({ userId }, { password: hashedPassword, salt });
+      req.session.destroy();
+      res.json({
+        success: true,
+        message: "비밀번호가 변경되었습니다. 다시 로그인 해주세요.",
       });
     }
   } catch (err) {

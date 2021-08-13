@@ -3,7 +3,7 @@ import styles from "./tradeTermPopup.module.css";
 
 const TradeTermPopup = ({ term, popupHandler }) => {
   const name =
-    term.word_kor != "-"
+    term.word_kor !== "-"
       ? term.word_kor + " (" + term.word_eng + ")"
       : term.word_eng;
   const keyHandler = (e) => {

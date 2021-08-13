@@ -64,4 +64,6 @@ router.post("/change-nickname", authController.change_nickname_post);
 
 router.post("/change-phone-num", authController.change_phone_num);
 
+router.post("/change-password", authController.change_password);
+
 module.exports = router;

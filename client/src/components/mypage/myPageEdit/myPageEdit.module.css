@@ -81,6 +81,7 @@
   cursor: default;
 }
 
+.pw_new_input,
 .pw_confirm_input {
   width: 100%;
   border: 1px solid lightgray;
