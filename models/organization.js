@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 let organizationSchema = new mongoose.Schema(
   {
@@ -11,17 +11,21 @@ let organizationSchema = new mongoose.Schema(
       required: true,
     },
 
-    content: {
+    phone: {
+      type: String,
+      required: false,
+    },
+    web: {
       type: String,
       required: true,
     },
   },
   { collection: "organization" }
-)
+);
 
 const Organization = mongoose.model(
   "organization",
   organizationSchema,
   "organization"
-)
-module.exports = Organization
+);
+module.exports = Organization;

@@ -19,6 +19,7 @@ const ListTable = ({ items, title }) => {
             key={item.id}
             id={index}
             length={items.length}
+            where={title}
           />
         ))}
       </section>

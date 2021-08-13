@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./listItem.module.css";
 
-const ListItem = ({ item, id, length }) => {
+const ListItem = ({ item, id, length, where }) => {
   const [viewContent, setViewContent] = useState(false);
   const [isFirst, setIsFirst] = useState(false);
   const [isLast, setIsLast] = useState(false);
@@ -18,6 +18,21 @@ const ListItem = ({ item, id, length }) => {
     }
   }, []);
 
+  let desc;
+  let step;
+
+  if (where == "관련 기관") {
+    step = item.id;
+    if (item.phone) {
+      desc = `\n전화번호: ${item.phone}\n\n`;
+    } else {
+      desc = `\n`;
+    }
+  } else {
+    step = item.step;
+    desc = item.desc;
+  }
+
   return (
     <section
       className={
@@ -30,7 +45,7 @@ const ListItem = ({ item, id, length }) => {
       onClick={controlView}
     >
       <div className={styles.item}>
-        <h1 className={styles.title}>{`${item.step}. ${item.title}`}</h1>
+        <h1 className={styles.title}>{`${step}. ${item.title}`}</h1>
         <div className={styles.icon_container}>
           {viewContent ? (
             <img src="/images/up.png" alt="close" />
@@ -41,7 +56,15 @@ const ListItem = ({ item, id, length }) => {
       </div>
       {viewContent && (
         <div className={styles.content_container}>
-          <p className={styles.content}>{item.desc}</p>
+          <p className={styles.content}>{desc}</p>
+          {where == "관련 기관" && (
+            <p className={styles.content}>
+              웹사이트:{" "}
+              <a href={item.web} target="_blank">
+                {item.web}
+              </a>
+            </p>
+          )}
         </div>
       )}
     </section>

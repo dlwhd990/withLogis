@@ -6,7 +6,7 @@ import ListTable from "../../listTable/listTable";
 const Organizations = ({ data }) => {
   return (
     <section className={styles.organizations}>
-      <ListTable items={data} title="기관 소개" />
+      <ListTable items={data} title="관련 기관" />
     </section>
   );
 };
