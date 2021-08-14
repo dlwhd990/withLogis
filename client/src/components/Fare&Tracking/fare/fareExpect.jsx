@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import styles from "./fareExpect.module.css";
+import axios from "axios";
 
 const FareExpect = (props) => {
   const date_data = new Date();
@@ -7,6 +8,8 @@ const FareExpect = (props) => {
   let day = date_data.getDate().toString().padStart(2, "0");
   let today = date_data.getFullYear() + "-" + month + "-" + day;
 
+  const shipmentPlaceRef = useRef();
+  const disemPlaceRef = useRef();
   const popupWidthRef = useRef();
   const popupLengthRef = useRef();
   const popupHeightRef = useRef();
@@ -20,7 +23,7 @@ const FareExpect = (props) => {
   const [loadValue, setLoadValue] = useState(null);
   const [transshipValue, setTransshipValue] = useState(null);
   const [containerValue, setContainerValue] = useState(null);
-  const [cargoItemValue, setCargoItemValue] = useState(null);
+  const [freightTypeValue, setFreightTypeValue] = useState(null);
 
   const [popupResult, setPopupResult] = useState(null);
 
@@ -85,8 +88,43 @@ const FareExpect = (props) => {
     setContainerValue(e.target.value);
   };
 
-  const changeCargoItem = (e) => {
-    setCargoItemValue(e.target.value);
+  const changeFreightType = (e) => {
+    setFreightTypeValue(e.target.value);
+  };
+
+  const makeResultPrice = (result) => {
+    console.log(result);
+    console.log(result.OF_price, result.OF_unit);
+    console.log(result.BAF_price, result.BAF_unit);
+    console.log(result.CAF_price, result.CAF_unit);
+  };
+
+  const goFareResult = () => {
+    if (!loadValue || !transshipValue || !containerValue || !freightTypeValue) {
+      window.alert("모든 조건을 선택하지 않았습니다.");
+      return;
+    }
+
+    axios //
+      .post("/api/fareExpect", {
+        shipment_place: shipmentPlaceRef.current.value,
+        disem_place: disemPlaceRef.current.value,
+        loadValue,
+        transshipValue,
+        containerValue,
+        freightTypeValue,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          if (response.data.result === null) {
+            window.alert("운임 조회 데이터가 없습니다.");
+          } else {
+            makeResultPrice(response.data.result);
+          }
+        } else {
+          window.alert(response.data.message);
+        }
+      });
   };
 
   return (
@@ -97,7 +135,10 @@ const FareExpect = (props) => {
           <div className={styles.top_top}>
             <div className={styles.depart_city}>
               <span className={styles.title}>출발지</span>
-              <select name="" id="" className={styles.depart_city_select}>
+              <select
+                ref={shipmentPlaceRef}
+                className={styles.depart_city_select}
+              >
                 <option value="서울">서울(SEOUL)</option>
                 <option value="인천">인천(INCHEON)</option>
                 <option value="부산">부산(BUSAN)</option>
@@ -105,7 +146,7 @@ const FareExpect = (props) => {
             </div>
             <div className={styles.arrive_city}>
               <span className={styles.title}>출발지</span>
-              <select name="" id="" className={styles.arrive_city_select}>
+              <select ref={disemPlaceRef} className={styles.arrive_city_select}>
                 <option value="SHANGHAI">상하이(SHANGHAI)</option>
                 <option value="KAOSHIUNG">가오슝(KAOSHIUNG)</option>
                 <option value="VANCOUVER">벤쿠버(VANCOUVER)</option>
@@ -306,56 +347,56 @@ const FareExpect = (props) => {
               <span className={styles.title}>화물품목</span>
               <button
                 className={
-                  cargoItemValue === "일반화물"
+                  freightTypeValue === "일반화물"
                     ? `${styles.select_button} ${styles.on}`
                     : `${styles.select_button} ${styles.off}`
                 }
                 value="일반화물"
-                onClick={changeCargoItem}
+                onClick={changeFreightType}
               >
                 일반
               </button>
               <button
                 className={
-                  cargoItemValue === "냉동냉장화물"
+                  freightTypeValue === "냉동냉장화물"
                     ? `${styles.select_button} ${styles.on}`
                     : `${styles.select_button} ${styles.off}`
                 }
                 value="냉동냉장화물"
-                onClick={changeCargoItem}
+                onClick={changeFreightType}
               >
                 냉동/냉장
               </button>
               <button
                 className={
-                  cargoItemValue === "화학제품류"
+                  freightTypeValue === "화학제품류"
                     ? `${styles.select_button} ${styles.on}`
                     : `${styles.select_button} ${styles.off}`
                 }
                 value="화학제품류"
-                onClick={changeCargoItem}
+                onClick={changeFreightType}
               >
                 화학제품
               </button>
               <button
                 className={
-                  cargoItemValue === "위험물류"
+                  freightTypeValue === "위험물류"
                     ? `${styles.select_button} ${styles.on}`
                     : `${styles.select_button} ${styles.off}`
                 }
                 value="위험물류"
-                onClick={changeCargoItem}
+                onClick={changeFreightType}
               >
                 위험
               </button>
               <button
                 className={
-                  cargoItemValue === "기타"
+                  freightTypeValue === "기타"
                     ? `${styles.select_button} ${styles.on}`
                     : `${styles.select_button} ${styles.off}`
                 }
                 value="기타"
-                onClick={changeCargoItem}
+                onClick={changeFreightType}
               >
                 기타
               </button>
@@ -363,7 +404,9 @@ const FareExpect = (props) => {
           </div>
         </div>
 
-        <button className={styles.result_button}>예상 운임 조회</button>
+        <button className={styles.result_button} onClick={goFareResult}>
+          예상 운임 조회
+        </button>
       </section>
       {popup && <section className={styles.calc_popup_filter}></section>}
       {popup && (
