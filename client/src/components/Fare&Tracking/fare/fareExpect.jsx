@@ -131,7 +131,7 @@ const FareExpect = (props) => {
     <section className={styles.fare_expect}>
       <section className={styles.fare_expect_container}>
         <h1 className={styles.fare_expect_container_title}>예상 운임 조회</h1>
-        <div className={styles.top}>
+        <section className={styles.top}>
           <div className={styles.top_top}>
             <div className={styles.depart_city}>
               <span className={styles.title}>출발지</span>
@@ -182,8 +182,8 @@ const FareExpect = (props) => {
               />
             </div>
           </div>
-        </div>
-        <div className={styles.mid}>
+        </section>
+        <section className={styles.mid}>
           <div className={styles.mid_top}>
             <div className={styles.load}>
               <span className={styles.title}>적재방법</span>
@@ -402,11 +402,35 @@ const FareExpect = (props) => {
               </button>
             </div>
           </div>
-        </div>
+        </section>
 
         <button className={styles.result_button} onClick={goFareResult}>
           예상 운임 조회
         </button>
+        <section className={styles.result_view_container}>
+          <div className={styles.result_view_text_container}>
+            <div className={styles.result_view_text_USD_container}>
+              <p className={styles.result_view_text_USD}>1,234,567</p>
+              <p className={styles.result_view_text_USD_unit}>USD</p>
+            </div>
+            <div className={styles.result_view_text_KRW_container}>
+              <p className={styles.result_view_text_KRW}>(1,234,567</p>
+              <p className={styles.result_view_text_KRW_unit}>KRW)</p>
+            </div>
+          </div>
+          <button className={styles.result_view_save_button}>
+            결과 저장하기
+          </button>
+          <div className={styles.warning_text_container}>
+            <p className={styles.warning_text}>
+              *본 예상운임은 운임공표제에 따라 공표된 운임을 기준으로
+              해운물류비용, 유류할증료, 통화할증료가 더해진 것으로, 수출물품의
+              원가, 포장 비용, 서류 발급 비용, 보험료 등은 포함되지 않습니다.
+              해당 결과는 공표된 운임의 평균값이므로 실제 물류 비용과 다를 수
+              있으니 참고용으로 이용하시기 바랍니다.
+            </p>
+          </div>
+        </section>
       </section>
       {popup && <section className={styles.calc_popup_filter}></section>}
       {popup && (

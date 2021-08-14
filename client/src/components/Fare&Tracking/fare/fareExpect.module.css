@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   cursor: default;
+  margin-bottom: 200px;
 }
 
 .fare_expect_container {
@@ -386,4 +387,76 @@
 .on {
   background-color: var(--color-theme);
   color: white;
+}
+
+.result_view_container {
+  margin-top: 50px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgray;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 1px 1px 3px 1px lightgray;
+}
+
+.result_view_text_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.result_view_text_USD_container,
+.result_view_text_KRW_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.result_view_text_USD {
+  font-size: 54px;
+}
+
+.result_view_text_USD_unit {
+  margin-top: 28px;
+  margin-left: 6px;
+  font-size: 28px;
+}
+
+.result_view_text_KRW_container {
+  margin-top: 25px;
+  margin-left: 20px;
+}
+
+.result_view_text_KRW {
+  font-size: 28px;
+}
+
+.result_view_text_KRW_unit {
+  font-size: 24px;
+  margin-left: 6px;
+  margin-top: 3px;
+}
+
+.result_view_save_button {
+  font-size: 28px;
+  outline: none;
+  border: none;
+  margin: 24px 0;
+  background-color: var(--color-dark-theme);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 30px;
+  cursor: pointer;
+}
+
+.warning_text_container {
+  width: 90%;
+}
+
+.warning_text {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-desc);
 }
