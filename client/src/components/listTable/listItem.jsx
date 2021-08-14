@@ -21,12 +21,12 @@ const ListItem = ({ item, id, length, where }) => {
   let desc;
   let step;
 
-  if (where == "관련 기관") {
+  if (where === "관련 기관") {
     step = item.id;
     if (item.phone) {
-      desc = `\n전화번호: ${item.phone}\n\n`;
+      desc = `[전화번호]\n ${item.phone}\n\n`;
     } else {
-      desc = `\n`;
+      desc = ``;
     }
   } else {
     step = item.step;
@@ -57,7 +57,7 @@ const ListItem = ({ item, id, length, where }) => {
       {viewContent && (
         <div className={styles.content_container}>
           <p className={styles.content}>{desc}</p>
-          {where == "관련 기관" && (
+          {where === "관련 기관" && (
             <p className={styles.content}>
               웹사이트:{" "}
               <a href={item.web} target="_blank">

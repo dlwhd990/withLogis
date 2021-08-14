@@ -16,7 +16,7 @@ const ListTable = ({ items, title }) => {
         {items.map((item, index) => (
           <ListItem
             item={item}
-            key={item.id}
+            key={item.title}
             id={index}
             length={items.length}
             where={title}

@@ -10,11 +10,17 @@ const FareExpect = (props) => {
   const popupWidthRef = useRef();
   const popupLengthRef = useRef();
   const popupHeightRef = useRef();
+  const volumeRef = useRef();
 
   const [departureDate, setDepartureDate] = useState(today.toString());
   const [arrivalDate, setArrivalDate] = useState(today.toString());
   const [expectDate, setExpectDate] = useState(today.toString());
   const [popup, setPopup] = useState(false);
+  const [rtSelect, setRtSelect] = useState(0);
+  const [loadValue, setLoadValue] = useState(null);
+  const [transshipValue, setTransshipValue] = useState(null);
+  const [containerValue, setContainerValue] = useState(null);
+  const [cargoItemValue, setCargoItemValue] = useState(null);
 
   const [popupResult, setPopupResult] = useState(null);
 
@@ -54,6 +60,35 @@ const FareExpect = (props) => {
     setPopupResult(result);
   };
 
+  const rtOn = () => {
+    setRtSelect(1);
+  };
+
+  const rtOff = () => {
+    setRtSelect(2);
+  };
+
+  const useCalcResult = () => {
+    volumeRef.current.value = popupResult;
+    onClosePopup();
+  };
+
+  const changeLoad = (e) => {
+    setLoadValue(e.target.value);
+  };
+
+  const changeTransship = (e) => {
+    setTransshipValue(e.target.value);
+  };
+
+  const changeContainer = (e) => {
+    setContainerValue(e.target.value);
+  };
+
+  const changeCargoItem = (e) => {
+    setCargoItemValue(e.target.value);
+  };
+
   return (
     <section className={styles.fare_expect}>
       <section className={styles.fare_expect_container}>
@@ -71,9 +106,9 @@ const FareExpect = (props) => {
             <div className={styles.arrive_city}>
               <span className={styles.title}>출발지</span>
               <select name="" id="" className={styles.arrive_city_select}>
-                <option value="상하이">상하이(Shanghai)</option>
-                <option value="가오슝">가오슝(KAOSHIUNG)</option>
-                <option value="벤쿠버">벤쿠버(VANCOUVER)</option>
+                <option value="SHANGHAI">상하이(SHANGHAI)</option>
+                <option value="KAOSHIUNG">가오슝(KAOSHIUNG)</option>
+                <option value="VANCOUVER">벤쿠버(VANCOUVER)</option>
               </select>
             </div>
           </div>
@@ -111,53 +146,219 @@ const FareExpect = (props) => {
           <div className={styles.mid_top}>
             <div className={styles.load}>
               <span className={styles.title}>적재방법</span>
-              <button className={styles.select_button}>FCL</button>
-              <button className={styles.select_button}>LCL</button>
+              <button
+                value="FCL"
+                className={
+                  loadValue === "FCL"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                onClick={changeLoad}
+              >
+                FCL
+              </button>
+              <button
+                value="LCL"
+                className={
+                  loadValue === "LCL"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                onClick={changeLoad}
+              >
+                LCL
+              </button>
             </div>
-            <div className={styles.volume_and_weight_container}>
-              <div className={styles.volume}>
-                <span className={styles.title}>부피</span>
-                <input
-                  type="text"
-                  className={styles.volume_input}
-                  spellCheck="false"
-                />
-                <button className={styles.calc_button} onClick={onOpenPopup}>
-                  CBM 계산기
+            {rtSelect === 0 && (
+              <div className={styles.rt_button_container}>
+                <p className={styles.rt_title}>R/T</p>
+                <button
+                  className={`${styles.rt_button} ${styles.rt_on}`}
+                  onClick={rtOn}
+                >
+                  R/T값을 알고있다
+                </button>
+                <button
+                  className={`${styles.rt_button} ${styles.rt_off}`}
+                  onClick={rtOff}
+                >
+                  R/T값을 모른다
                 </button>
               </div>
-              <div className={styles.weight}>
-                <span className={styles.title}>중량</span>
+            )}
+            {rtSelect === 1 && (
+              <div className={styles.rt_input_container}>
+                <p className={styles.rt_title}>R/T</p>
                 <input
-                  type="text"
-                  className={styles.weight_input}
+                  type="number"
+                  className={styles.rt_input}
                   spellCheck="false"
                 />
               </div>
-            </div>
+            )}
+            {rtSelect === 2 && (
+              <div className={styles.volume_and_weight_container}>
+                <div className={styles.volume}>
+                  <span className={styles.title}>부피</span>
+                  <div className={styles.volume_input_container}>
+                    <input
+                      ref={volumeRef}
+                      type="number"
+                      className={styles.volume_input}
+                      spellCheck="false"
+                    />
+                    <p className={styles.volume_unit_text}>CBM</p>
+                  </div>
+                  <button className={styles.calc_button} onClick={onOpenPopup}>
+                    CBM 계산기
+                  </button>
+                </div>
+                <div className={styles.weight}>
+                  <span className={styles.title}>중량</span>
+                  <div className={styles.weight_input_container}>
+                    <input
+                      type="number"
+                      className={styles.weight_input}
+                      spellCheck="false"
+                    />
+                    <p className={styles.weight_unit_text}>KG</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className={styles.mid_middle}>
             <div className={styles.transship}>
               <span className={styles.title}>환적여부</span>
-              <button className={styles.select_button}>Y</button>
-              <button className={styles.select_button}>N</button>
+              <button
+                className={
+                  transshipValue === "Y"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="Y"
+                onClick={changeTransship}
+              >
+                Y
+              </button>
+              <button
+                className={
+                  transshipValue === "N"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="N"
+                onClick={changeTransship}
+              >
+                N
+              </button>
             </div>
             <div className={styles.container_select}>
               <span className={styles.title}>컨테이너 종류</span>
-              <button className={styles.select_button}>DRY</button>
-              <button className={styles.select_button}>REFER</button>
-              <button className={styles.select_button}>TANK</button>
-              <button className={styles.select_button}>ETC</button>
+              <button
+                className={
+                  containerValue === "dry"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="dry"
+                onClick={changeContainer}
+              >
+                DRY
+              </button>
+              <button
+                className={
+                  containerValue === "reefer"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="reefer"
+                onClick={changeContainer}
+              >
+                REEFER
+              </button>
+              <button
+                className={
+                  containerValue === "tank"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="tank"
+                onClick={changeContainer}
+              >
+                TANK
+              </button>
+              <button
+                className={
+                  containerValue === "기타"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="기타"
+                onClick={changeContainer}
+              >
+                ETC
+              </button>
             </div>
           </div>
           <div className={styles.mid_bottom}>
             <div className={styles.cargo_item_select}>
               <span className={styles.title}>화물품목</span>
-              <button className={styles.select_button}>일반</button>
-              <button className={styles.select_button}>냉동/냉장</button>
-              <button className={styles.select_button}>화학제품</button>
-              <button className={styles.select_button}>위험</button>
-              <button className={styles.select_button}>기타</button>
+              <button
+                className={
+                  cargoItemValue === "일반화물"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="일반화물"
+                onClick={changeCargoItem}
+              >
+                일반
+              </button>
+              <button
+                className={
+                  cargoItemValue === "냉동냉장화물"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="냉동냉장화물"
+                onClick={changeCargoItem}
+              >
+                냉동/냉장
+              </button>
+              <button
+                className={
+                  cargoItemValue === "화학제품류"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="화학제품류"
+                onClick={changeCargoItem}
+              >
+                화학제품
+              </button>
+              <button
+                className={
+                  cargoItemValue === "위험물류"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="위험물류"
+                onClick={changeCargoItem}
+              >
+                위험
+              </button>
+              <button
+                className={
+                  cargoItemValue === "기타"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="기타"
+                onClick={changeCargoItem}
+              >
+                기타
+              </button>
             </div>
           </div>
         </div>
@@ -219,6 +420,16 @@ const FareExpect = (props) => {
             <span className={styles.popup_result_value}>{popupResult}</span>
           )}
           {popupResult && <span className={styles.popup_result_unit}>CBM</span>}
+          {popupResult && (
+            <div className={styles.popup_result_use_button_container}>
+              <button
+                className={styles.popup_result_use_button}
+                onClick={useCalcResult}
+              >
+                이 값 사용하기
+              </button>
+            </div>
+          )}
         </section>
       )}
     </section>
