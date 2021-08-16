@@ -454,6 +454,7 @@ router.post("/fareExpect", async (req, res) => {
     transshipValue,
     containerValue,
     freightTypeValue,
+    containerSizeValue,
   } = req.body;
 
   try {
@@ -463,6 +464,7 @@ router.post("/fareExpect", async (req, res) => {
       transshipment: transshipValue,
       container_type: containerValue,
       freight_type: freightTypeValue,
+      container_size: containerSizeValue,
     });
     res.json({
       success: true,

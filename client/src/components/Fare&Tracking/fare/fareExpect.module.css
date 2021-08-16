@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   cursor: default;
-  margin-bottom: 200px;
+  margin-bottom: 400px;
 }
 
 .fare_expect_container {
@@ -228,7 +228,15 @@
 
 .mid_bottom {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.container_size_select {
+  margin-top: 2.4rem;
+}
+
+.size_title {
+  margin-right: 23px;
 }
 
 .result_button {
@@ -394,8 +402,9 @@
 }
 
 .result_view_container {
-  margin-top: 50px;
+  margin: 50px 0;
   width: 90%;
+  height: 312px;
   display: flex;
   flex-direction: column;
   border: 1px solid lightgray;

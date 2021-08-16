@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./fareExpect.module.css";
+import LoadingPageSmall from "../../loadingPage/loadingPageSmall/loadingPageSmall";
 import axios from "axios";
 
 const FareExpect = (props) => {
@@ -26,6 +27,7 @@ const FareExpect = (props) => {
   const [transshipValue, setTransshipValue] = useState(null);
   const [containerValue, setContainerValue] = useState(null);
   const [freightTypeValue, setFreightTypeValue] = useState(null);
+  const [containerSizeValue, setContainerSizeValue] = useState(null);
   const [resultPrice, setResultPrice] = useState(null);
   const [resultPriceKrw, setResultPriceKrw] = useState(null);
   const [shipmentPlaceList, setShipmentPlaceList] = useState([]);
@@ -105,6 +107,10 @@ const FareExpect = (props) => {
     setFreightTypeValue(e.target.value);
   };
 
+  const changeContainerSize = (e) => {
+    setContainerSizeValue(e.target.value);
+  };
+
   const makeResultPrice = (result) => {
     result.OF_price = result.OF_price.replace(",", "");
 
@@ -135,8 +141,6 @@ const FareExpect = (props) => {
             Number.parseFloat(result.OF_price) *
             (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
         }
-
-        console.log(priceUSD, rt, result.OF_price);
 
         if (result.BAF_price) {
           result.BAF_price = result.BAF_price.replace(",", "");
@@ -170,11 +174,14 @@ const FareExpect = (props) => {
   };
 
   const goFareResult = () => {
+    setResultPrice(undefined);
+    setResultPriceKrw(undefined);
     if (
       !loadValue ||
       !transshipValue ||
       !containerValue ||
       !freightTypeValue ||
+      !containerSizeValue ||
       !(
         (rtSelect === 2 &&
           volumeRef.current.value &&
@@ -194,11 +201,14 @@ const FareExpect = (props) => {
         transshipValue,
         containerValue,
         freightTypeValue,
+        containerSizeValue,
       })
       .then((response) => {
         if (response.data.success) {
           if (response.data.result === null) {
             window.alert("운임 조회 데이터가 없습니다.");
+            setResultPrice(null);
+            setResultPriceKrw(null);
           } else {
             makeResultPrice(response.data.result);
           }
@@ -488,13 +498,44 @@ const FareExpect = (props) => {
                 기타
               </button>
             </div>
+            <div className={styles.container_size_select}>
+              <span className={`${styles.title} ${styles.size_title}`}>
+                사이즈
+              </span>
+              <button
+                className={
+                  containerSizeValue === "20 feet"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="20 feet"
+                onClick={changeContainerSize}
+              >
+                20FT
+              </button>
+              <button
+                className={
+                  containerSizeValue === "40 feet"
+                    ? `${styles.select_button} ${styles.on}`
+                    : `${styles.select_button} ${styles.off}`
+                }
+                value="40 feet"
+                onClick={changeContainerSize}
+              >
+                40FT
+              </button>
+            </div>
           </div>
         </section>
 
         <button className={styles.result_button} onClick={goFareResult}>
           예상 운임 조회
         </button>
-        {resultPrice && resultPriceKrw && (
+        {resultPrice === null && resultPriceKrw === null ? (
+          <div></div>
+        ) : resultPrice === undefined && resultPriceKrw === undefined ? (
+          <LoadingPageSmall />
+        ) : (
           <section className={styles.result_view_container}>
             <div className={styles.result_view_text_container}>
               <div className={styles.result_view_text_USD_container}>
