@@ -28,8 +28,17 @@ const FareExpect = (props) => {
   const [freightTypeValue, setFreightTypeValue] = useState(null);
   const [resultPrice, setResultPrice] = useState(null);
   const [resultPriceKrw, setResultPriceKrw] = useState(null);
+  const [shipmentPlaceList, setShipmentPlaceList] = useState([]);
+  const [disemPlaceList, setDisemPlaceList] = useState([]);
 
   const [popupResult, setPopupResult] = useState(null);
+
+  useEffect(() => {
+    axios.get("/api/fareExpect/placeList").then((response) => {
+      setShipmentPlaceList(response.data["0"]["shipment_place"]);
+      setDisemPlaceList(response.data["0"]["disem_place"]);
+    });
+  }, []);
 
   const onDepartureDateChange = (e) => {
     setDepartureDate(e.target.value);
@@ -97,11 +106,6 @@ const FareExpect = (props) => {
   };
 
   const makeResultPrice = (result) => {
-    console.log(result);
-    console.log(result.OF_price, result.OF_unit);
-    console.log(result.BAF_price, result.BAF_unit);
-    console.log(result.CAF_price, result.CAF_unit);
-
     result.OF_price = result.OF_price.replace(",", "");
 
     let exchangeRate;
@@ -134,23 +138,28 @@ const FareExpect = (props) => {
 
         console.log(priceUSD, rt, result.OF_price);
 
-        if (result.BAF_unit === "USD") {
-          priceUSD += Number.parseFloat(result.BAF_price);
-        } else {
-          priceUSD +=
-            Number.parseFloat(result.BAF_price) *
-            (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+        if (result.BAF_price) {
+          result.BAF_price = result.BAF_price.replace(",", "");
+          if (result.BAF_unit === "USD") {
+            priceUSD += Number.parseFloat(result.BAF_price);
+          } else {
+            priceUSD +=
+              Number.parseFloat(result.BAF_price) *
+              (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+          }
         }
 
-        if (result.CAF_unit === "USD") {
-          priceUSD += Number.parseFloat(result.CAF_price);
-        } else {
-          priceUSD +=
-            Number.parseFloat(result.CAF_price) *
-            (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+        if (result.CAF_price) {
+          result.CAF_price = result.CAF_price.replace(",", "");
+          if (result.CAF_unit === "USD") {
+            priceUSD += Number.parseFloat(result.CAF_price);
+          } else {
+            priceUSD +=
+              Number.parseFloat(result.CAF_price) *
+              (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+          }
         }
-        console.log(priceUSD);
-        console.log(exchangeRate["KRW"] / exchangeRate["USD"]);
+
         setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
         setResultPriceKrw(
           Number.parseInt(
@@ -161,7 +170,18 @@ const FareExpect = (props) => {
   };
 
   const goFareResult = () => {
-    if (!loadValue || !transshipValue || !containerValue || !freightTypeValue) {
+    if (
+      !loadValue ||
+      !transshipValue ||
+      !containerValue ||
+      !freightTypeValue ||
+      !(
+        (rtSelect === 2 &&
+          volumeRef.current.value &&
+          weightRef.current.value) ||
+        (rtSelect === 1 && rtRef.current.value)
+      )
+    ) {
       window.alert("모든 조건을 선택하지 않았습니다.");
       return;
     }
@@ -200,17 +220,21 @@ const FareExpect = (props) => {
                 ref={shipmentPlaceRef}
                 className={styles.depart_city_select}
               >
-                <option value="서울">서울(SEOUL)</option>
-                <option value="인천">인천(INCHEON)</option>
-                <option value="부산">부산(BUSAN)</option>
+                {shipmentPlaceList.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
             <div className={styles.arrive_city}>
-              <span className={styles.title}>출발지</span>
+              <span className={styles.title}>도착지</span>
               <select ref={disemPlaceRef} className={styles.arrive_city_select}>
-                <option value="SHANGHAI">상하이(SHANGHAI)</option>
-                <option value="KAOSHIUNG">가오슝(KAOSHIUNG)</option>
-                <option value="VANCOUVER">벤쿠버(VANCOUVER)</option>
+                {disemPlaceList.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

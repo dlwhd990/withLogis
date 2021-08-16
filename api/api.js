@@ -4,6 +4,7 @@ const ArticleNumberCounter = require("../models/ArticleNumberCounter");
 const Consulting = require("../models/Consulting");
 const ExportProcess = require("../models/ExportProcess");
 const FareExpect = require("../models/FareExpect");
+const FareExpectPlace = require("../models/FareExpectPlace");
 const Notice = require("../models/Notice");
 const NoticeReply = require("../models/NoticeReply");
 const Organization = require("../models/organization");
@@ -436,8 +437,16 @@ router.get("/tradeTerm", async (req, res) => {
   });
 });
 
-// r/t값은 일단 보류, 출발일 도착일 출고예정일은 어디에 어떻게 쓰이는지 몰라서 보류
-// FCL/LCL 담겨있는 loadValue도 어디에 쓰이는지 몰라서 일단 보류
+router.get("/fareExpect/placeList", async (req, res) => {
+  try {
+    const placeList = await FareExpectPlace.find({});
+    res.json(placeList);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// FCL/LCL 담겨있는 loadValue는 어디에 쓰이는지 몰라서 일단 보류
 router.post("/fareExpect", async (req, res) => {
   const {
     shipment_place,
