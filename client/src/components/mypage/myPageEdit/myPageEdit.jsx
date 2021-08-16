@@ -82,7 +82,8 @@ const MyPageEdit = ({ user, sessionCheck }) => {
           if (response.data.success) {
             refresh();
           }
-        });
+        })
+        .catch((err) => console.error("error: ", err.response));
     }
   };
 
@@ -141,7 +142,8 @@ const MyPageEdit = ({ user, sessionCheck }) => {
         if (response.data.success) {
           refresh();
         }
-      });
+      })
+      .catch((err) => console.error("error: ", err.response));
   };
 
   return (

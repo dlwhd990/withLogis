@@ -33,7 +33,8 @@ const MyPageWithdrawal = ({ user }) => {
                   window.alert("회원 탈퇴가 완료되었습니다.");
                   afterWithdrawal();
                 }
-              });
+              })
+              .catch((err) => console.error("error: ", err.response));
           }
         } else {
           window.alert(response.data.message);

@@ -109,7 +109,6 @@ const MyArticleAndReply = ({
     ) {
       setReplyNumbering(replyNumbering - 1);
     }
-    console.log("DD");
   };
 
   return (

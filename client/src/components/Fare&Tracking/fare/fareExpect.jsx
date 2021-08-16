@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./fareExpect.module.css";
 import LoadingPageSmall from "../../loadingPage/loadingPageSmall/loadingPageSmall";
 import axios from "axios";
 
-const FareExpect = (props) => {
+const FareExpect = ({
+  shipmentPlaceList,
+  disemPlaceList,
+  loadMyFareExpect,
+}) => {
   const date_data = new Date();
   let month = (date_data.getMonth() + 1).toString().padStart(2, "0");
   let day = date_data.getDate().toString().padStart(2, "0");
   let today = date_data.getFullYear() + "-" + month + "-" + day;
 
+  const shipmentDateRef = useRef();
+  const disemDateRef = useRef();
+  const deliveryExpectDateRef = useRef();
   const shipmentPlaceRef = useRef();
   const disemPlaceRef = useRef();
   const popupWidthRef = useRef();
@@ -30,17 +37,8 @@ const FareExpect = (props) => {
   const [containerSizeValue, setContainerSizeValue] = useState(null);
   const [resultPrice, setResultPrice] = useState(null);
   const [resultPriceKrw, setResultPriceKrw] = useState(null);
-  const [shipmentPlaceList, setShipmentPlaceList] = useState([]);
-  const [disemPlaceList, setDisemPlaceList] = useState([]);
 
   const [popupResult, setPopupResult] = useState(null);
-
-  useEffect(() => {
-    axios.get("/api/fareExpect/placeList").then((response) => {
-      setShipmentPlaceList(response.data["0"]["shipment_place"]);
-      setDisemPlaceList(response.data["0"]["disem_place"]);
-    });
-  }, []);
 
   const onDepartureDateChange = (e) => {
     setDepartureDate(e.target.value);
@@ -170,7 +168,8 @@ const FareExpect = (props) => {
             priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
           ).toLocaleString("ko-KR")
         );
-      });
+      })
+      .catch((err) => console.error(err));
   };
 
   const goFareResult = () => {
@@ -195,8 +194,8 @@ const FareExpect = (props) => {
 
     axios //
       .post("/api/fareExpect", {
-        shipment_place: shipmentPlaceRef.current.value,
-        disem_place: disemPlaceRef.current.value,
+        shipmentPlace: shipmentPlaceRef.current.value,
+        disemPlace: disemPlaceRef.current.value,
         loadValue,
         transshipValue,
         containerValue,
@@ -214,7 +213,39 @@ const FareExpect = (props) => {
         } else {
           window.alert(response.data.message);
         }
-      });
+      })
+      .catch((err) => console.error("error: ", err.response));
+  };
+
+  const saveResult = () => {
+    let timeId = date_data.getTime().toString();
+    let year = date_data.getFullYear().toString();
+    let month = (date_data.getMonth() + 1).toString().padStart(2, "0");
+    let day = date_data.getDate().toString().padStart(2, "0");
+    let hour = date_data.getHours().toString().padStart(2, "0");
+    let minute = date_data.getMinutes().toString().padStart(2, "0");
+    axios
+      .post("/api/fareExpect/saveResult", {
+        timeId,
+        date: `${year}-${month}-${day} ${hour}:${minute}`,
+        shipmentPlace: shipmentPlaceRef.current.value,
+        disemPlace: disemPlaceRef.current.value,
+        shipmentDate: shipmentDateRef.current.value,
+        disemDate: disemDateRef.current.value,
+        deliveryExpectDate: deliveryExpectDateRef.current.value,
+        loadValue,
+        transshipValue,
+        containerValue,
+        freightTypeValue,
+        containerSizeValue,
+        resultPrice,
+        resultPriceKrw,
+      })
+      .then((response) => {
+        window.alert(response.data.message);
+        loadMyFareExpect();
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -251,6 +282,7 @@ const FareExpect = (props) => {
             <div className={styles.departure}>
               <span className={styles.title}>출발일</span>
               <input
+                ref={shipmentDateRef}
                 type="date"
                 value={departureDate}
                 onChange={onDepartureDateChange}
@@ -260,6 +292,7 @@ const FareExpect = (props) => {
             <div className={styles.arrival}>
               <span className={styles.title}>도착일</span>
               <input
+                ref={disemDateRef}
                 type="date"
                 value={arrivalDate}
                 onChange={onArrivalDateChange}
@@ -269,6 +302,7 @@ const FareExpect = (props) => {
             <div className={styles.expect_date}>
               <span className={styles.title}>출고 예정일</span>
               <input
+                ref={deliveryExpectDateRef}
                 type="date"
                 value={expectDate}
                 onChange={onExpectDateChange}
@@ -552,7 +586,10 @@ const FareExpect = (props) => {
                 <p className={styles.result_view_text_KRW_unit}>KRW)</p>
               </div>
             </div>
-            <button className={styles.result_view_save_button}>
+            <button
+              className={styles.result_view_save_button}
+              onClick={saveResult}
+            >
               결과 저장하기
             </button>
             <div className={styles.warning_text_container}>

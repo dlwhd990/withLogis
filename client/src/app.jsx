@@ -44,6 +44,9 @@ const App = (props) => {
   const [noticeReplies, setNoticeReplies] = useState(null);
   const [myArticles, setMyArticles] = useState(null);
   const [myReplies, setMyReplies] = useState(null);
+  const [shipmentPlaceList, setShipmentPlaceList] = useState(null);
+  const [disemPlaceList, setDisemPlaceList] = useState(null);
+  const [myFareExpectList, setMyFareExpectList] = useState(null);
 
   const callAPI = async (address) => {
     const response = await fetch(address);
@@ -143,6 +146,20 @@ const App = (props) => {
     loadNoticeReply();
   };
 
+  const loadMyFareExpect = () => {
+    sessionUser &&
+      axios
+        .get("/api/mypage/fareExpectList", { userId: sessionUser.userId })
+        .then((res) => {
+          const result = res.data;
+          result.sort(function (a, b) {
+            return b.id - a.id;
+          });
+          setMyFareExpectList(result);
+        })
+        .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     loadArticlesAndReplies();
   }, []);
@@ -150,6 +167,7 @@ const App = (props) => {
   useEffect(() => {
     loadMyArticle();
     loadMyReply();
+    loadMyFareExpect();
   }, [sessionUser]);
 
   useEffect(() => {
@@ -182,6 +200,16 @@ const App = (props) => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/fareExpect/placeList")
+      .then((response) => {
+        setShipmentPlaceList(response.data["0"]["shipment_place"]);
+        setDisemPlaceList(response.data["0"]["disem_place"]);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <section className={styles.app}>
       <BrowserRouter>
@@ -200,7 +228,15 @@ const App = (props) => {
           {tradeTermData && <Tradeterm termList={tradeTermData} />}
         </Route>
         <Route exact path="/fareExpect">
-          <FareExpect />
+          {shipmentPlaceList && disemPlaceList ? (
+            <FareExpect
+              shipmentPlaceList={shipmentPlaceList}
+              disemPlaceList={disemPlaceList}
+              loadMyFareExpect={loadMyFareExpect}
+            />
+          ) : (
+            <LoadingPage />
+          )}
         </Route>
         <Route exact path="/tracking">
           <Tracking />
@@ -329,7 +365,9 @@ const App = (props) => {
         <Route exact path="/mypage/fareExpect">
           {session ? (
             sessionUser ? (
-              <FareExpectList />
+              myFareExpectList && (
+                <FareExpectList myFareExpectList={myFareExpectList} />
+              )
             ) : (
               <ErrorPage />
             )

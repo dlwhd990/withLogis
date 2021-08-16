@@ -5,6 +5,7 @@ const Consulting = require("../models/Consulting");
 const ExportProcess = require("../models/ExportProcess");
 const FareExpect = require("../models/FareExpect");
 const FareExpectPlace = require("../models/FareExpectPlace");
+const FareExpectRecord = require("../models/FareExpectRecord");
 const Notice = require("../models/Notice");
 const NoticeReply = require("../models/NoticeReply");
 const Organization = require("../models/organization");
@@ -449,8 +450,8 @@ router.get("/fareExpect/placeList", async (req, res) => {
 // FCL/LCL 담겨있는 loadValue는 어디에 쓰이는지 몰라서 일단 보류
 router.post("/fareExpect", async (req, res) => {
   const {
-    shipment_place,
-    disem_place,
+    shipmentPlace,
+    disemPlace,
     transshipValue,
     containerValue,
     freightTypeValue,
@@ -459,8 +460,8 @@ router.post("/fareExpect", async (req, res) => {
 
   try {
     const result = await FareExpect.findOne({
-      shipment_place,
-      disem_place,
+      shipment_place: shipmentPlace,
+      disem_place: disemPlace,
       transshipment: transshipValue,
       container_type: containerValue,
       freight_type: freightTypeValue,
@@ -476,6 +477,62 @@ router.post("/fareExpect", async (req, res) => {
       success: false,
       message: "에러가 발생했습니다.",
     });
+  }
+});
+
+router.post("/fareExpect/saveResult", async (req, res) => {
+  const {
+    timeId,
+    date,
+    shipmentPlace,
+    disemPlace,
+    shipmentDate,
+    disemDate,
+    deliveryExpectDate,
+    loadValue,
+    transshipValue,
+    containerValue,
+    freightTypeValue,
+    containerSizeValue,
+    resultPrice,
+    resultPriceKrw,
+  } = req.body;
+
+  try {
+    record = new FareExpectRecord({
+      id: timeId,
+      date,
+      shipmentPlace,
+      disemPlace,
+      shipmentDate,
+      disemDate,
+      deliveryExpectDate,
+      loadValue,
+      transshipValue,
+      containerValue,
+      freightTypeValue,
+      containerSizeValue,
+      resultPrice,
+      resultPriceKrw,
+    });
+
+    await record.save();
+    res.json({
+      success: true,
+      message: "운임 조회 결과가 저장되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/mypage/fareExpectList", async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const record = await FareExpectRecord.find({ userId });
+    res.json(record);
+  } catch (err) {
+    console.log(err);
   }
 });
 

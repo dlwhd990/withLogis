@@ -1,0 +1,70 @@
+.fare_expect_list_view {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  font-weight: bolder;
+  color: rgb(77, 77, 77);
+  border-top: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid rgb(235, 235, 235);
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-article);
+}
+
+.fare_expect_list_view:hover {
+  background-color: rgb(247, 247, 247);
+}
+
+.date {
+  flex-basis: 19%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
+}
+
+.shipment {
+  flex-basis: 19%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
+}
+
+.disem {
+  flex-basis: 19%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
+}
+
+.usd {
+  flex-basis: 19%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
+}
+
+.krw {
+  flex-basis: 19%;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -moz-white-space: nowrap;
+  overflow: hidden;
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: red;
+}
