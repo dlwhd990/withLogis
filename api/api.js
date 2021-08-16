@@ -452,6 +452,7 @@ router.post("/fareExpect", async (req, res) => {
   const {
     shipmentPlace,
     disemPlace,
+    loadValue,
     transshipValue,
     containerValue,
     freightTypeValue,
@@ -459,18 +460,65 @@ router.post("/fareExpect", async (req, res) => {
   } = req.body;
 
   try {
-    const result = await FareExpect.findOne({
-      shipment_place: shipmentPlace,
-      disem_place: disemPlace,
-      transshipment: transshipValue,
-      container_type: containerValue,
-      freight_type: freightTypeValue,
-      container_size: containerSizeValue,
-    });
-    res.json({
-      success: true,
-      result,
-    });
+    if (loadValue === "LCL") {
+      const result = await FareExpect.findOne({
+        shipment_place: shipmentPlace,
+        disem_place: disemPlace,
+        transshipment: transshipValue,
+        container_type: containerValue,
+        freight_type: freightTypeValue,
+        transit_type: "R/T",
+      });
+      console.log(
+        shipmentPlace,
+        disemPlace,
+        loadValue,
+        transshipValue,
+        containerValue,
+        freightTypeValue,
+        containerSizeValue
+      );
+      res.json({
+        success: true,
+        result,
+      });
+    } else if (loadValue === "FCL") {
+      let check = 0;
+      let result = await FareExpect.findOne({
+        shipment_place: shipmentPlace,
+        disem_place: disemPlace,
+        transshipment: transshipValue,
+        container_type: containerValue,
+        freight_type: freightTypeValue,
+        container_size: containerSizeValue,
+        transit_type: "TEU",
+      });
+      if (!result && containerSizeValue === "40 feet") {
+        check = 1;
+        result = await FareExpect.findOne({
+          shipment_place: shipmentPlace,
+          disem_place: disemPlace,
+          transshipment: transshipValue,
+          container_type: containerValue,
+          freight_type: freightTypeValue,
+          container_size: "20 feet",
+          transit_type: "TEU",
+        });
+      }
+      if (check === 0) {
+        res.json({
+          success: true,
+          four_to_two: false,
+          result,
+        });
+      } else if (check === 1) {
+        res.json({
+          success: true,
+          four_to_two: true,
+          result,
+        });
+      }
+    }
   } catch (err) {
     console.log(err);
     res.json({
@@ -503,26 +551,47 @@ router.post("/fareExpect/saveResult", async (req, res) => {
   try {
     let user = await FareExpectRecord.findOne({ userId });
 
-    records = [
-      ...user.records,
-      {
-        id: timeId,
-        date,
-        shipmentPlace,
-        disemPlace,
-        shipmentDate,
-        disemDate,
-        deliveryExpectDate,
-        loadValue,
-        transshipValue,
-        containerValue,
-        freightTypeValue,
-        containerSizeValue,
-        resultPrice,
-        resultPriceKrw,
-        rtValue,
-      },
-    ];
+    if (loadValue === "FCL") {
+      records = [
+        ...user.records,
+        {
+          id: timeId,
+          date,
+          shipmentPlace,
+          disemPlace,
+          shipmentDate,
+          disemDate,
+          deliveryExpectDate,
+          loadValue,
+          transshipValue,
+          containerValue,
+          freightTypeValue,
+          containerSizeValue,
+          resultPrice,
+          resultPriceKrw,
+        },
+      ];
+    } else if (loadValue === "LCL") {
+      records = [
+        ...user.records,
+        {
+          id: timeId,
+          date,
+          shipmentPlace,
+          disemPlace,
+          shipmentDate,
+          disemDate,
+          deliveryExpectDate,
+          loadValue,
+          transshipValue,
+          containerValue,
+          freightTypeValue,
+          resultPrice,
+          resultPriceKrw,
+          rtValue,
+        },
+      ];
+    }
 
     await FareExpectRecord.updateOne({ userId }, { records });
 

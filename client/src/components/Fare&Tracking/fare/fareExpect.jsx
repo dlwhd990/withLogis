@@ -121,78 +121,168 @@ const FareExpect = ({
       )
       .then((response) => {
         exchangeRate = response.data.rates;
-        let rt = 0;
-        let priceUSD = 0;
-        if (rtSelect === 2) {
-          if (volumeRef.current.value * 1000 >= weightRef.current.value) {
-            rt = parseFloat(volumeRef.current.value);
-          } else {
-            rt = parseFloat(weightRef.current.value / 1000);
+        console.log(result);
+        if (loadValue === "LCL") {
+          let rt = 0;
+          let priceUSD = 0;
+          if (rtSelect === 2) {
+            if (volumeRef.current.value * 1000 >= weightRef.current.value) {
+              rt = parseFloat(volumeRef.current.value);
+            } else {
+              rt = parseFloat(weightRef.current.value / 1000);
+            }
+          } else if (rtSelect === 1) {
+            rt = parseFloat(rtRef.current.value);
           }
-        } else if (rtSelect === 1) {
-          rt = parseFloat(rtRef.current.value);
-        }
 
-        setRtValue(rt);
+          setRtValue(rt);
 
-        if (result.OF_unit === "USD") {
-          priceUSD += rt * Number.parseFloat(result.OF_price);
-        } else {
-          priceUSD +=
-            rt *
-            Number.parseFloat(result.OF_price) *
-            (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
-        }
-
-        if (result.BAF_price) {
-          result.BAF_price = result.BAF_price.replace(",", "");
-          if (result.BAF_unit === "USD") {
-            priceUSD += Number.parseFloat(result.BAF_price);
+          if (result.OF_unit === "USD") {
+            priceUSD += rt * Number.parseFloat(result.OF_price);
           } else {
             priceUSD +=
-              Number.parseFloat(result.BAF_price) *
-              (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+              rt *
+              Number.parseFloat(result.OF_price) *
+              (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
           }
-        }
 
-        if (result.CAF_price) {
-          result.CAF_price = result.CAF_price.replace(",", "");
-          if (result.CAF_unit === "USD") {
-            priceUSD += Number.parseFloat(result.CAF_price);
+          if (result.BAF_price) {
+            result.BAF_price = result.BAF_price.replace(",", "");
+            if (result.BAF_unit === "USD") {
+              priceUSD += Number.parseFloat(result.BAF_price);
+            } else {
+              priceUSD +=
+                Number.parseFloat(result.BAF_price) *
+                (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+            }
+          }
+
+          if (result.CAF_price) {
+            result.CAF_price = result.CAF_price.replace(",", "");
+            if (result.CAF_unit === "USD") {
+              priceUSD += Number.parseFloat(result.CAF_price);
+            } else {
+              priceUSD +=
+                Number.parseFloat(result.CAF_price) *
+                (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+            }
+          }
+
+          setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
+          setResultPriceKrw(
+            Number.parseInt(
+              priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
+            ).toLocaleString("ko-KR")
+          );
+        } else if (loadValue === "FCL") {
+          let priceUSD = 0;
+          if (response.data.four_to_two) {
+            if (result.OF_unit === "USD") {
+              priceUSD += Number.parseFloat(result.OF_price) * 2;
+            } else {
+              priceUSD +=
+                Number.parseFloat(result.OF_price) *
+                (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+            }
+
+            if (result.BAF_price) {
+              result.BAF_price = result.BAF_price.replace(",", "");
+              if (result.BAF_unit === "USD") {
+                priceUSD += Number.parseFloat(result.BAF_price);
+              } else {
+                priceUSD +=
+                  Number.parseFloat(result.BAF_price) *
+                  (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+              }
+            }
+
+            if (result.CAF_price) {
+              result.CAF_price = result.CAF_price.replace(",", "");
+              if (result.CAF_unit === "USD") {
+                priceUSD += Number.parseFloat(result.CAF_price);
+              } else {
+                priceUSD +=
+                  Number.parseFloat(result.CAF_price) *
+                  (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+              }
+            }
+
+            setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
+            setResultPriceKrw(
+              Number.parseInt(
+                priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
+              ).toLocaleString("ko-KR")
+            );
           } else {
-            priceUSD +=
-              Number.parseFloat(result.CAF_price) *
-              (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+            if (result.OF_unit === "USD") {
+              priceUSD += Number.parseFloat(result.OF_price);
+            } else {
+              priceUSD +=
+                Number.parseFloat(result.OF_price) *
+                (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+            }
+
+            if (result.BAF_price) {
+              result.BAF_price = result.BAF_price.replace(",", "");
+              if (result.BAF_unit === "USD") {
+                priceUSD += Number.parseFloat(result.BAF_price);
+              } else {
+                priceUSD +=
+                  Number.parseFloat(result.BAF_price) *
+                  (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+              }
+            }
+
+            if (result.CAF_price) {
+              result.CAF_price = result.CAF_price.replace(",", "");
+              if (result.CAF_unit === "USD") {
+                priceUSD += Number.parseFloat(result.CAF_price);
+              } else {
+                priceUSD +=
+                  Number.parseFloat(result.CAF_price) *
+                  (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+              }
+            }
+
+            setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
+            setResultPriceKrw(
+              Number.parseInt(
+                priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
+              ).toLocaleString("ko-KR")
+            );
           }
         }
-
-        setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
-        setResultPriceKrw(
-          Number.parseInt(
-            priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
-          ).toLocaleString("ko-KR")
-        );
       })
       .catch((err) => console.error(err));
   };
 
   const goFareResult = () => {
-    if (
-      !loadValue ||
-      !transshipValue ||
-      !containerValue ||
-      !freightTypeValue ||
-      !containerSizeValue ||
-      !(
-        (rtSelect === 2 &&
-          volumeRef.current.value &&
-          weightRef.current.value) ||
-        (rtSelect === 1 && rtRef.current.value)
-      )
-    ) {
+    if (!loadValue || !transshipValue || !containerValue || !freightTypeValue) {
       window.alert("모든 조건을 선택하지 않았습니다.");
       return;
     }
+    if (loadValue === "FCL") {
+      if (!containerSizeValue) {
+        window.alert("모든 조건을 선택하지 않았습니다.");
+        return;
+      }
+    } else if (loadValue === "LCL") {
+      if (rtSelect === 0) {
+        window.alert("모든 조건을 선택하지 않았습니다.");
+        return;
+      } else if (rtSelect === 1) {
+        if (rtRef.current.value === "") {
+          window.alert("모든 조건을 선택하지 않았습니다.");
+          return;
+        }
+      } else if (rtSelect === 2) {
+        if (volumeRef.current.value === "" || weightRef.current.value === "") {
+          window.alert("모든 조건을 선택하지 않았습니다.");
+          return;
+        }
+      }
+    }
+
     setResultPrice(undefined);
     setResultPriceKrw(undefined);
 
@@ -222,6 +312,10 @@ const FareExpect = ({
   };
 
   const saveResult = () => {
+    if (!userId) {
+      window.alert("로그인 후에 사용 가능합니다.");
+      return;
+    }
     let timeId = date_data.getTime().toString();
     let year = date_data.getFullYear().toString();
     let month = (date_data.getMonth() + 1).toString().padStart(2, "0");
@@ -344,7 +438,36 @@ const FareExpect = ({
                 LCL
               </button>
             </div>
-            {rtSelect === 0 && (
+            {loadValue === "FCL" && (
+              <div className={styles.container_size_select}>
+                <span className={`${styles.title} ${styles.size_title}`}>
+                  사이즈
+                </span>
+                <button
+                  className={
+                    containerSizeValue === "20 feet"
+                      ? `${styles.select_button} ${styles.on}`
+                      : `${styles.select_button} ${styles.off}`
+                  }
+                  value="20 feet"
+                  onClick={changeContainerSize}
+                >
+                  20FT
+                </button>
+                <button
+                  className={
+                    containerSizeValue === "40 feet"
+                      ? `${styles.select_button} ${styles.on}`
+                      : `${styles.select_button} ${styles.off}`
+                  }
+                  value="40 feet"
+                  onClick={changeContainerSize}
+                >
+                  40FT
+                </button>
+              </div>
+            )}
+            {loadValue === "LCL" && rtSelect === 0 && (
               <div className={styles.rt_button_container}>
                 <p className={styles.rt_title}>R/T</p>
                 <button
@@ -361,7 +484,7 @@ const FareExpect = ({
                 </button>
               </div>
             )}
-            {rtSelect === 1 && (
+            {loadValue === "LCL" && rtSelect === 1 && (
               <div className={styles.rt_input_container}>
                 <p className={styles.rt_title}>R/T</p>
                 <input
@@ -372,7 +495,7 @@ const FareExpect = ({
                 />
               </div>
             )}
-            {rtSelect === 2 && (
+            {loadValue === "LCL" && rtSelect === 2 && (
               <div className={styles.volume_and_weight_container}>
                 <div className={styles.volume}>
                   <span className={styles.title}>부피</span>
@@ -535,33 +658,6 @@ const FareExpect = ({
                 onClick={changeFreightType}
               >
                 기타
-              </button>
-            </div>
-            <div className={styles.container_size_select}>
-              <span className={`${styles.title} ${styles.size_title}`}>
-                사이즈
-              </span>
-              <button
-                className={
-                  containerSizeValue === "20 feet"
-                    ? `${styles.select_button} ${styles.on}`
-                    : `${styles.select_button} ${styles.off}`
-                }
-                value="20 feet"
-                onClick={changeContainerSize}
-              >
-                20FT
-              </button>
-              <button
-                className={
-                  containerSizeValue === "40 feet"
-                    ? `${styles.select_button} ${styles.on}`
-                    : `${styles.select_button} ${styles.off}`
-                }
-                value="40 feet"
-                onClick={changeContainerSize}
-              >
-                40FT
               </button>
             </div>
           </div>
