@@ -58,6 +58,10 @@ let fareExpectRecordSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    rtValue: {
+      type: String,
+      required: true,
+    },
   },
   { collection: "fareExpectRecord" }
 );

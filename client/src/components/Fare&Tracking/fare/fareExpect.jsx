@@ -35,6 +35,7 @@ const FareExpect = ({
   const [containerValue, setContainerValue] = useState(null);
   const [freightTypeValue, setFreightTypeValue] = useState(null);
   const [containerSizeValue, setContainerSizeValue] = useState(null);
+  const [rtValue, setRtValue] = useState(null);
   const [resultPrice, setResultPrice] = useState(null);
   const [resultPriceKrw, setResultPriceKrw] = useState(null);
 
@@ -130,6 +131,8 @@ const FareExpect = ({
         } else if (rtSelect === 1) {
           rt = parseFloat(rtRef.current.value);
         }
+
+        setRtValue(rt);
 
         if (result.OF_unit === "USD") {
           priceUSD += rt * Number.parseFloat(result.OF_price);
@@ -240,6 +243,7 @@ const FareExpect = ({
         containerSizeValue,
         resultPrice,
         resultPriceKrw,
+        rtValue,
       })
       .then((response) => {
         window.alert(response.data.message);

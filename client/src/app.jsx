@@ -366,7 +366,10 @@ const App = (props) => {
           {session ? (
             sessionUser ? (
               myFareExpectList && (
-                <FareExpectList myFareExpectList={myFareExpectList} />
+                <FareExpectList
+                  myFareExpectList={myFareExpectList}
+                  loadMyFareExpect={loadMyFareExpect}
+                />
               )
             ) : (
               <ErrorPage />

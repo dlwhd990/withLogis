@@ -42,9 +42,8 @@ const ListItem = ({ item, id, length, where }) => {
           ? `${styles.list_item_last}`
           : `${styles.list_item}`
       }
-      onClick={controlView}
     >
-      <div className={styles.item}>
+      <div className={styles.item} onClick={controlView}>
         <h1 className={styles.title}>{`${step}. ${item.title}`}</h1>
         <div className={styles.icon_container}>
           {viewContent ? (

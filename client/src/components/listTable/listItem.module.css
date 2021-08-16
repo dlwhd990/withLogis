@@ -1,25 +1,20 @@
 .list_item {
   border-top: 1px solid lightgray;
-  cursor: pointer;
   background-color: white;
 }
 
 .list_item_first {
   border: none;
-  cursor: pointer;
   background-color: white;
 }
 
 .list_item_last {
   border-top: 1px solid lightgray;
   border-radius: 0 0 8px 8px;
-  cursor: pointer;
   background-color: white;
 }
 
-.list_item:hover,
-.list_item_first:hover,
-.list_item_last:hover {
+.item:hover {
   background-color: rgb(247, 247, 247);
 }
 
@@ -30,6 +25,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
+  cursor: pointer;
 }
 
 .title {

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./fareExpectList.module.css";
 import FareExpectListView from "./fareExpectListView/fareExpectListView";
 
-const FareExpectList = ({ myFareExpectList }) => {
+const FareExpectList = ({ myFareExpectList, loadMyFareExpect }) => {
   return (
     <section className={styles.fare_expect_list}>
       <section className={styles.top}>
@@ -19,7 +19,11 @@ const FareExpectList = ({ myFareExpectList }) => {
         <div className={styles.header_krw}>예상 금액(KRW)</div>
       </section>
       {myFareExpectList.map((item) => (
-        <FareExpectListView key={item.id} item={item} />
+        <FareExpectListView
+          key={item.id}
+          item={item}
+          loadMyFareExpect={loadMyFareExpect}
+        />
       ))}
     </section>
   );

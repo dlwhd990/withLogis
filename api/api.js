@@ -496,6 +496,7 @@ router.post("/fareExpect/saveResult", async (req, res) => {
     containerSizeValue,
     resultPrice,
     resultPriceKrw,
+    rtValue,
   } = req.body;
 
   try {
@@ -514,6 +515,7 @@ router.post("/fareExpect/saveResult", async (req, res) => {
       containerSizeValue,
       resultPrice,
       resultPriceKrw,
+      rtValue,
     });
 
     await record.save();
@@ -533,6 +535,23 @@ router.get("/mypage/fareExpectList", async (req, res) => {
     res.json(record);
   } catch (err) {
     console.log(err);
+  }
+});
+
+router.post("/mypage/fareExpectList/delete", async (req, res) => {
+  const { id } = req.body;
+  try {
+    await FareExpectRecord.deleteOne({ id });
+    res.json({
+      success: true,
+      message: "운임 조회 기록이 삭제되었습니다.",
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      message: "에러발생",
+    });
   }
 });
 
