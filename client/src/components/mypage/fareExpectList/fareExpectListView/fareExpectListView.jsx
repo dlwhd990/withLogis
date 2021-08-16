@@ -4,6 +4,7 @@ import axios from "axios";
 
 const FareExpectListView = ({ item, loadMyFareExpect, userId }) => {
   const [detailView, setDetailView] = useState(false);
+
   const deleteHandler = (e) => {
     e.stopPropagation();
     const confirmMessage = window.confirm("정말로 삭제하시겠습니까?");
@@ -50,12 +51,22 @@ const FareExpectListView = ({ item, loadMyFareExpect, userId }) => {
             >{`출고 예정일: ${item.deliveryExpectDate}`}</p>
           </div>
           <div className={styles.detail_mid}>
-            <p
-              className={styles.freight_data}
-            >{`화물 정보: ${item.loadValue} / ${item.containerSizeValue} / 환적 ${item.transshipValue} / ${item.containerValue}`}</p>
+            {item.loadValue === "FCL" ? (
+              <p
+                className={styles.freight_data}
+              >{`화물 정보: ${item.loadValue} / ${item.containerSizeValue} / 환적 ${item.transshipValue} / ${item.containerValue}`}</p>
+            ) : (
+              <p
+                className={styles.freight_data}
+              >{`화물 정보: ${item.loadValue} / 환적 ${item.transshipValue} / ${item.containerValue}`}</p>
+            )}
           </div>
           <div className={styles.detail_bottom}>
-            <p className={styles.rt_value}>{`R/T 값: ${item.rtValue} CBM`}</p>
+            {item.loadValue === "LCL" ? (
+              <p className={styles.rt_value}>{`R/T 값: ${item.rtValue} CBM`}</p>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       )}
