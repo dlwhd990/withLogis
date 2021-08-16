@@ -180,7 +180,7 @@ const ArticleSearch = ({ articles, user, loadBbsDatas, loadNoticeDatas }) => {
               <ArticlePreview
                 key={resultArticles[index].id}
                 article={resultArticles[index]}
-                where="bbs"
+                where={where}
                 reportOnChange={reportOnChange}
               />
             ))

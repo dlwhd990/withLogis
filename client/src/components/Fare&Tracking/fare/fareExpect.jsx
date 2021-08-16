@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./fareExpect.module.css";
 import axios from "axios";
 
@@ -14,6 +14,8 @@ const FareExpect = (props) => {
   const popupLengthRef = useRef();
   const popupHeightRef = useRef();
   const volumeRef = useRef();
+  const weightRef = useRef();
+  const rtRef = useRef();
 
   const [departureDate, setDepartureDate] = useState(today.toString());
   const [arrivalDate, setArrivalDate] = useState(today.toString());
@@ -24,6 +26,8 @@ const FareExpect = (props) => {
   const [transshipValue, setTransshipValue] = useState(null);
   const [containerValue, setContainerValue] = useState(null);
   const [freightTypeValue, setFreightTypeValue] = useState(null);
+  const [resultPrice, setResultPrice] = useState(null);
+  const [resultPriceKrw, setResultPriceKrw] = useState(null);
 
   const [popupResult, setPopupResult] = useState(null);
 
@@ -97,6 +101,63 @@ const FareExpect = (props) => {
     console.log(result.OF_price, result.OF_unit);
     console.log(result.BAF_price, result.BAF_unit);
     console.log(result.CAF_price, result.CAF_unit);
+
+    result.OF_price = result.OF_price.replace(",", "");
+
+    let exchangeRate;
+    axios
+      .post(
+        "http://api.exchangeratesapi.io/v1/latest?access_key=f007ea6c61c8361bab764dcede2a8c45"
+      )
+      .then((response) => {
+        exchangeRate = response.data.rates;
+        let rt = 0;
+        let priceUSD = 0;
+        if (rtSelect === 2) {
+          if (volumeRef.current.value * 1000 >= weightRef.current.value) {
+            rt = parseFloat(volumeRef.current.value);
+          } else {
+            rt = parseFloat(weightRef.current.value / 1000);
+          }
+        } else if (rtSelect === 1) {
+          rt = parseFloat(rtRef.current.value);
+        }
+
+        if (result.OF_unit === "USD") {
+          priceUSD += rt * Number.parseFloat(result.OF_price);
+        } else {
+          priceUSD +=
+            rt *
+            Number.parseFloat(result.OF_price) *
+            (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+        }
+
+        console.log(priceUSD, rt, result.OF_price);
+
+        if (result.BAF_unit === "USD") {
+          priceUSD += Number.parseFloat(result.BAF_price);
+        } else {
+          priceUSD +=
+            Number.parseFloat(result.BAF_price) *
+            (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+        }
+
+        if (result.CAF_unit === "USD") {
+          priceUSD += Number.parseFloat(result.CAF_price);
+        } else {
+          priceUSD +=
+            Number.parseFloat(result.CAF_price) *
+            (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+        }
+        console.log(priceUSD);
+        console.log(exchangeRate["KRW"] / exchangeRate["USD"]);
+        setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
+        setResultPriceKrw(
+          Number.parseInt(
+            priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
+          ).toLocaleString("ko-KR")
+        );
+      });
   };
 
   const goFareResult = () => {
@@ -231,6 +292,7 @@ const FareExpect = (props) => {
               <div className={styles.rt_input_container}>
                 <p className={styles.rt_title}>R/T</p>
                 <input
+                  ref={rtRef}
                   type="number"
                   className={styles.rt_input}
                   spellCheck="false"
@@ -258,6 +320,7 @@ const FareExpect = (props) => {
                   <span className={styles.title}>중량</span>
                   <div className={styles.weight_input_container}>
                     <input
+                      ref={weightRef}
                       type="number"
                       className={styles.weight_input}
                       spellCheck="false"
@@ -407,30 +470,34 @@ const FareExpect = (props) => {
         <button className={styles.result_button} onClick={goFareResult}>
           예상 운임 조회
         </button>
-        <section className={styles.result_view_container}>
-          <div className={styles.result_view_text_container}>
-            <div className={styles.result_view_text_USD_container}>
-              <p className={styles.result_view_text_USD}>1,234,567</p>
-              <p className={styles.result_view_text_USD_unit}>USD</p>
+        {resultPrice && resultPriceKrw && (
+          <section className={styles.result_view_container}>
+            <div className={styles.result_view_text_container}>
+              <div className={styles.result_view_text_USD_container}>
+                <p className={styles.result_view_text_USD}>{resultPrice}</p>
+                <p className={styles.result_view_text_USD_unit}>USD</p>
+              </div>
+              <div className={styles.result_view_text_KRW_container}>
+                <p
+                  className={styles.result_view_text_KRW}
+                >{`(${resultPriceKrw}`}</p>
+                <p className={styles.result_view_text_KRW_unit}>KRW)</p>
+              </div>
             </div>
-            <div className={styles.result_view_text_KRW_container}>
-              <p className={styles.result_view_text_KRW}>(1,234,567</p>
-              <p className={styles.result_view_text_KRW_unit}>KRW)</p>
+            <button className={styles.result_view_save_button}>
+              결과 저장하기
+            </button>
+            <div className={styles.warning_text_container}>
+              <p className={styles.warning_text}>
+                *본 예상운임은 운임공표제에 따라 공표된 운임을 기준으로
+                해운물류비용, 유류할증료, 통화할증료가 더해진 것으로, 수출물품의
+                원가, 포장 비용, 서류 발급 비용, 보험료 등은 포함되지 않습니다.
+                해당 결과는 공표된 운임의 평균값이므로 실제 물류 비용과 다를 수
+                있으니 참고용으로 이용하시기 바랍니다.
+              </p>
             </div>
-          </div>
-          <button className={styles.result_view_save_button}>
-            결과 저장하기
-          </button>
-          <div className={styles.warning_text_container}>
-            <p className={styles.warning_text}>
-              *본 예상운임은 운임공표제에 따라 공표된 운임을 기준으로
-              해운물류비용, 유류할증료, 통화할증료가 더해진 것으로, 수출물품의
-              원가, 포장 비용, 서류 발급 비용, 보험료 등은 포함되지 않습니다.
-              해당 결과는 공표된 운임의 평균값이므로 실제 물류 비용과 다를 수
-              있으니 참고용으로 이용하시기 바랍니다.
-            </p>
-          </div>
-        </section>
+          </section>
+        )}
       </section>
       {popup && <section className={styles.calc_popup_filter}></section>}
       {popup && (
