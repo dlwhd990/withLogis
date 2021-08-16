@@ -18,6 +18,7 @@ const session = require("express-session");
 // Modules
 const smsController = require("../controllers/smsController");
 const path = require("path");
+const FareExpectRecord = require("../models/FareExpectRecord");
 
 const index = path.resolve(
   __dirname,
@@ -46,7 +47,12 @@ module.exports.signup_post = async (req, res) => {
       phoneNum,
       salt,
     });
+    fareExpect = new FareExpectRecord({
+      userId,
+      records: [],
+    });
     await user.save(); // 유저 정보 DB에 저장
+    await fareExpect.save();
     req.session.user = user; // 유저 정보 session에 저장
     res.json({
       success: true,

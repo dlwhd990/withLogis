@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./fareExpectList.module.css";
 import FareExpectListView from "./fareExpectListView/fareExpectListView";
 
-const FareExpectList = ({ myFareExpectList, loadMyFareExpect }) => {
+const FareExpectList = ({ myFareExpectList, loadMyFareExpect, userId }) => {
   return (
     <section className={styles.fare_expect_list}>
       <section className={styles.top}>
@@ -23,6 +23,7 @@ const FareExpectList = ({ myFareExpectList, loadMyFareExpect }) => {
           key={item.id}
           item={item}
           loadMyFareExpect={loadMyFareExpect}
+          userId={userId}
         />
       ))}
     </section>

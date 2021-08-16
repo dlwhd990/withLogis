@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./fareExpectListView.module.css";
 import axios from "axios";
 
-const FareExpectListView = ({ item, loadMyFareExpect }) => {
+const FareExpectListView = ({ item, loadMyFareExpect, userId }) => {
   const [detailView, setDetailView] = useState(false);
   const deleteHandler = (e) => {
     e.stopPropagation();
@@ -11,7 +11,10 @@ const FareExpectListView = ({ item, loadMyFareExpect }) => {
       return;
     }
     axios
-      .post("/api/mypage/fareExpectList/delete", { id: item.id })
+      .post("/api/mypage/fareExpectList/delete", {
+        id: item.id,
+        userId: userId,
+      })
       .then((response) => {
         window.alert(response.data.message);
         loadMyFareExpect();

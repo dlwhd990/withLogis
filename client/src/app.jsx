@@ -149,9 +149,9 @@ const App = (props) => {
   const loadMyFareExpect = () => {
     sessionUser &&
       axios
-        .get("/api/mypage/fareExpectList", { userId: sessionUser.userId })
+        .post("/api/mypage/fareExpectList", { userId: sessionUser.userId })
         .then((res) => {
-          const result = res.data;
+          const result = res.data.records;
           result.sort(function (a, b) {
             return b.id - a.id;
           });
@@ -228,11 +228,12 @@ const App = (props) => {
           {tradeTermData && <Tradeterm termList={tradeTermData} />}
         </Route>
         <Route exact path="/fareExpect">
-          {shipmentPlaceList && disemPlaceList ? (
+          {shipmentPlaceList && disemPlaceList && sessionUser !== null ? (
             <FareExpect
               shipmentPlaceList={shipmentPlaceList}
               disemPlaceList={disemPlaceList}
               loadMyFareExpect={loadMyFareExpect}
+              userId={sessionUser.userId}
             />
           ) : (
             <LoadingPage />
@@ -365,11 +366,14 @@ const App = (props) => {
         <Route exact path="/mypage/fareExpect">
           {session ? (
             sessionUser ? (
-              myFareExpectList && (
+              myFareExpectList ? (
                 <FareExpectList
+                  userId={sessionUser.userId}
                   myFareExpectList={myFareExpectList}
                   loadMyFareExpect={loadMyFareExpect}
                 />
+              ) : (
+                <LoadingPage />
               )
             ) : (
               <ErrorPage />

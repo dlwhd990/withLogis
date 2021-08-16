@@ -7,6 +7,7 @@ const FareExpect = ({
   shipmentPlaceList,
   disemPlaceList,
   loadMyFareExpect,
+  userId,
 }) => {
   const date_data = new Date();
   let month = (date_data.getMonth() + 1).toString().padStart(2, "0");
@@ -229,6 +230,7 @@ const FareExpect = ({
     let minute = date_data.getMinutes().toString().padStart(2, "0");
     axios
       .post("/api/fareExpect/saveResult", {
+        userId,
         timeId,
         date: `${year}-${month}-${day} ${hour}:${minute}`,
         shipmentPlace: shipmentPlaceRef.current.value,

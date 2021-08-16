@@ -482,6 +482,7 @@ router.post("/fareExpect", async (req, res) => {
 
 router.post("/fareExpect/saveResult", async (req, res) => {
   const {
+    userId,
     timeId,
     date,
     shipmentPlace,
@@ -500,25 +501,31 @@ router.post("/fareExpect/saveResult", async (req, res) => {
   } = req.body;
 
   try {
-    record = new FareExpectRecord({
-      id: timeId,
-      date,
-      shipmentPlace,
-      disemPlace,
-      shipmentDate,
-      disemDate,
-      deliveryExpectDate,
-      loadValue,
-      transshipValue,
-      containerValue,
-      freightTypeValue,
-      containerSizeValue,
-      resultPrice,
-      resultPriceKrw,
-      rtValue,
-    });
+    let user = await FareExpectRecord.findOne({ userId });
 
-    await record.save();
+    records = [
+      ...user.records,
+      {
+        id: timeId,
+        date,
+        shipmentPlace,
+        disemPlace,
+        shipmentDate,
+        disemDate,
+        deliveryExpectDate,
+        loadValue,
+        transshipValue,
+        containerValue,
+        freightTypeValue,
+        containerSizeValue,
+        resultPrice,
+        resultPriceKrw,
+        rtValue,
+      },
+    ];
+
+    await FareExpectRecord.updateOne({ userId }, { records });
+
     res.json({
       success: true,
       message: "운임 조회 결과가 저장되었습니다.",
@@ -528,20 +535,31 @@ router.post("/fareExpect/saveResult", async (req, res) => {
   }
 });
 
-router.get("/mypage/fareExpectList", async (req, res) => {
+router.post("/mypage/fareExpectList", async (req, res) => {
   const { userId } = req.body;
   try {
-    const record = await FareExpectRecord.find({ userId });
-    res.json(record);
+    const user = await FareExpectRecord.findOne({ userId });
+    res.json({ records: user.records });
   } catch (err) {
     console.log(err);
   }
 });
 
 router.post("/mypage/fareExpectList/delete", async (req, res) => {
-  const { id } = req.body;
+  const { id, userId } = req.body;
   try {
-    await FareExpectRecord.deleteOne({ id });
+    const user = await FareExpectRecord.findOne({ userId });
+    const records = user.records;
+
+    for (let i = 0; i < records.length; i++) {
+      if (records[i].id === id) {
+        records.splice(i, 1);
+        break;
+      }
+    }
+
+    await FareExpectRecord.updateOne({ userId }, { records });
+
     res.json({
       success: true,
       message: "운임 조회 기록이 삭제되었습니다.",
