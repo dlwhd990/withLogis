@@ -474,3 +474,9 @@
   font-weight: 500;
   color: var(--color-desc);
 }
+
+.no_result_message {
+  margin: 70px 0 50px 0;
+  font-size: 32px;
+  font-weight: 500;
+}

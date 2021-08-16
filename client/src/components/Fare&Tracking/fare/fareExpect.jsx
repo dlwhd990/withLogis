@@ -174,8 +174,6 @@ const FareExpect = (props) => {
   };
 
   const goFareResult = () => {
-    setResultPrice(undefined);
-    setResultPriceKrw(undefined);
     if (
       !loadValue ||
       !transshipValue ||
@@ -192,6 +190,8 @@ const FareExpect = (props) => {
       window.alert("모든 조건을 선택하지 않았습니다.");
       return;
     }
+    setResultPrice(undefined);
+    setResultPriceKrw(undefined);
 
     axios //
       .post("/api/fareExpect", {
@@ -206,9 +206,8 @@ const FareExpect = (props) => {
       .then((response) => {
         if (response.data.success) {
           if (response.data.result === null) {
-            window.alert("운임 조회 데이터가 없습니다.");
-            setResultPrice(null);
-            setResultPriceKrw(null);
+            setResultPrice(false);
+            setResultPriceKrw(false);
           } else {
             makeResultPrice(response.data.result);
           }
@@ -535,6 +534,10 @@ const FareExpect = (props) => {
           <div></div>
         ) : resultPrice === undefined && resultPriceKrw === undefined ? (
           <LoadingPageSmall />
+        ) : resultPrice === false && resultPriceKrw === false ? (
+          <p className={styles.no_result_message}>
+            운임 조회 데이터가 존재하지 않습니다.
+          </p>
         ) : (
           <section className={styles.result_view_container}>
             <div className={styles.result_view_text_container}>
