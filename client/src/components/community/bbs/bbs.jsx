@@ -10,6 +10,8 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
   const searchInputRef = useRef();
   const [numbering, setNumbering] = useState(1);
   const [reportOn, setReportOn] = useState(false);
+  const [sliceList, setSliceList] = useState([]);
+  const [cursor, setCursor] = useState(0);
   const articleKeyList = Object.keys(articles).reverse();
 
   useEffect(() => {
@@ -100,6 +102,25 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
     searchInputRef && searchInputRef.current.focus();
   }, [searchInputRef]);
 
+  useEffect(() => {
+    setSliceList(list.slice(cursor, cursor + 5));
+    setNumbering(cursor + 1);
+  }, [cursor]);
+
+  const moveForward = () => {
+    if (cursor === 0) {
+      return;
+    }
+    setCursor(cursor - 5);
+  };
+
+  const moveBackward = () => {
+    if (cursor + 5 > list.length - 1) {
+      return;
+    }
+    setCursor(cursor + 5);
+  };
+
   return (
     <section className={styles.bbs}>
       <h1 className={styles.bbs_title}>자유게시판</h1>
@@ -150,7 +171,12 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
       </section>
       <section className={styles.bottom}>
         <ul className={styles.page_numbers}>
-          {list.map((num) => (
+          {list.length >= 5 && (
+            <li className={styles.arrow} onClick={moveForward}>
+              <i className="fas fa-chevron-left"></i>
+            </li>
+          )}
+          {sliceList.map((num) => (
             <li
               key={num}
               className={
@@ -163,6 +189,11 @@ const Bbs = ({ articles, user, loadArticlesAndReplies }) => {
               {num}
             </li>
           ))}
+          {list.length >= 5 && (
+            <li className={styles.arrow} onClick={moveBackward}>
+              <i className="fas fa-chevron-right"></i>
+            </li>
+          )}
         </ul>
       </section>
       {reportOn && <div className={styles.report_filter}></div>}

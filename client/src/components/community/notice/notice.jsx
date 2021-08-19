@@ -11,6 +11,8 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
   const articleKeyList = Object.keys(articles).reverse();
   const [numbering, setNumbering] = useState(1);
   const [reportOn, setReportOn] = useState(false);
+  const [sliceList, setSliceList] = useState([]);
+  const [cursor, setCursor] = useState(0);
   const adminId = "dlwhd990"; // env가 안돼서 일단 이렇게 작성 (이유는 모름)
 
   const goWrite = () => {
@@ -104,6 +106,24 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
     searchInputRef && searchInputRef.current.focus();
   }, [searchInputRef]);
 
+  useEffect(() => {
+    setSliceList(list.slice(cursor, cursor + 5));
+    setNumbering(cursor + 1);
+  }, [cursor]);
+
+  const moveForward = () => {
+    if (cursor === 0) {
+      return;
+    }
+    setCursor(cursor - 5);
+  };
+
+  const moveBackward = () => {
+    if (cursor + 5 > list.length - 1) {
+      return;
+    }
+    setCursor(cursor + 5);
+  };
   return (
     <section className={styles.notice}>
       <h1 className={styles.notice_title}>공지사항</h1>
@@ -154,7 +174,12 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
       </section>
       <section className={styles.bottom}>
         <ul className={styles.page_numbers}>
-          {list.map((num) => (
+          {list.length >= 5 && (
+            <li className={styles.arrow} onClick={moveForward}>
+              <i className="fas fa-chevron-right"></i>
+            </li>
+          )}
+          {sliceList.map((num) => (
             <li
               key={num}
               className={
@@ -167,6 +192,11 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
               {num}
             </li>
           ))}
+          {list.length >= 5 && (
+            <li className={styles.arrow} onClick={moveBackward}>
+              <i className="fas fa-chevron-right"></i>
+            </li>
+          )}
         </ul>
       </section>
       {reportOn && <div className={styles.report_filter}></div>}
