@@ -58,8 +58,8 @@
   color: var(--color-article);
   white-space: pre-line;
   background-color: var(--color-smoke-white);
-  border-radius: 4px;
-  padding: 0.7rem;
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 .policy_title_container {
@@ -75,10 +75,13 @@
   color: white;
 }
 
-.title_business_name,
-.export_content {
+.title_business_name {
   font-size: 20px;
   margin-top: 6px;
+}
+
+.export_content {
+  margin-top: 15px;
 }
 
 .policy_content_container,
@@ -89,7 +92,8 @@
   border-radius: 8px;
 }
 
-.policy_url .organization_url {
+.policy_url,
+.organization_url {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;

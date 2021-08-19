@@ -124,6 +124,7 @@ const Notice = ({ articles, user, loadArticlesAndReplies }) => {
     }
     setCursor(cursor + 5);
   };
+
   return (
     <section className={styles.notice}>
       <h1 className={styles.notice_title}>공지사항</h1>
