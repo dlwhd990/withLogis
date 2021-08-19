@@ -18,15 +18,14 @@ const ListItem = ({ item, id, length, where }) => {
     }
   }, []);
 
-  let desc;
-  let step;
+  let step, phone, desc;
 
   if (where === "관련 기관") {
     step = item.id;
     if (item.phone) {
-      desc = `[전화번호]\n ${item.phone}\n\n`;
+      phone = item.phone;
     } else {
-      desc = ``;
+      phone = ``;
     }
   } else if (where === "수출 한눈에 보기") {
     step = item.step;
@@ -66,16 +65,37 @@ const ListItem = ({ item, id, length, where }) => {
         </div>
       </div>
       {viewContent && (
-        <div className={styles.content_container}>
-          {where !== "시행 중 정책" && <p className={styles.content}>{desc}</p>}
+        <div className={styles.export_content_container}>
+          {where === "수출 한눈에 보기" && (
+            <div className={styles.export_content_text_container}>
+              <span className={styles.export_title}>설명</span>
+              <p className={styles.export_content}>{desc}</p>
+            </div>
+          )}
 
           {where === "관련 기관" && (
-            <p className={styles.content}>
-              웹사이트:{" "}
-              <a href={item.web} target="_blank">
-                {item.web}
-              </a>
-            </p>
+            <div className={styles.organization_content_container}>
+              <div className={styles.organization_url_container}>
+                <span className={styles.organization_url_title}>URL</span>
+                <div className={styles.organization_url_a_box}>
+                  <a
+                    href={item.web}
+                    target={"_blank"}
+                    className={styles.policy_url}
+                  >
+                    {item.web}
+                  </a>
+                </div>
+              </div>
+              {phone && (
+                <div className={styles.organization_contact_container}>
+                  <span className={styles.organization_contact_title}>
+                    연락처
+                  </span>
+                  <p className={styles.organization_contact}>{phone}</p>
+                </div>
+              )}
+            </div>
           )}
           {where === "시행 중 정책" && (
             <div className={styles.policy_content_container}>

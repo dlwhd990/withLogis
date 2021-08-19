@@ -48,18 +48,18 @@
   cursor: pointer;
 }
 
-.content_container {
+.export_content_container {
   padding: 0.5rem 1rem 1rem 1rem;
 }
 
-.content {
+.export_content_text_container {
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--color-article);
   white-space: pre-line;
-  padding: 1.5rem 1rem;
   background-color: var(--color-smoke-white);
   border-radius: 4px;
+  padding: 0.7rem;
 }
 
 .policy_title_container {
@@ -75,28 +75,33 @@
   color: white;
 }
 
-.title_business_name {
+.title_business_name,
+.export_content {
   font-size: 20px;
   margin-top: 6px;
 }
 
-.policy_content_container {
+.policy_content_container,
+.organization_content_container {
   padding: 0.7rem;
   color: var(--color-article);
   background-color: var(--color-smoke-white);
   border-radius: 8px;
 }
 
-.policy_url {
+.policy_url .organization_url {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
+.export_title,
 .policy_desc_title,
 .policy_url_title,
-.policy_contact_title {
+.policy_contact_title,
+.organization_url_title,
+.organization_contact_title {
   font-size: 18px;
   border-bottom: 2px solid var(--color-theme);
 }
@@ -108,7 +113,10 @@
 
 .policy_desc,
 .policy_url_a_box,
-.policy_contact {
+.policy_contact,
+.organization_desc,
+.organization_url_a_box,
+.organization_contact {
   font-size: 18px;
   margin: 0.8rem 0 2.5rem 0.4rem;
 }
