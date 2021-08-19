@@ -4,12 +4,20 @@
   margin: 50px;
 }
 
-.item_head {
+.item_head_container {
   width: 220px;
   height: 220px;
   border: 1px solid lightgray;
   border-radius: 50%;
   box-shadow: 1px 3px 3px 1px var(--color-box-shadow-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item_head {
+  width: 150px;
+  height: 150px;
 }
 
 .border_maker {
@@ -37,15 +45,20 @@
   color: var(--color-article);
 }
 
-.desc {
-  padding: 20px;
+.go_consulting {
+  position: absolute;
+  bottom: 45px;
+  left: 55px;
   font-size: 18px;
-  color: var(--color-desc);
+  color: white;
+  cursor: pointer;
+  background-color: var(--color-theme);
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: 120ms all ease-in;
 }
 
-.go_consulting {
-  padding-top: 50px;
-  font-size: 18px;
-  color: var(--color-desc);
-  cursor: pointer;
+.go_consulting:hover {
+  background-color: var(--color-dark-theme);
+  box-shadow: 0 0 15px lightgray;
 }

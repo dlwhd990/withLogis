@@ -57,7 +57,9 @@
   font-weight: 400;
   color: var(--color-article);
   white-space: pre-line;
-  padding: 0 10px;
+  padding: 1.5rem 1rem;
+  background-color: var(--color-smoke-white);
+  border-radius: 4px;
 }
 
 .policy_title_container {
@@ -69,7 +71,7 @@
   font-weight: 500;
   padding: 2px 6px;
   background-color: var(--color-theme);
-  border-radius: 4px;
+  border-radius: 8px;
   color: white;
 }
 
@@ -82,6 +84,7 @@
   padding: 0.7rem;
   color: var(--color-article);
   background-color: var(--color-smoke-white);
+  border-radius: 8px;
 }
 
 .policy_url {
