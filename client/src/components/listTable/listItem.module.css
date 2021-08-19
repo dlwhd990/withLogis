@@ -28,6 +28,16 @@
   cursor: pointer;
 }
 
+.pol_item {
+  height: 5.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
 .title {
   font-size: 1.3rem;
   font-weight: 400;
@@ -39,7 +49,7 @@
 }
 
 .content_container {
-  padding: 0.5rem 1rem 2rem 1rem;
+  padding: 0.5rem 1rem 1rem 1rem;
 }
 
 .content {
@@ -48,4 +58,54 @@
   color: var(--color-article);
   white-space: pre-line;
   padding: 0 10px;
+}
+
+.policy_title_container {
+  padding: 0.5rem;
+}
+
+.title_org_name {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 2px 6px;
+  background-color: var(--color-theme);
+  border-radius: 4px;
+  color: white;
+}
+
+.title_business_name {
+  font-size: 20px;
+  margin-top: 6px;
+}
+
+.policy_content_container {
+  padding: 0.7rem;
+  color: var(--color-article);
+  background-color: var(--color-smoke-white);
+}
+
+.policy_url {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.policy_desc_title,
+.policy_url_title,
+.policy_contact_title {
+  font-size: 18px;
+  border-bottom: 2px solid var(--color-theme);
+}
+
+.policy_desc,
+.policy_contact {
+  white-space: pre-line;
+}
+
+.policy_desc,
+.policy_url_a_box,
+.policy_contact {
+  font-size: 18px;
+  margin: 0.8rem 0 2.5rem 0.4rem;
 }
