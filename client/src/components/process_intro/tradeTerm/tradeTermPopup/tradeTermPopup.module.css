@@ -53,4 +53,5 @@
 .desc {
   margin-top: 1rem;
   font-size: 1.3rem;
+  white-space: pre-line;
 }

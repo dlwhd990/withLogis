@@ -47,18 +47,14 @@
 
 .go_consulting {
   position: absolute;
-  bottom: 45px;
-  left: 52.5px;
-  font-size: 18px;
-  color: white;
+  bottom: 50px;
+  left: calc((220px / 2) - (114.89px / 2));
+  font-size: 20px;
+  color: var(--color-desc);
   cursor: pointer;
-  background-color: var(--color-theme);
-  padding: 4px 6px;
-  border-radius: 4px;
   transition: 120ms all ease-in;
 }
 
 .go_consulting:hover {
-  background-color: var(--color-dark-theme);
-  box-shadow: 0 0 15px lightgray;
+  color: black;
 }

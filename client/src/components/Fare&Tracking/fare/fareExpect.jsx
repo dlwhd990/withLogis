@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./fareExpect.module.css";
 import LoadingPageSmall from "../../loadingPage/loadingPageSmall/loadingPageSmall";
 import axios from "axios";
@@ -39,6 +39,7 @@ const FareExpect = ({
   const [rtValue, setRtValue] = useState(null);
   const [resultPrice, setResultPrice] = useState(null);
   const [resultPriceKrw, setResultPriceKrw] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(null);
 
   const [popupResult, setPopupResult] = useState(null);
 
@@ -111,149 +112,119 @@ const FareExpect = ({
     setContainerSizeValue(e.target.value);
   };
 
-  const makeResultPrice = (result) => {
-    result.OF_price = result.OF_price.replace(",", "");
+  let exchangeKey = process.env.REACT_APP_EXCHANGE_KEY;
 
-    let exchangeRate;
+  useEffect(() => {
     axios
       .post(
-        "http://api.exchangeratesapi.io/v1/latest?access_key=f007ea6c61c8361bab764dcede2a8c45"
-      )
+        `http://api.exchangeratesapi.io/v1/latest?access_key=${exchangeKey}`
+      ) // 환율 정보를 API로 받아오기, 유로 기준으로 환율을 받아온다.
       .then((response) => {
-        exchangeRate = response.data.rates;
-        console.log(result);
-        if (loadValue === "LCL") {
-          let rt = 0;
-          let priceUSD = 0;
-          if (rtSelect === 2) {
-            if (volumeRef.current.value * 1000 >= weightRef.current.value) {
-              rt = parseFloat(volumeRef.current.value);
-            } else {
-              rt = parseFloat(weightRef.current.value / 1000);
-            }
-          } else if (rtSelect === 1) {
-            rt = parseFloat(rtRef.current.value);
-          }
-
-          setRtValue(rt);
-
-          if (result.OF_unit === "USD") {
-            priceUSD += rt * Number.parseFloat(result.OF_price);
-          } else {
-            priceUSD +=
-              rt *
-              Number.parseFloat(result.OF_price) *
-              (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
-          }
-
-          if (result.BAF_price) {
-            result.BAF_price = result.BAF_price.replace(",", "");
-            if (result.BAF_unit === "USD") {
-              priceUSD += Number.parseFloat(result.BAF_price);
-            } else {
-              priceUSD +=
-                Number.parseFloat(result.BAF_price) *
-                (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
-            }
-          }
-
-          if (result.CAF_price) {
-            result.CAF_price = result.CAF_price.replace(",", "");
-            if (result.CAF_unit === "USD") {
-              priceUSD += Number.parseFloat(result.CAF_price);
-            } else {
-              priceUSD +=
-                Number.parseFloat(result.CAF_price) *
-                (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
-            }
-          }
-
-          setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
-          setResultPriceKrw(
-            Number.parseInt(
-              priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
-            ).toLocaleString("ko-KR")
-          );
-        } else if (loadValue === "FCL") {
-          let priceUSD = 0;
-          if (response.data.four_to_two) {
-            if (result.OF_unit === "USD") {
-              priceUSD += Number.parseFloat(result.OF_price) * 2;
-            } else {
-              priceUSD +=
-                Number.parseFloat(result.OF_price) *
-                (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
-            }
-
-            if (result.BAF_price) {
-              result.BAF_price = result.BAF_price.replace(",", "");
-              if (result.BAF_unit === "USD") {
-                priceUSD += Number.parseFloat(result.BAF_price);
-              } else {
-                priceUSD +=
-                  Number.parseFloat(result.BAF_price) *
-                  (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
-              }
-            }
-
-            if (result.CAF_price) {
-              result.CAF_price = result.CAF_price.replace(",", "");
-              if (result.CAF_unit === "USD") {
-                priceUSD += Number.parseFloat(result.CAF_price);
-              } else {
-                priceUSD +=
-                  Number.parseFloat(result.CAF_price) *
-                  (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
-              }
-            }
-
-            setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
-            setResultPriceKrw(
-              Number.parseInt(
-                priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
-              ).toLocaleString("ko-KR")
-            );
-          } else {
-            if (result.OF_unit === "USD") {
-              priceUSD += Number.parseFloat(result.OF_price);
-            } else {
-              priceUSD +=
-                Number.parseFloat(result.OF_price) *
-                (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
-            }
-
-            if (result.BAF_price) {
-              result.BAF_price = result.BAF_price.replace(",", "");
-              if (result.BAF_unit === "USD") {
-                priceUSD += Number.parseFloat(result.BAF_price);
-              } else {
-                priceUSD +=
-                  Number.parseFloat(result.BAF_price) *
-                  (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
-              }
-            }
-
-            if (result.CAF_price) {
-              result.CAF_price = result.CAF_price.replace(",", "");
-              if (result.CAF_unit === "USD") {
-                priceUSD += Number.parseFloat(result.CAF_price);
-              } else {
-                priceUSD +=
-                  Number.parseFloat(result.CAF_price) *
-                  (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
-              }
-            }
-
-            setResultPrice(Number.parseFloat(priceUSD).toFixed(2));
-            setResultPriceKrw(
-              Number.parseInt(
-                priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
-              ).toLocaleString("ko-KR")
-            );
-          }
-        }
+        setExchangeRate(response.data.rates);
       })
       .catch((err) => console.error(err));
+  }, []);
+
+  const additionalFeeCalc = (result) => {
+    let additionalPrice = 0;
+    if (result.BAF_price) {
+      // 데이터에 BAF 값이 공란인 경우가 있기 때문에 이 때문에 발생하는 오류를 방지하기 위함
+      result.BAF_price = result.BAF_price.replace(",", ""); // 요금이 4자리 이상일 때 쉼표로 단위 구분 되는 경우에 쉼표를 제거
+      if (result.BAF_unit === "USD") {
+        additionalPrice += Number.parseFloat(result.BAF_price); // 만약 BAF의 화폐단위가 USD인 경우 그대로 priceUSD 변수에 더해준다.
+      } else {
+        additionalPrice +=
+          Number.parseFloat(result.BAF_price) *
+          (exchangeRate["USD"] / exchangeRate[result.BAF_unit]);
+      } // BAF의 화폐단위가 USD가 아닌 경우 환율 정보를 이용하여 가격 환산 후에 priceUSD 변수에 더해준다.
+    }
+
+    if (result.CAF_price) {
+      // 데이터에 CAF 값이 공란인 경우가 있기 때문에 이 때문에 발생하는 오류를 방지하기 위함
+      result.CAF_price = result.CAF_price.replace(",", ""); // 요금이 4자리 이상일 때 쉼표로 단위 구분 되는 경우에 쉼표를 제거
+      if (result.CAF_unit === "USD") {
+        additionalPrice += Number.parseFloat(result.CAF_price); // 만약 CAF의 화폐단위가 USD인 경우 그대로 priceUSD 변수에 더해준다.
+      } else {
+        additionalPrice +=
+          Number.parseFloat(result.CAF_price) *
+          (exchangeRate["USD"] / exchangeRate[result.CAF_unit]);
+      } // CAF의 화폐단위가 USD가 아닌 경우 환율 정보를 이용하여 가격 환산 후에 priceUSD 변수에 더해준다.
+    }
+    return additionalPrice;
+  };
+
+  const setResults = (priceUSD) => {
+    setResultPrice(Number.parseFloat(priceUSD).toFixed(2)); // 계산 결과를 소숫점 둘째 자리까지만 결과값의 state로 setState 해준다.
+    setResultPriceKrw(
+      Number.parseInt(
+        priceUSD * (exchangeRate["KRW"] / exchangeRate["USD"])
+      ).toLocaleString("ko-KR")
+    ); // 계산 결과를 환율 데이터를 사용하여 KRW 기준으로 바꿔준 뒤에 천 단위마다 쉼표가 들어가게 만든다.
+    // KRW의 경우 integer 타입으로 변환시켜 소숫점 아래의 값은 생략하도록 하였다 (1원 미만이기 때문에 결과값의 오차가 매우 적기 때문)
+  };
+
+  const makeResultPrice = (result) => {
+    result.OF_price = result.OF_price.replace(",", ""); // 요금이 4자리 이상일 때 쉼표로 단위 구분 되는 경우에 쉼표를 제거
+    if (loadValue === "LCL") {
+      // 화물 적재 방식이 LCL 방식일 때
+      let rt = 0;
+      let priceUSD = 0;
+      if (rtSelect === 2) {
+        // 사용자가 R/T값을 알지 못해 화물의 부피와 중량을 입력하여 R/T 값을 도출해내는 경우
+        if (volumeRef.current.value * 1000 >= weightRef.current.value) {
+          rt = parseFloat(volumeRef.current.value); // 만약 1CBM의 값이 1000KG 이상이면 부피기준으로 R/T값을 정한다.
+        } else {
+          rt = parseFloat(weightRef.current.value / 1000); //만약 1CBM 값이 1000KG 미만이면 중량 기준으로 R/T값을 정한다.
+        }
+      } else if (rtSelect === 1) {
+        rt = parseFloat(rtRef.current.value); // 사용자가 이미 R/T값을 알고있는 경우 그대로 R/T값을 사용한다.
+      }
+
+      setRtValue(rt); // R/T값의 state 변경
+
+      if (result.OF_unit === "USD") {
+        priceUSD += rt * Number.parseFloat(result.OF_price); // 만약 OF의 화폐단위가 USD인 경우 R/T값과 바로 곱해준다.
+      } else {
+        priceUSD +=
+          rt *
+          Number.parseFloat(result.OF_price) *
+          (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+      } // OF의 화폐단위가 USD가 아닌 경우 환율 정보를 이용하여 가격 환산 후에 R/T값과 곱해준다.
+
+      priceUSD += additionalFeeCalc(result);
+
+      setResults(priceUSD);
+    } else if (loadValue === "FCL") {
+      // 화물 적재 방식이 FCL 방식인 경우
+      let priceUSD = 0;
+      if (result.four_to_two) {
+        // 만약 사용자가 40FT를 선택하였지만 40FT 데이터는 없고 20FT의 데이터만이 있을 경우
+        if (result.OF_unit === "USD") {
+          priceUSD += Number.parseFloat(result.OF_price) * 2; // 20FT 값에서 2배를 한 값을 priceUSD 변수에 저장한다.
+        } else {
+          priceUSD +=
+            Number.parseFloat(result.OF_price) *
+            (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+        } // OF의 화폐단위가 USD가 아닌 경우 환율 정보를 이용하여 가격 환산 후에 R/T값과 곱해준다.
+
+        priceUSD += additionalFeeCalc(result);
+
+        setResults(priceUSD);
+      } else {
+        // 40FT 또는 20FT를 선택하였고 그 데이터가 있을 때 (가격 계산 부분은 위와 같으므로 생략)
+        if (result.OF_unit === "USD") {
+          priceUSD += Number.parseFloat(result.OF_price);
+        } else {
+          priceUSD +=
+            Number.parseFloat(result.OF_price) *
+            (exchangeRate["USD"] / exchangeRate[result.OF_unit]);
+        }
+
+        priceUSD += additionalFeeCalc(result);
+
+        setResults(priceUSD);
+      }
+    }
   };
 
   const goFareResult = () => {
@@ -308,7 +279,7 @@ const FareExpect = ({
           window.alert(response.data.message);
         }
       })
-      .catch((err) => console.error("error: ", err.response));
+      .catch((err) => console.error("error: ", err));
   };
 
   const saveResult = () => {
