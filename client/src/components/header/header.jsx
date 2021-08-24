@@ -6,6 +6,12 @@ const Header = ({ user, logout }) => {
   const history = useHistory();
 
   const [viewDropDown, setViewDropDown] = useState(false);
+  const [toggleView, setToggleView] = useState(false);
+  const [processIntroView, setProcessIntroView] = useState(false);
+  const [fareAndTrackView, setFareAndTrackView] = useState(false);
+  const [communityView, setCommunityView] = useState(false);
+  const [orgAndPolView, setOrgAndPolView] = useState(false);
+  const [myPageView, setMyPageView] = useState(false);
 
   const refresh = () => {
     window.location.reload();
@@ -20,20 +26,35 @@ const Header = ({ user, logout }) => {
     setViewDropDown(false);
   };
 
+  const onToggleHandler = () => {
+    setToggleView(!toggleView);
+  };
+
   return (
     <nav className={styles.header}>
+      <div className={styles.toggle_container} onClick={onToggleHandler}>
+        <i className="fas fa-bars"></i>
+      </div>
       <section className={styles.top}>
-        <h1
-          className={styles.logo}
-          onClick={() => {
-            setViewDropDown(false);
-            history.push("/");
-            window.scrollTo({ top: 0 });
-          }}
+        <div className={styles.logo_container}>
+          <h1
+            className={styles.logo}
+            onClick={() => {
+              setViewDropDown(false);
+              history.push("/");
+              window.scrollTo({ top: 0 });
+            }}
+          >
+            WithLogis
+          </h1>
+        </div>
+        <div
+          className={
+            toggleView
+              ? `${styles.login_box} ${styles.toggle_on}`
+              : `${styles.login_box} ${styles.toggle_off}`
+          }
         >
-          WithLogis
-        </h1>
-        <div className={styles.login_box}>
           {user === null ? (
             <></>
           ) : user === false ? (
@@ -84,14 +105,37 @@ const Header = ({ user, logout }) => {
           )}
         </div>
       </section>
-      <nav className={styles.navbar} onMouseLeave={dropDownOff}>
+      <nav
+        className={
+          toggleView
+            ? `${styles.navbar} ${styles.toggle_on}`
+            : `${styles.navbar} ${styles.toggle_off}`
+        }
+        onMouseLeave={dropDownOff}
+      >
         <ul className={styles.menu}>
           <li className={styles.menu_item}>
-            <p className={styles.menu_name} onMouseEnter={dropDownOn}>
+            <p
+              className={styles.menu_name}
+              onMouseEnter={dropDownOn}
+              onClick={() => {
+                setProcessIntroView(!processIntroView);
+                setFareAndTrackView(false);
+                setCommunityView(false);
+                setOrgAndPolView(false);
+                setMyPageView(false);
+              }}
+            >
               프로세스 소개
             </p>
             {viewDropDown && (
-              <div className={styles.dropdown_menu_box}>
+              <div
+                className={
+                  processIntroView
+                    ? `${styles.dropdown_menu_box} ${styles.toggle_dropdown_on}`
+                    : `${styles.dropdown_menu_box} ${styles.toggle_dropdown_off}`
+                }
+              >
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
@@ -116,11 +160,27 @@ const Header = ({ user, logout }) => {
             )}
           </li>
           <li className={styles.menu_item}>
-            <p className={styles.menu_name} onMouseEnter={dropDownOn}>
+            <p
+              className={styles.menu_name}
+              onMouseEnter={dropDownOn}
+              onClick={() => {
+                setProcessIntroView(false);
+                setFareAndTrackView(!fareAndTrackView);
+                setCommunityView(false);
+                setOrgAndPolView(false);
+                setMyPageView(false);
+              }}
+            >
               견적/트래킹
             </p>
             {viewDropDown && (
-              <div className={styles.dropdown_menu_box}>
+              <div
+                className={
+                  fareAndTrackView
+                    ? `${styles.dropdown_menu_box} ${styles.toggle_dropdown_on}`
+                    : `${styles.dropdown_menu_box} ${styles.toggle_dropdown_off}`
+                }
+              >
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
@@ -145,11 +205,27 @@ const Header = ({ user, logout }) => {
             )}
           </li>
           <li className={styles.menu_item}>
-            <p className={styles.menu_name} onMouseEnter={dropDownOn}>
+            <p
+              className={styles.menu_name}
+              onMouseEnter={dropDownOn}
+              onClick={() => {
+                setProcessIntroView(false);
+                setFareAndTrackView(false);
+                setCommunityView(!communityView);
+                setOrgAndPolView(false);
+                setMyPageView(false);
+              }}
+            >
               커뮤니티
             </p>
             {viewDropDown && (
-              <div className={styles.dropdown_menu_box}>
+              <div
+                className={
+                  communityView
+                    ? `${styles.dropdown_menu_box} ${styles.toggle_dropdown_on}`
+                    : `${styles.dropdown_menu_box} ${styles.toggle_dropdown_off}`
+                }
+              >
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
@@ -174,11 +250,27 @@ const Header = ({ user, logout }) => {
             )}
           </li>
           <li className={styles.menu_item}>
-            <p className={styles.menu_name} onMouseEnter={dropDownOn}>
+            <p
+              className={styles.menu_name}
+              onMouseEnter={dropDownOn}
+              onClick={() => {
+                setProcessIntroView(false);
+                setFareAndTrackView(false);
+                setCommunityView(false);
+                setOrgAndPolView(!orgAndPolView);
+                setMyPageView(false);
+              }}
+            >
               기관/정책 소개
             </p>
             {viewDropDown && (
-              <div className={styles.dropdown_menu_box}>
+              <div
+                className={
+                  orgAndPolView
+                    ? `${styles.dropdown_menu_box} ${styles.toggle_dropdown_on}`
+                    : `${styles.dropdown_menu_box} ${styles.toggle_dropdown_off}`
+                }
+              >
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
@@ -213,11 +305,27 @@ const Header = ({ user, logout }) => {
             )}
           </li>
           <li className={styles.menu_item}>
-            <p className={styles.menu_name} onMouseEnter={dropDownOn}>
+            <p
+              className={styles.menu_name}
+              onMouseEnter={dropDownOn}
+              onClick={() => {
+                setProcessIntroView(false);
+                setFareAndTrackView(false);
+                setCommunityView(false);
+                setOrgAndPolView(false);
+                setMyPageView(!myPageView);
+              }}
+            >
               마이페이지
             </p>
             {viewDropDown && (
-              <div className={styles.dropdown_menu_box}>
+              <div
+                className={
+                  myPageView
+                    ? `${styles.dropdown_menu_box} ${styles.toggle_dropdown_on}`
+                    : `${styles.dropdown_menu_box} ${styles.toggle_dropdown_off}`
+                }
+              >
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {

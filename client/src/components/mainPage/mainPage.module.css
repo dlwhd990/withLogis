@@ -252,3 +252,9 @@
 .fare_expect_detail_view:hover {
   transform: scale(1.05);
 }
+
+@media screen and (max-width: 850px) {
+  .main_top {
+    width: 100%;
+  }
+}

@@ -123,9 +123,10 @@ const FareExpect = ({
         setExchangeRate(response.data.rates);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, []); // 컴포넌트가 마운트 될 때마다 환율 데이터를 새롭게 받아온다
 
   const additionalFeeCalc = (result) => {
+    // BAF 가격과 CAF 가격을 더한 값을 return하는 함수
     let additionalPrice = 0;
     if (result.BAF_price) {
       // 데이터에 BAF 값이 공란인 경우가 있기 때문에 이 때문에 발생하는 오류를 방지하기 위함
@@ -154,6 +155,7 @@ const FareExpect = ({
   };
 
   const setResults = (priceUSD) => {
+    // 계산 결과 값을 결과 state에 set 해주는 함수
     setResultPrice(Number.parseFloat(priceUSD).toFixed(2)); // 계산 결과를 소숫점 둘째 자리까지만 결과값의 state로 setState 해준다.
     setResultPriceKrw(
       Number.parseInt(
@@ -164,6 +166,7 @@ const FareExpect = ({
   };
 
   const makeResultPrice = (result) => {
+    // 운임 계산의 메인 함수
     result.OF_price = result.OF_price.replace(",", ""); // 요금이 4자리 이상일 때 쉼표로 단위 구분 되는 경우에 쉼표를 제거
     if (loadValue === "LCL") {
       // 화물 적재 방식이 LCL 방식일 때
