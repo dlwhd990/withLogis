@@ -100,8 +100,9 @@
 
 @media screen and (max-width: 850px) {
   .header {
-    position: static;
+    position: absolute;
   }
+
   .toggle_off {
     display: none;
   }
@@ -130,7 +131,7 @@
     font-size: 22px;
     display: block;
     position: absolute;
-    top: 14px;
+    top: 17.5px;
     right: 18px;
   }
 

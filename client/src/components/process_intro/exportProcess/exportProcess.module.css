@@ -1,4 +1,10 @@
-.exportProcess {
+.export_process {
   padding: 12rem 0;
   background-color: var(--color-smoke-white);
+}
+
+@media screen and (max-width: 850px) {
+  .export_process {
+    padding: 7rem 0 3rem 0;
+  }
 }

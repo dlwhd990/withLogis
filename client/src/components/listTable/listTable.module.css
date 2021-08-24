@@ -19,3 +19,13 @@
   box-shadow: 1px 3px 3px 1px lightgray;
   border-radius: 8px;
 }
+
+@media screen and (max-width: 850px) {
+  .title {
+    font-size: 28px;
+  }
+
+  .list_table {
+    width: 90%;
+  }
+}

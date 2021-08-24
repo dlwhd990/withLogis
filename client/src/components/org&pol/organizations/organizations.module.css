@@ -2,3 +2,9 @@
   padding: 12rem 0;
   background-color: var(--color-smoke-white);
 }
+
+@media screen and (max-width: 850px) {
+  .organizations {
+    padding: 7rem 0 3rem 0;
+  }
+}

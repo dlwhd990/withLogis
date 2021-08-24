@@ -124,3 +124,54 @@
   font-size: 18px;
   margin: 0.8rem 0 1.5rem 0.4rem;
 }
+
+@media screen and (max-width: 850px) {
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .export_title,
+  .policy_desc_title,
+  .policy_url_title,
+  .policy_contact_title,
+  .organization_url_title,
+  .organization_contact_title {
+    font-size: 16px;
+  }
+
+  .policy_url,
+  .organization_url {
+    font-size: 16px;
+  }
+
+  .policy_desc,
+  .policy_url_a_box,
+  .policy_contact,
+  .organization_desc,
+  .organization_url_a_box,
+  .organization_contact {
+    font-size: 16px;
+  }
+
+  .export_content_text_container {
+    font-size: 1.1rem;
+  }
+
+  .pol_item {
+    height: 7.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .title_org_name {
+    font-size: 14px;
+  }
+
+  .title_business_name {
+    font-size: 18px;
+    padding-right: 20px;
+  }
+
+  .item:hover {
+    background-color: rgb(255, 255, 255);
+  }
+}
