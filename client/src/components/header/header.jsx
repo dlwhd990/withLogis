@@ -27,6 +27,11 @@ const Header = ({ user, logout }) => {
   };
 
   const onToggleHandler = () => {
+    setProcessIntroView(false);
+    setFareAndTrackView(false);
+    setCommunityView(false);
+    setOrgAndPolView(false);
+    setMyPageView(false);
     setToggleView(!toggleView);
   };
 
@@ -62,6 +67,7 @@ const Header = ({ user, logout }) => {
               <span
                 className={styles.login}
                 onClick={() => {
+                  setToggleView(false);
                   setViewDropDown(false);
                   history.push("/auth/login");
                   window.scrollTo({ top: 0 });
@@ -72,6 +78,7 @@ const Header = ({ user, logout }) => {
               <span
                 className={styles.signup}
                 onClick={() => {
+                  setToggleView(false);
                   setViewDropDown(false);
                   history.push("/auth/signup");
                   window.scrollTo({ top: 0 });
@@ -85,6 +92,7 @@ const Header = ({ user, logout }) => {
               <span
                 className={styles.logout}
                 onClick={() => {
+                  setToggleView(false);
                   setViewDropDown(false);
                   logout(refresh);
                 }}
@@ -94,6 +102,7 @@ const Header = ({ user, logout }) => {
               <span
                 className={styles.userNickname}
                 onClick={() => {
+                  setToggleView(false);
                   setViewDropDown(false);
                   history.push("/mypage");
                   window.scrollTo({ top: 0 });
@@ -139,6 +148,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/exportProcess");
                     window.scrollTo({ top: 0 });
@@ -149,6 +159,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/tradeTerms");
                     window.scrollTo({ top: 0 });
@@ -184,6 +195,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/fareExpect");
                     window.scrollTo({ top: 0 });
@@ -194,6 +206,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/tracking");
                     window.scrollTo({ top: 0 });
@@ -229,6 +242,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/notice");
                     window.scrollTo({ top: 0 });
@@ -239,6 +253,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/bbs");
                     window.scrollTo({ top: 0 });
@@ -274,6 +289,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/policies");
                     window.scrollTo({ top: 0 });
@@ -284,6 +300,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/organizations");
                     window.scrollTo({ top: 0 });
@@ -294,6 +311,7 @@ const Header = ({ user, logout }) => {
                 <span
                   className={styles.dropdown_menu_item}
                   onClick={() => {
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/consulting");
                     window.scrollTo({ top: 0 });
@@ -333,6 +351,7 @@ const Header = ({ user, logout }) => {
                       window.alert("로그인 후에 사용가능합니다.");
                       return;
                     }
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/mypage");
                     window.scrollTo({ top: 0 });
@@ -347,6 +366,7 @@ const Header = ({ user, logout }) => {
                       window.alert("로그인 후에 사용가능합니다.");
                       return;
                     }
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/mypage/myArticle");
                     window.scrollTo({ top: 0 });
@@ -361,6 +381,7 @@ const Header = ({ user, logout }) => {
                       window.alert("로그인 후에 사용가능합니다.");
                       return;
                     }
+                    setToggleView(false);
                     setViewDropDown(false);
                     history.push("/mypage/fareExpect");
                     window.scrollTo({ top: 0 });
