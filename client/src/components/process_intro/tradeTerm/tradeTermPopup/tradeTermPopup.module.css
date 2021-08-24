@@ -55,3 +55,40 @@
   font-size: 1.3rem;
   white-space: pre-line;
 }
+
+@media screen and (max-width: 850px) {
+  .popup {
+    width: 90%;
+    height: 85vh;
+    left: 5%;
+    top: 7.5vh;
+  }
+
+  .popup_close {
+    top: 22px;
+  }
+
+  .top {
+    height: 80px;
+    font-size: 1.5rem;
+  }
+
+  .word_title,
+  .desc_title {
+    font-size: 1rem;
+  }
+
+  .word,
+  .desc {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .content_container {
+    padding: 30px 50px;
+  }
+
+  .word_container {
+    margin-bottom: 30px;
+  }
+}

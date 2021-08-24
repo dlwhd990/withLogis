@@ -252,10 +252,18 @@ const Tradeterm = ({ termList }) => {
       <section className={styles.result_container}>
         {inputValue === ""
           ? selectedList.map((term, index) => (
-              <TradeTermItem key={term.id} term={term} />
+              <TradeTermItem
+                className={styles.term_item}
+                key={term.id}
+                term={term}
+              />
             ))
           : inputResultList.map((term, index) => (
-              <TradeTermItem key={term.id} term={term} />
+              <TradeTermItem
+                className={styles.term_item}
+                key={term.id}
+                term={term}
+              />
             ))}
       </section>
     </section>
