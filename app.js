@@ -97,3 +97,5 @@ app.use(middlewares.errorHandler);
 app.get("*", (req, res) => {
   res.sendFile("index.html", { root });
 });
+
+app.use(cors());

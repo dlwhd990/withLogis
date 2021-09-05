@@ -1,4 +1,3 @@
-import { set } from "mongoose";
 import React, { useEffect, useState } from "react";
 import styles from "./tradeTerm.module.css";
 import TradeTermItem from "./tradeTermItem/tradeTermItem";

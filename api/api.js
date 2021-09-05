@@ -13,6 +13,7 @@ const Policy = require("../models/policy");
 const Reply = require("../models/Reply");
 const TradeTerm = require("../models/Tradeterm");
 const router = express.Router();
+const axios = require("axios");
 
 router.get("/bbs", async (req, res) => {
   try {
@@ -639,6 +640,69 @@ router.post("/mypage/fareExpectList/delete", async (req, res) => {
       success: false,
       message: "에러발생",
     });
+  }
+});
+
+router.post("/tracking", async (req, res) => {
+  const { searchNum } = req.body;
+  try {
+    if (searchNum.length === 7) {
+      axios
+        .get(
+          `https://api.datalastic.com/api/v0/vessel_pro?api-key=05950cea-67a9-4f34-bbb4-bf71f429e880&imo=${searchNum}`
+        )
+        .then((response) => {
+          res.json({
+            success: true,
+            result: response.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            success: false,
+            message: "검색 결과가 없습니다",
+          });
+        });
+    } else if (searchNum.length === 9) {
+      axios
+        .get(
+          `https://api.datalastic.com/api/v0/vessel_pro?api-key=05950cea-67a9-4f34-bbb4-bf71f429e880&mmsi=${searchNum}`
+        )
+        .then((response) => {
+          res.json({
+            success: true,
+            result: response.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            success: false,
+            message: "검색 결과가 없습니다",
+          });
+        });
+    } else {
+      axios
+        .get(
+          `https://api.datalastic.com/api/v0/vessel_pro?api-key=05950cea-67a9-4f34-bbb4-bf71f429e880&uuid=${searchNum}`
+        )
+        .then((response) => {
+          res.json({
+            success: true,
+            result: response.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            success: false,
+            message: "검색 결과가 없습니다",
+          });
+        });
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 

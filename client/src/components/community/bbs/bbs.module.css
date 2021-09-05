@@ -218,3 +218,54 @@
 .arrow:hover {
   color: black;
 }
+
+@media screen and (max-width: 850px) {
+  .bbs {
+    margin-top: 100px;
+    width: 95%;
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 150px;
+  }
+  .bbs_title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .top {
+    width: 100%;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search_type_select {
+    flex-basis: 20%;
+    font-size: 14px;
+  }
+
+  .search_text_input {
+    flex-basis: 70%;
+    border-left: none;
+    margin: 0;
+  }
+  .search_button {
+    flex-basis: 10%;
+  }
+
+  .button_container {
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .body {
+    margin-top: 10px;
+  }
+}
