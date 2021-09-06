@@ -74,7 +74,7 @@ const Tracking = (props) => {
   const initMap = () => {
     const map = new window.google.maps.Map(mapRef.current, {
       center: currentPosition,
-      zoom: 7,
+      zoom: 5,
     });
     const marker = new window.google.maps.Marker({
       position: currentPosition,
