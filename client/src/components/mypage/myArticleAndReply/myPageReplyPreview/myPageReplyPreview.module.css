@@ -11,6 +11,7 @@
   font-weight: 400;
   font-size: 16px;
   color: var(--color-article);
+  animation: appear 0.6s;
 }
 
 .articlePreview:hover {
@@ -75,4 +76,13 @@
 
 .title_reply {
   flex-basis: 35%;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

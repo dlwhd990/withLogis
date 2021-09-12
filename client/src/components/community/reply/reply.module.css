@@ -1,11 +1,13 @@
 .reply {
   border-top: 1px solid lightgray;
   padding: 20px;
+  animation: appear 0.8s;
 }
 
 .reply_first {
   border: none;
   padding: 20px;
+  animation: addNewReply 0.8s;
 }
 
 .user_data_and_button {
@@ -46,4 +48,13 @@
   margin-top: 10px;
   font-size: 18px;
   font-weight: 300;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
