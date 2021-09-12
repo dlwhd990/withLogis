@@ -138,11 +138,30 @@
   margin-top: 10px;
 }
 
+.loading_spinner {
+  margin-top: 5px;
+  width: 34px;
+  height: 34px;
+  border: 8px solid lightgray;
+  border-top: 8px solid var(--color-theme);
+  border-radius: 50%;
+  animation: rotateSpinner 1s linear infinite;
+}
+
 @keyframes fadeInAnimation {
   from {
     opacity: 0.5;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes rotateSpinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

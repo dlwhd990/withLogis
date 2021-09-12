@@ -4,10 +4,11 @@ import styles from "./tracking.module.css";
 
 const Tracking = (props) => {
   const inputRef = useRef();
+  const [loadingOn, setLoadingOn] = useState(false);
   const [shipData, setShipData] = useState(null);
-  const [lastPositionDate, setLastPositionDate] = useState("");
-  const [arriveCity, setArriveCity] = useState("");
-  const [arriveEta, setArriveEta] = useState("");
+  const [lastPositionDate, setLastPositionDate] = useState(null);
+  const [arriveCity, setArriveCity] = useState(null);
+  const [arriveEta, setArriveEta] = useState(null);
   const [currentPosition, setCurrentPosition] = useState({
     lat: 37.55583718527449,
     lng: 126.96969899413827,
@@ -20,6 +21,7 @@ const Tracking = (props) => {
       alert("입력 값을 다시 한 번 확인해주세요");
       return;
     }
+
     const makeKorDate = (date) => {
       const year = date.getFullYear().toString();
       const month = (date.getMonth() + 1).toString();
@@ -39,6 +41,7 @@ const Tracking = (props) => {
         "분"
       );
     };
+    setLoadingOn(true);
 
     axios
       .post("/api/tracking", { searchNum })
@@ -58,6 +61,7 @@ const Tracking = (props) => {
             mmsi: data.mmsi,
             imo: data.imo,
           });
+          setLoadingOn(false);
           setLastPositionDate(makeKorDate(koreanLastPositionDate));
           data.dest_port
             ? setArriveCity(data.dest_port)
@@ -102,9 +106,16 @@ const Tracking = (props) => {
             className={styles.search_icon_container}
             onClick={onSearchHandler}
           >
-            <i className={`${styles.search_icon} fas fa-search`}></i>
+            {loadingOn ? (
+              <div className={styles.loading_spinner}></div>
+            ) : (
+              <span>
+                <i className={`${styles.search_icon} fas fa-search`}></i>
+              </span>
+            )}
           </div>
         </section>
+
         <section className={styles.view_result_container}>
           <section className={styles.ship_datas_container}>
             <div className={styles.ship_data_container}>
