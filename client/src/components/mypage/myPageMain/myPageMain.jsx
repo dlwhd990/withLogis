@@ -4,8 +4,6 @@ import axios from "axios";
 import InfoItem from "./infoItem/infoItem";
 import { useHistory } from "react-router-dom";
 
-//어떻게 만들지 아직 구상 못함...
-
 const MyPageEdit = ({ user, myArticles, myReplies }) => {
   const history = useHistory();
   const [dataList, setDataList] = useState([]);

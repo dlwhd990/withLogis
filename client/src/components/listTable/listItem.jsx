@@ -65,7 +65,7 @@ const ListItem = ({ item, id, length, where }) => {
         </div>
       </div>
       {viewContent && (
-        <div className={styles.export_content_container}>
+        <div className={styles.content_container}>
           {where === "수출 한눈에 보기" && (
             <div className={styles.export_content_text_container}>
               <span className={styles.export_title}>설명</span>

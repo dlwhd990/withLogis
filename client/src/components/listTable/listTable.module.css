@@ -1,6 +1,7 @@
 .header {
   background-color: var(--color-light-theme);
   border-radius: 8px 8px 0 0;
+  width: 760px;
 }
 
 .title {

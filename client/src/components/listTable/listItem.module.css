@@ -48,6 +48,11 @@
   cursor: pointer;
 }
 
+.content_container {
+  padding: 12px;
+  animation: viewContent 1s;
+}
+
 .export_content_text_container {
   font-size: 1.2rem;
   font-weight: 400;
@@ -56,6 +61,7 @@
   background-color: var(--color-smoke-white);
   border-radius: 8px;
   padding: 1rem;
+  padding-bottom: 2rem;
 }
 
 .policy_title_container {
@@ -119,6 +125,17 @@
 .organization_contact {
   font-size: 18px;
   margin: 0.8rem 0 1.5rem 0.4rem;
+}
+
+@keyframes viewContent {
+  from {
+    opacity: 0;
+    max-height: 0px;
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+  }
 }
 
 @media screen and (max-width: 850px) {
