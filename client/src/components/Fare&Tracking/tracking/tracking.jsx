@@ -47,6 +47,7 @@ const Tracking = (props) => {
       .post("/api/tracking", { searchNum })
       .then((response) => {
         if (!response.data.success) {
+          setLoadingOn(false);
           alert(response.data.message);
         } else {
           console.log(response.data.result.data);
