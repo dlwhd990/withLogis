@@ -3,6 +3,9 @@ import styles from "./consulting.module.css";
 import ConsultingItem from "./consultingItem/consultingItem";
 
 const Consulting = ({ data }) => {
+  data.sort(function (a, b) {
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
   return (
     <section className={styles.consulting}>
       <p className={styles.title}>컨설팅 가능 기관</p>

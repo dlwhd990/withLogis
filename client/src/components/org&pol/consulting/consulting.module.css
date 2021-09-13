@@ -1,6 +1,7 @@
 .consulting {
   min-height: calc(100vh - 316px);
   margin-top: 180px;
+  margin-bottom: 100px;
   text-align: center;
 }
 
